@@ -1,0 +1,1052 @@
+% =====================================================================
+%  BÁO CÁO TIỂU LUẬN HỌC PHẦN HỌC MÁY - BÀI KIỂM TRA 2 (TUẦN 6)
+%  ---------------------------------------------------------------------
+%  Biên dịch bằng XeLaTeX (chạy 2 lần để cập nhật mục lục và tham chiếu).
+%  Trên Overleaf: Menu > Compiler > XeLaTeX.
+%  Tải kèm 7 ảnh PNG từ thư mục Kiemtra2/images/ vào thư mục images/ trên Overleaf.
+% =====================================================================
+\documentclass[12pt,a4paper,oneside]{report}
+
+% Cỡ chữ thân bài 13pt (theo quy định trình bày của bộ môn)
+\makeatletter
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{13pt}{15.6pt}%
+  \abovedisplayskip 12pt plus3pt minus7pt
+  \belowdisplayskip \abovedisplayskip
+  \abovedisplayshortskip 0pt plus3pt
+  \belowdisplayshortskip 6.5pt plus3.5pt minus3pt}
+\normalsize
+\makeatother
+
+% =====================================================================
+%  (A) THÔNG TIN BÁO CÁO
+% =====================================================================
+\newcommand{\truong}{TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG}
+\newcommand{\khoa}{KHOA CÔNG NGHỆ THÔNG TIN}
+\newcommand{\loaibaocao}{BÁO CÁO TIỂU LUẬN}
+\newcommand{\hocphan}{Học máy}
+\newcommand{\lophocphan}{CNTT K22H}
+\newcommand{\hocky}{Học kỳ 1, năm học 2026--2027}
+\newcommand{\tendetai}{DỰ ĐOÁN VÀ GIẢI THÍCH QUYẾT ĐỊNH PHÊ DUYỆT KHOẢN VAY}
+\newcommand{\tenbaitoan}{dự đoán và giải thích quyết định phê duyệt khoản vay}
+\newcommand{\giangvien}{Nguyễn Tuấn Anh}
+\newcommand{\nhom}{Nhóm 13}
+\newcommand{\svAten}{Kiều Việt Anh}
+\newcommand{\svAma}{DTC235200026}
+\newcommand{\svBten}{Lương Chí Công}
+\newcommand{\svBma}{DTC235200092}
+\newcommand{\diadiem}{Thái Nguyên}
+\newcommand{\thoigian}{tháng 12 năm 2026}
+
+% ---------------- Trang giấy & phông chữ (tương thích Overleaf XeLaTeX & Windows) ----------------
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm,
+            headheight=16pt,headsep=0.8cm]{geometry}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\IfFontExistsTF{Liberation Serif}
+    {\setmainfont{Liberation Serif}}
+    {\setmainfont{TeX Gyre Termes}}}
+\IfFontExistsTF{Consolas}
+  {\setmonofont{Consolas}[Scale=0.9]}
+  {\IfFontExistsTF{Courier New}
+    {\setmonofont{Courier New}[Scale=0.9]}
+    {\IfFontExistsTF{Menlo}
+      {\setmonofont{Menlo}[Scale=0.9]}
+      {\setmonofont{DejaVu Sans Mono}[Scale=0.88]}}}
+\usepackage[vietnamese]{babel}
+\usepackage[vietnamese]{babel}
+\usepackage{setspace}
+\setstretch{1.3}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{6pt}
+\usepackage{indentfirst}
+\usepackage{microtype}
+\emergencystretch=2.5em
+\tolerance=2000
+\hbadness=1500
+\hfuzz=1pt
+
+% ---------------- Gói hỗ trợ ----------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\graphicspath{{images/}{../Kiemtra2/images/}}
+\usepackage{float}
+\usepackage{array,booktabs,tabularx,multirow}
+\usepackage[table]{xcolor}
+\usepackage{etoolbox}
+\AtBeginEnvironment{table}{\centering\small}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{4.5pt}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds}
+\usepackage{caption}
+\captionsetup{labelsep=period,labelfont=bf,font=normalsize,skip=6pt}
+\captionsetup[table]{position=top}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage[nottoc]{tocbibind}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.6cm}
+\usepackage{listings}
+\usepackage{needspace}
+\usepackage{cite}
+\usepackage{fancyhdr}
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={\tendetai},
+  pdfauthor={\svAten, \svBten},
+  pdfsubject={\loaibaocao\ học phần \hocphan},
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=0,
+}
+
+% Bookmark dạng "Chương 1. Tên chương", "1.1. Tên mục", "Phụ lục A. ..."
+\newcommand{\bmchapname}{Chương}
+\makeatletter
+\newcommand*{\bm@prefix}{}
+\let\bm@orig@writebookmark\Hy@writebookmark
+\renewcommand*{\Hy@writebookmark}[5]{%
+  \ifnum#4=0 \def\bm@prefix{\bmchapname\space}\else\def\bm@prefix{}\fi
+  \bm@orig@writebookmark{#1}{#2}{#3}{#4}{#5}}
+\renewcommand*{\Hy@numberline}[1]{\bm@prefix#1. }
+\makeatother
+
+% ---------------- Màu & định dạng mã nguồn ----------------
+\definecolor{codebg}{RGB}{247,247,247}
+\definecolor{codekw}{RGB}{0,51,153}
+\definecolor{codecm}{RGB}{0,128,0}
+\definecolor{codestr}{RGB}{163,21,21}
+\definecolor{guide}{RGB}{110,110,110}
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\small\setstretch{1.0},
+  backgroundcolor=\color{codebg},
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecm}\itshape,
+  stringstyle=\color{codestr},
+  numbers=left, numberstyle=\tiny\color{guide}, numbersep=8pt,
+  frame=single, rulecolor=\color{black!25},
+  breaklines=true, showstringspaces=false, tabsize=4,
+  xleftmargin=1.2em, framexleftmargin=1.2em,
+  aboveskip=8pt, belowskip=8pt, columns=fullflexible, keepspaces=true,
+}
+\lstset{style=python}
+\renewcommand{\lstlistingname}{Đoạn mã}
+\renewcommand{\lstlistlistingname}{DANH MỤC ĐOẠN MÃ}
+
+% ---------------- Tên gọi tiếng Việt ----------------
+\addto\captionsvietnamese{%
+  \renewcommand{\contentsname}{MỤC LỤC}%
+  \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}%
+  \renewcommand{\listtablename}{DANH MỤC BẢNG}%
+  \renewcommand{\bibname}{TÀI LIỆU THAM KHẢO}%
+  \renewcommand{\figurename}{Hình}%
+  \renewcommand{\tablename}{Bảng}%
+  \renewcommand{\chaptername}{Chương}%
+  \renewcommand{\appendixname}{Phụ lục}%
+}
+
+% ---------------- Đầu trang & chân trang ----------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Báo cáo tiểu luận học phần \hocphan}
+\fancyhead[R]{\small\itshape\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\thechapter. #1}{}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% ---------------- Định dạng tiêu đề ----------------
+\titleformat{\chapter}[display]
+  {\filcenter\bfseries\fontsize{14}{18}\selectfont}
+  {\MakeUppercase{\chaptertitlename}~\thechapter}{4pt}{\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+
+\titleformat{\section}
+  {\bfseries\fontsize{14}{18}\selectfont}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}
+  {\bfseries\fontsize{13}{17}\selectfont}{\thesubsection.}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{6pt}
+
+\setcounter{secnumdepth}{3}
+\titleformat{\subsubsection}
+  {\bfseries\itshape\fontsize{13}{17}\selectfont}{\thesubsubsection.}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+
+% ---------------- Mục lục & danh mục ----------------
+\setcounter{tocdepth}{2}
+\newcommand{\tocchapname}{Chương}
+\titlecontents{chapter}[0pt]{\addvspace{6pt}\bfseries}
+  {\tocchapname~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{section}[1.5em]{}
+  {\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{subsection}[3em]{}
+  {\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{figure}[0pt]{}
+  {\figurename~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{table}[0pt]{}
+  {\tablename~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+
+% ---------------- Lệnh tiện ích ----------------
+\newcommand{\unnumberedchapter}[1]{%
+  \chapter*{#1}\phantomsection\addcontentsline{toc}{chapter}{#1}\markboth{#1}{}}
+\newcommand{\khunghinh}[3]{%
+  \begin{tikzpicture}
+    \draw[dashed,thick,black!40,fill=black!3] (0,0) rectangle (#1,#2);
+    \node[text width=0.8*#1,align=center,font=\itshape\color{guide}]
+      at ($(0,0)!0.5!(#1,#2)$) {#3};
+  \end{tikzpicture}}
+\newcommand{\dongcham}[1]{\par\noindent\foreach \i in {1,...,#1}{\makebox[\linewidth]{\dotfill}\\[4pt]}}
+
+% =====================================================================
+\begin{document}
+
+% =====================================================================
+%  TRANG BÌA
+% =====================================================================
+\begin{titlepage}
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=2.2pt]
+      ($(current page.north west)+(2.4cm,-1.6cm)$) rectangle
+      ($(current page.south east)+(-1.4cm,1.6cm)$);
+    \draw[line width=0.6pt]
+      ($(current page.north west)+(2.55cm,-1.75cm)$) rectangle
+      ($(current page.south east)+(-1.55cm,1.75cm)$);
+  \end{tikzpicture}\par\vspace*{-\baselineskip}
+  \centering\setstretch{1.2}
+  {\fontsize{13}{18}\selectfont\bfseries \truong\par}
+  {\fontsize{14}{18}\selectfont\bfseries \khoa\par}
+  \vspace{2pt}\rule{0.35\textwidth}{0.8pt}\par
+  \vspace{1.2cm}
+  \IfFileExists{images/logo.png}
+    {\includegraphics[width=3.2cm]{logo.png}}
+    {\khunghinh{3.2cm}{3.2cm}{Logo\\trường}}\par
+  \vspace{1.2cm}
+  {\fontsize{22}{28}\selectfont\bfseries \loaibaocao\par}
+  \vspace{4pt}
+  {\fontsize{16}{20}\selectfont\bfseries HỌC PHẦN: \MakeUppercase{\hocphan}\par}
+  \vspace{1.0cm}
+  {\fontsize{14}{18}\selectfont ĐỀ TÀI:\par}
+  \vspace{4pt}
+  {\fontsize{18}{26}\selectfont\bfseries \tendetai\par}
+  \vfill
+  \begin{tabular}{@{}l@{\hspace{0.6cm}}l@{}}
+    \textbf{Giảng viên hướng dẫn:} & \giangvien \\
+    \textbf{Lớp học phần:}         & \lophocphan \\
+    \textbf{Nhóm thực hiện:}       & \nhom \\
+                                   & \svAten\ -- \svAma \\
+                                   & \svBten\ -- \svBma \\
+  \end{tabular}\par
+  \vspace{1.8cm}
+  {\bfseries \diadiem, \thoigian\par}
+\end{titlepage}
+
+% =====================================================================
+%  PHẦN ĐẦU (đánh số trang La Mã)
+% =====================================================================
+\pagenumbering{roman}
+\pagestyle{plain}
+
+% ---------------- Nhận xét của giảng viên ----------------
+\chapter*{NHẬN XÉT CỦA GIẢNG VIÊN}
+\noindent\textbf{1. Về hình thức và bố cục báo cáo:}
+\dongcham{3}
+\noindent\textbf{2. Về nội dung và kết quả thực hiện:}
+\dongcham{5}
+\noindent\textbf{3. Về tinh thần, thái độ làm việc của nhóm:}
+\dongcham{3}
+\noindent\textbf{4. Điểm đánh giá:}
+\begin{center}
+  \begin{tabular}{|>{\centering\arraybackslash}p{1.2cm}|p{5.5cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+    \hline
+    \rowcolor{black!8}\textbf{STT} & \textbf{Họ và tên sinh viên} & \textbf{Điểm số} & \textbf{Điểm chữ} \\ \hline
+    1 & \svAten & & \\ \hline
+    2 & \svBten & & \\ \hline
+  \end{tabular}
+\end{center}
+\vspace{0.6cm}
+\hfill
+\begin{minipage}{0.45\textwidth}
+  \centering
+  \textit{\diadiem, ngày \dots\ tháng \dots\ năm \dots}\\
+  \textbf{Giảng viên}\\
+  \textit{(Ký và ghi rõ họ tên)}\\[1.8cm]
+  \giangvien
+\end{minipage}
+
+% ---------------- Lời cam đoan ----------------
+\unnumberedchapter{LỜI CAM ĐOAN}
+
+Chúng em xin cam đoan báo cáo tiểu luận ``\textit{\tendetai}'' là kết quả làm việc nghiêm túc của nhóm dưới sự hướng dẫn của giảng viên \giangvien. Các số liệu, biểu đồ và kết quả thực nghiệm trình bày trong báo cáo là trung thực, được tạo trực tiếp từ bộ mã nguồn của nhóm tại thư mục \texttt{Kiemtra2/} và có thể tái lập hoàn toàn bằng tập lệnh Python độc lập. Mọi tài liệu, thuật toán và thư viện tham khảo đều được trích dẫn đầy đủ trong danh mục tài liệu tham khảo.
+
+Khai báo sử dụng công cụ AI tạo sinh. Nhóm có sử dụng công cụ hỗ trợ lập trình AI để tham khảo cấu trúc mã nguồn chuẩn hóa theo phong cách \texttt{scikit-learn}, kiểm tra cú pháp LaTeX và rà soát cách trình bày báo cáo. Toàn bộ quy trình thiết kế thực nghiệm, tham số huấn luyện, bảng số liệu kiểm định chéo, phân tích lỗi và trọng số đặc trưng đều do nhóm tự thực thi, kiểm chứng và chịu trách nhiệm giải trình.
+
+Nếu phát hiện có bất kỳ sự gian lận nào, chúng em xin hoàn toàn chịu trách nhiệm trước giảng viên và nhà trường.
+
+\vspace{0.6cm}
+\hfill
+\begin{minipage}{0.5\textwidth}
+  \centering
+  \textit{\diadiem, ngày \dots\ tháng \dots\ năm \dots}\\
+  \textbf{Nhóm sinh viên thực hiện}\\
+  \textit{(Ký và ghi rõ họ tên)}\\[2cm]
+  \begin{tabular}{@{}c@{\hspace{1.5cm}}c@{}}
+    \svAten & \svBten
+  \end{tabular}
+\end{minipage}
+
+% ---------------- Lời cảm ơn ----------------
+\unnumberedchapter{LỜI CẢM ƠN}
+
+Lời đầu tiên, nhóm tác giả xin bày tỏ lòng biết ơn sâu sắc nhất tới Thầy \giangvien. Trong suốt quá trình học tập học phần \hocphan\ và thực hiện Bài kiểm tra 2 (Tuần 6), Thầy đã tận tình giảng dạy, định hướng phương pháp xây dựng quy trình huấn luyện khép kín, kỹ thuật kiểm định chéo, chuẩn hóa dữ liệu chống rò rỉ thông tin cũng như cách thức phân tích lỗi và điều chỉnh mô hình một cách khoa học.
+
+Nhóm cũng xin chân thành cảm ơn các Thầy, Cô giáo thuộc \khoa\ -- \truong\ đã truyền thụ nền tảng kiến thức vững chắc và tạo điều kiện thuận lợi trong suốt quá trình nghiên cứu. Đồng thời, nhóm xin cảm ơn cộng đồng nguồn mở \texttt{scikit-learn} đã cung cấp bộ công cụ thực nghiệm minh bạch giúp nhóm triển khai và kiểm chứng các mô hình tuyến tính hiệu quả.
+
+Mặc dù đã cố gắng tối đa trong việc kiểm tra số liệu và trình bày, báo cáo khó tránh khỏi những thiếu sót nhất định. Nhóm rất mong nhận được những nhận xét, góp ý quý báu từ Thầy để hoàn thiện tốt hơn trong các giai đoạn tiếp theo của môn học.
+
+\vspace{0.5cm}
+\begin{flushright}
+  \textbf{Nhóm sinh viên thực hiện}
+\end{flushright}
+\newpage
+
+% ---------------- Bảng phân công ----------------
+\unnumberedchapter{BẢNG PHÂN CÔNG NHIỆM VỤ}
+
+Bảng phân công dưới đây tổng hợp chi tiết nhiệm vụ của từng thành viên trong giai đoạn Bài kiểm tra 2 (Tuần 4 -- Tuần 6), khớp với nhật ký đóng góp tại Phụ lục~\ref{pl:nhatky}.
+
+\noindent
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|p{3.4cm}|X|>{\centering\arraybackslash}p{2.5cm}|}
+  \hline
+  \rowcolor{black!8}\textbf{STT} & \textbf{Họ và tên} & \textbf{Nhiệm vụ phụ trách} & \textbf{Mức độ hoàn thành} \\ \hline
+  1 & \svAten\newline \svAma &
+    -- Xây dựng Pipeline tiền xử lý khép kín và phân tách 70\% Train / 15\% Val / 15\% Test (Chương 2, Chương 3).\newline
+    -- Huấn luyện 5 mô hình cơ sở với 5-Fold Stratified Cross-Validation và phân tích ngưỡng xác suất OOF (Mục 3.3).\newline
+    -- Biên soạn Chương 1, Chương 2 và Phụ lục hướng dẫn cài đặt. & 100\% \\ \hline
+  2 & \svBten\newline \svBma &
+    -- Thực hiện đánh giá độc lập trên tập Test, vẽ biểu đồ ROC, Precision--Recall và Learning Curve (Mục 3.3, 3.4).\newline
+    -- Phân tích lỗi dự đoán (FP/FN), trích xuất trọng số đặc trưng $\mathbf{w}$ và tinh chỉnh siêu tham số $C, \alpha$ (Mục 3.4--3.7).\newline
+    -- Hoàn thiện bộ 4 notebook thực thi và biên soạn Chương 3, Kết luận. & 100\% \\ \hline
+\end{tabularx}
+
+% ---------------- Mục lục, danh mục ----------------
+\begingroup\setstretch{1.1}\tableofcontents\endgroup
+\listoffigures
+\listoftables
+
+% ---------------- Danh mục từ viết tắt ----------------
+\unnumberedchapter{DANH MỤC TỪ VIẾT TẮT}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}p{3.2cm}p{5.5cm}X@{}}
+  \toprule
+  \textbf{Từ viết tắt} & \textbf{Tiếng Anh} & \textbf{Nghĩa tiếng Việt} \\
+  \midrule
+  Acc & Accuracy & Độ chính xác tổng thể \\
+  AUC & Area Under the Curve & Diện tích dưới đường cong (ROC hoặc PR) \\
+  CV & Cross-Validation & Kiểm định chéo nhiều phân tầng \\
+  DTI & Debt-to-Income Ratio & Tỷ lệ nợ trên thu nhập hằng năm \\
+  FN / FP & False Negative / False Positive & Âm tính giả / Dương tính giả \\
+  GD / SGD & Gradient Descent / Stochastic GD & Hạ độ dốc / Hạ độ dốc ngẫu nhiên \\
+  OHE & One-Hot Encoding & Mã hóa nhị phân cho biến phân loại \\
+  OOF & Out-of-Fold & Dự đoán ngoài tập huấn luyện từng fold \\
+  PLA & Perceptron Learning Algorithm & Thuật toán học Perceptron tuyến tính \\
+  PR & Precision--Recall & Đường cong Độ chính xác -- Độ phủ \\
+  ROC & Receiver Operating Characteristic & Đường cong đặc tính vận hành máy thu \\
+  TN / TP & True Negative / True Positive & Âm tính đúng / Dương tính đúng \\
+  \bottomrule
+\end{tabularx}
+
+% =====================================================================
+%  MỞ ĐẦU
+% =====================================================================
+\unnumberedchapter{MỞ ĐẦU}
+
+Bối cảnh và tính cấp thiết. Trong hoạt động tín dụng ngân hàng hiện đại, quyết định phê duyệt hay từ chối một hồ sơ vay vốn đòi hỏi sự cân bằng chặt chẽ giữa hai mục tiêu đối nghịch: kiểm soát rủi ro nợ xấu (tránh duyệt nhầm khách hàng có nguy cơ mất khả năng thanh toán) và duy trì tăng trưởng tín dụng (tránh bỏ lỡ những khách hàng tốt). Với bộ dữ liệu gồm 50.000 hồ sơ vay vốn (\texttt{Loan\_approval\_data\_2025.csv}), bài toán đặt ra yêu cầu một quy trình học máy bài bản, có khả năng khái quát hóa ổn định trên dữ liệu chưa từng thấy và giải thích minh bạch cơ chế ra quyết định.
+
+Phạm vi và mục tiêu của Bài kiểm tra 2 (Tuần 6). Trên nền tảng kiến thức các bài học từ Tuần 1 đến Tuần 6 (tập trung vào quy trình Pipeline chuẩn hóa, kiểm định chéo, hồi quy tuyến tính tổng quát, thuật toán Perceptron, tối ưu hóa bằng Gradient Descent/SGD và phân loại nhị phân với hồi quy Logistic), nhóm tập trung xây dựng, huấn luyện, chẩn đoán và tối ưu hệ thống mô hình phân loại tuyến tính khép kín. Toàn bộ 50.000 hồ sơ được chia tầng cố định theo tỷ lệ 70\% Huấn luyện (35.000 mẫu) -- 15\% Kiểm định (7.500 mẫu) -- 15\% Kiểm tra độc lập (7.500 mẫu) với hạt giống ngẫu nhiên \texttt{random\_state=42}, cam kết không sử dụng các thuật toán ngoài phạm vi chương trình (như rừng ngẫu nhiên hay tăng cường độ dốc cây quyết định).
+
+Đóng góp chính của báo cáo. Nhóm đã xây dựng và thực thi hoàn chỉnh hệ thống 4 sổ tay Jupyter tuần tự từ \texttt{01} đến \texttt{04} cùng tập lệnh \texttt{run\_experiments.py} cho phép tái lập mọi kết quả chỉ bằng một lệnh duy nhất. Thông qua quy trình 5-Fold Stratified Cross-Validation, phân tích đường cong học tập (Learning Curve), đánh giá ngưỡng quyết định trên dự đoán Out-of-Fold (OOF) và kiểm chứng trên tập Test độc lập 7.500 mẫu, mô hình \texttt{Logistic Regression (Mặc định)} đạt ROC-AUC = $0{,}9440$, PR-AUC = $0{,}9519$, F1-Macro = $0{,}8650$ và độ chính xác $86{,}65\%$ mà không xuất hiện hiện tượng quá khớp (overfitting).
+
+Cấu trúc báo cáo. Phần nội dung chính gồm ba chương:
+\begin{itemize}
+  \item Chương 1. Tổng quan bài toán và cơ sở lý thuyết: trình bày bối cảnh bài toán phê duyệt khoản vay, cơ sở toán học của Perceptron (PLA), SGDClassifier với hàm mất mát Log-loss, Hồi quy Logistic chuẩn hóa $L_2$ và hệ thống các chỉ số đánh giá phân loại.
+  \item Chương 2. Thiết kế quy trình và mô hình hóa bài toán: phát biểu bài toán chính thức, thiết lập 4 chỉ số mục tiêu thành công (KPI), kiến trúc \texttt{Pipeline} + \texttt{ColumnTransformer} chống rò rỉ dữ liệu và giao thức chia tập 70/15/15.
+  \item Chương 3. Thực nghiệm, phân tích lỗi và đánh giá: báo cáo chi tiết kết quả 5-Fold CV, phân tích ngưỡng cắt $\tau$ trên OOF, chẩn đoán quá khớp/thiếu khớp, khảo sát hồ sơ sai số FP/FN, trọng số đặc trưng $\mathbf{w}$, tinh chỉnh siêu tham số và đánh giá cuối cùng trên tập Test.
+\end{itemize}
+
+% =====================================================================
+%  NỘI DUNG CHÍNH (đánh số trang Ả Rập)
+% =====================================================================
+\clearpage
+\pagenumbering{arabic}
+\pagestyle{fancy}
+
+% *********************************************************************
+%  CHƯƠNG 1
+% *********************************************************************
+\chapter{TỔNG QUAN BÀI TOÁN VÀ CƠ SỞ LÝ THUYẾT}
+
+\section{Giới thiệu bài toán phê duyệt khoản vay}
+
+Bài toán phê duyệt khoản vay thuộc nhóm bài toán phân loại nhị phân có giám sát trong lĩnh vực tài chính -- ngân hàng. Đầu vào của hệ thống là hồ sơ tín dụng gồm các thuộc tính nhân khẩu học, lịch sử tín dụng, năng lực thu nhập và đặc điểm khoản vay của người nộp đơn; đầu ra là nhãn nhị phân \texttt{loan\_status} $\in \{0, 1\}$, trong đó nhãn $1$ biểu thị hồ sơ được chấp thuận (\textit{Approved}) và nhãn $0$ biểu thị hồ sơ bị từ chối (\textit{Rejected}).
+
+Trong thực tế vận hành tín dụng, sai số dự đoán của mô hình mang hệ quả kinh tế bất đối xứng:
+\begin{itemize}
+  \item Dương tính giả (False Positive -- FP): mô hình duyệt nhầm hồ sơ thực tế không đủ điều kiện (nhãn thật là $0$ nhưng dự đoán $1$), trực tiếp gây ra rủi ro mất vốn gốc và lãi cho tổ chức cho vay.
+  \item Âm tính giả (False Negative -- FN): mô hình từ chối nhầm khách hàng tốt (nhãn thật là $1$ nhưng dự đoán $0$), dẫn đến mất doanh thu lãi vay và giảm trải nghiệm khách hàng.
+\end{itemize}
+
+Quy trình giải quyết bài toán từ khâu nạp dữ liệu đến đánh giá độc lập trên tập kiểm tra được khái quát hóa như trong Hình~\ref{fig:quytrinh}.
+
+\begin{figure}[H]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}[
+    node distance=0.8cm and 0.9cm,
+    box/.style={draw,rounded corners=3pt,minimum width=2.55cm,minimum height=1.15cm,
+                align=center,fill=black!4,font=\small\bfseries},
+    arr/.style={-{Stealth[length=2.2mm]},thick}
+  ]
+    \node[box] (n1) {Dữ liệu gốc\\(50.000 mẫu)};
+    \node[box,right=of n1] (n2) {Chia tầng 70/15/15\\(Seed = 42)};
+    \node[box,right=of n2] (n3) {Pipeline tiền xử lý\\(Z-score + OHE)};
+    \node[box,right=of n3] (n4) {5-Fold CV \&\\Tinh chỉnh Val};
+    \node[box,right=of n4] (n5) {Kiểm tra Test\\\& Phân tích lỗi};
+    \draw[arr] (n1) -- (n2);
+    \draw[arr] (n2) -- (n3);
+    \draw[arr] (n3) -- (n4);
+    \draw[arr] (n4) -- (n5);
+  \end{tikzpicture}%
+  }
+  \caption{Quy trình tổng quát giải quyết bài toán phê duyệt khoản vay.}
+  \label{fig:quytrinh}
+\end{figure}
+
+\textit{Nhận xét:} Sơ đồ tại Hình~\ref{fig:quytrinh} nhấn mạnh nguyên tắc tách tập kiểm tra ngay từ bước đầu tiên và đóng gói toàn bộ khâu biến đổi đặc trưng vào \texttt{Pipeline}, đảm bảo không có thông tin phân phối nào từ tập Validation hay tập Test lọt vào bước chuẩn hóa dữ liệu huấn luyện.
+
+\section{Nền tảng phương pháp và công trình liên quan}
+
+Các thuật toán tuyến tính đóng vai trò nền móng trong học máy có giám sát nhờ tính minh bạch toán học, tốc độ huấn luyện cao trên dữ liệu lớn và khả năng diễn giải trực tiếp qua vector trọng số $\mathbf{w}$. Trong lịch sử phát triển của lớp mô hình phân loại tuyến tính:
+\begin{itemize}
+  \item Năm 1958, Rosenblatt~\cite{rosenblatt1958} giới thiệu thuật toán học Perceptron (PLA), đặt nền móng cho bộ phân loại tuyến tính cập nhật trọng số dựa trên các điểm phân loại sai. Tuy nhiên, PLA chỉ trả về siêu phẳng phân tách cứng mà không tối ưu xác suất hậu nghiệm hay biên an toàn.
+  \item Cùng năm 1958, Cox~\cite{cox1958} thiết lập mô hình Hồi quy Logistic nhị phân bằng hàm Sigmoid để ánh xạ tổ hợp tuyến tính sang không gian xác suất $[0, 1]$ và tối ưu theo nguyên lý hợp lý cực đại (Maximum Likelihood Estimation). Kết hợp với chuẩn hóa $L_2$, Hồi quy Logistic kiểm soát tốt phương sai khi dữ liệu có tương quan tuyến tính giữa các biến đầu vào.
+  \item Để mở rộng khả năng huấn luyện trên các tập dữ liệu hàng chục nghìn đến hàng triệu bản ghi, Bottou~\cite{bottou2010} phân tích tính hội tụ và hiệu quả tính toán của Hạ độ dốc ngẫu nhiên (Stochastic Gradient Descent -- SGD) khi tối ưu hàm mất mát lồi như Log-loss theo từng mẫu dữ liệu.
+  \item Về mặt kỹ thuật triển khai, thư viện \texttt{scikit-learn} do Pedregosa và cộng sự~\cite{pedregosa2011} phát triển đã chuẩn hóa các giao diện \texttt{Pipeline}, \texttt{ColumnTransformer} và \texttt{StratifiedKFold}, giúp quy trình tiền xử lý và đánh giá mô hình đảm bảo tính tái lập và an toàn trước rò rỉ dữ liệu.
+\end{itemize}
+
+\section{Cơ sở lý thuyết các thuật toán sử dụng}
+
+Với vector đặc trưng đầu vào sau tiền xử lý $\mathbf{x} \in \mathbb{R}^d$ ($d = 24$), các mô hình phân loại tuyến tính đều tính toán tổ hợp tuyến tính dạng:
+\begin{equation}
+  z = \mathbf{w}^T \mathbf{x} + b
+  \label{eq:linear_score}
+\end{equation}
+trong đó $\mathbf{w} \in \mathbb{R}^d$ là vector trọng số biểu thị mức độ ảnh hưởng và chiều hướng tác động của từng đặc trưng, còn $b \in \mathbb{R}$ là hệ số tự do (bias).
+
+\subsection{Mô hình cơ sở giả định (DummyClassifier)}
+
+\texttt{DummyClassifier} với chiến lược \texttt{most\_frequent} đóng vai trò mốc đối chứng tối thiểu (baseline). Mô hình luôn dự đoán toàn bộ các mẫu thuộc lớp chiếm đa số trong tập huấn luyện ($\hat{y} = 1$, tỷ lệ $55{,}05\%$) mà không sử dụng bất kỳ đặc trưng đầu vào $\mathbf{x}$ nào. Mọi mô hình học thực thụ đều phải vượt xa mốc ROC-AUC $= 0{,}5000$ và F1-Macro $\approx 0{,}3550$ của mô hình này.
+
+\subsection{Thuật toán học Perceptron (PLA)}
+
+Thuật toán Perceptron~\cite{rosenblatt1958} đưa ra dự đoán dựa trên hàm dấu $\hat{y} = \mathbb{I}(\mathbf{w}^T \mathbf{x} + b \ge 0)$. Khi gặp một mẫu $(\mathbf{x}_i, y_i)$ bị phân loại sai (với quy ước $y_i \in \{-1, +1\}$), bộ trọng số được cập nhật theo quy tắc:
+\begin{equation}
+  \mathbf{w} \leftarrow \mathbf{w} + \eta\, y_i \mathbf{x}_i, \qquad b \leftarrow b + \eta\, y_i
+  \label{eq:pla_update}
+\end{equation}
+Do dữ liệu tài chính thực tế có sự chồng lấn giữa các lớp và không tách biệt tuyến tính hoàn toàn (not linearly separable), PLA có xu hướng dao động giữa các kỷ nguyên (epoch) nếu không có cơ chế dừng sớm (\texttt{tol=1e-3}) và không sinh ra trực tiếp xác suất hiệu chuẩn.
+
+\subsection{Hồi quy Logistic với chuẩn hóa \texorpdfstring{$L_2$}{L2}}
+
+Hồi quy Logistic~\cite{cox1958} đưa điểm số tuyến tính $z$ qua hàm kích hoạt Sigmoid $\sigma(z)$ để ước lượng xác suất hậu nghiệm $P(y=1 \mid \mathbf{x})$:
+\begin{equation}
+  \hat{p} = P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^T \mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w}^T \mathbf{x} + b)}}
+  \label{eq:sigmoid}
+\end{equation}
+Để tránh trọng số phình to và tăng khả năng tổng quát hóa, mô hình cực tiểu hóa hàm mất mát Binary Cross-Entropy (Log-loss) kết hợp thành phần phạt $L_2$:
+\begin{equation}
+  J(\mathbf{w}, b) = -\frac{1}{N}\sum_{i=1}^{N} \Big[ y_i \ln(\hat{p}_i) + (1 - y_i)\ln(1 - \hat{p}_i) \Big] + \frac{1}{2C}\|\mathbf{w}\|_2^2
+  \label{eq:logreg_loss}
+\end{equation}
+Trong đó, siêu tham số $C > 0$ kiểm soát nghịch đảo cường độ điều chuẩn: $C$ càng nhỏ thì lực phạt càng mạnh (mô hình đơn giản hơn, giảm phương sai); khi gán \texttt{class\_weight="balanced"}, từng lớp được nhân thêm trọng số tỷ lệ nghịch với tần suất xuất hiện nhằm bù đắp độ lệch nhẹ $55{,}05\% / 44{,}95\%$ của tập dữ liệu.
+
+\subsection{Tối ưu hóa bằng SGDClassifier (Log-loss + GD)}
+
+Khác với \texttt{LogisticRegression} dùng bộ giải tối ưu bậc hai L-BFGS trên toàn bộ tập huấn luyện, \texttt{SGDClassifier} (với cấu hình \texttt{loss="log\_loss"}, \texttt{penalty="l2"}) áp dụng thuật toán Hạ độ dốc ngẫu nhiên (SGD)~\cite{bottou2010} để cực tiểu hóa hàm mục tiêu:
+\begin{equation}
+  J_{\text{SGD}}(\mathbf{w}, b) = \frac{1}{N}\sum_{i=1}^{N} \mathcal{L}_{\text{log}}(y_i, \mathbf{w}^T \mathbf{x}_i + b) + \frac{\alpha}{2}\|\mathbf{w}\|_2^2
+  \label{eq:sgd_loss}
+\end{equation}
+Tại mỗi bước lặp với một mẫu ngẫu nhiên $\mathbf{x}_i$, trọng số được cập nhật theo hướng ngược gradient:
+\begin{equation}
+  \mathbf{w} \leftarrow (1 - \eta_t \alpha)\mathbf{w} - \eta_t \big(\sigma(\mathbf{w}^T \mathbf{x}_i + b) - y_i\big)\mathbf{x}_i
+  \label{eq:sgd_update}
+\end{equation}
+trong đó $\alpha$ là hệ số phạt $L_2$ (tương đương vai trò $1/(N \cdot C)$) và $\eta_t$ là tốc độ học ở bước $t$. Phương pháp này minh họa trực tiếp mối liên hệ giữa lý thuyết tối ưu Gradient Descent và bài toán phân loại xác suất.
+
+\section{Các chỉ số đánh giá mô hình phân loại}
+
+Từ ma trận nhầm lẫn gồm 4 đại lượng $TP, TN, FP, FN$, nhóm sử dụng hệ thống thước đo chuẩn mực sau:
+\begin{align}
+  \text{Accuracy} &= \frac{TP + TN}{TP + TN + FP + FN} \label{eq:acc} \\
+  \text{Precision} &= \frac{TP}{TP + FP}, \qquad \text{Recall} = \frac{TP}{TP + FN} \label{eq:pr} \\
+  \text{Specificity} &= \frac{TN}{TN + FP} \label{eq:spec} \\
+  \text{F1-Macro} &= \frac{1}{2}\Big(\text{F1}_{\text{lớp }0} + \text{F1}_{\text{lớp }1}\Big) \label{eq:f1macro} \\
+  \text{trong đó } \text{F1}_c &= \frac{2 \cdot \text{Precision}_c \cdot \text{Recall}_c}{\text{Precision}_c + \text{Recall}_c} \label{eq:f1c}
+\end{align}
+Bên cạnh các chỉ số phụ thuộc ngưỡng cắt $\tau = 0{,}5$, nhóm sử dụng ROC-AUC (đo khả năng xếp hạng tách biệt hai lớp trên toàn bộ các ngưỡng) và PR-AUC (Average Precision -- độ chính xác trung bình trên đường cong Precision--Recall) để đánh giá độc lập với ngưỡng. Trong đó, Specificity đóng vai trò thiết yếu vì phản ánh trực tiếp tỷ lệ hồ sơ rủi ro (nhãn $0$) được chặn lại thành công.
+
+\section{Kết luận chương 1}
+
+Chương 1 đã hệ thống hóa bài toán phê duyệt khoản vay dưới góc độ rủi ro tài chính, đồng thời trình bày cơ sở toán học của ba thuật toán tuyến tính trọng tâm trong phạm vi học phần: Perceptron (PLA), Logistic Regression chuẩn hóa $L_2$ và SGDClassifier tối ưu Log-loss, cùng hệ thống thước đo đánh giá. Các nền tảng này là cơ sở để thiết kế quy trình mô hình hóa thực nghiệm ở Chương 2.
+
+% *********************************************************************
+%  CHƯƠNG 2
+% *********************************************************************
+\chapter{THIẾT KẾ QUY TRÌNH VÀ MÔ HÌNH HÓA BÀI TOÁN}
+
+\section{Phát biểu bài toán}
+
+Cho tập dữ liệu $\mathcal{D} = \{(\mathbf{x}_i^{(0)}, y_i)\}_{i=1}^{50.000}$ trích xuất từ \texttt{Loan\_approval\_data\_2025.csv}, trong đó cột định danh \texttt{customer\_id} được loại bỏ nhằm ngăn ngừa học vẹt theo mã khách hàng. Mỗi hồ sơ còn lại gồm $18$ biến đầu vào ($15$ biến số liên tục/rời rạc và $3$ biến phân loại) và nhãn đích $y_i \in \{0, 1\}$.
+
+Mục tiêu là học ánh xạ tham số $f_{\theta}: \mathcal{X} \rightarrow [0, 1]$ (trả về xác suất được duyệt $\hat{p}_i$ hoặc điểm quyết định tuyến tính $z_i$) từ tập huấn luyện $\mathcal{D}_{\text{train}}$ sao cho sai số khái quát hóa trên phân phối chưa từng thấy $\mathcal{D}_{\text{test}}$ là nhỏ nhất, đồng thời cân bằng giữa hiệu năng phân loại hai lớp (F1-Macro) và khả năng chặn nợ xấu (Specificity).
+
+\section{Mục tiêu và tiêu chí thành công}
+
+Để quá trình đánh giá mô hình mang tính định lượng rõ ràng, nhóm thiết lập 4 chỉ số mục tiêu thành công (KPI) trong Bảng~\ref{tab:muctieu}.
+
+\begin{table}[H]
+  \caption{Chỉ số mục tiêu và tiêu chí đánh giá thành công của mô hình.}
+  \label{tab:muctieu}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabularx}{\textwidth}{@{}p{3.6cm}p{2.8cm}X@{}}
+    \toprule
+    \textbf{Chỉ số (Metric)} & \textbf{Ngưỡng đạt} & \textbf{Ý nghĩa nghiệp vụ và kỹ thuật} \\
+    \midrule
+    ROC-AUC (Test) & $\ge 0{,}9000$ & Bảo đảm khả năng phân biệt rạch ròi giữa hồ sơ đủ điều kiện và rủi ro trên mọi ngưỡng cắt. \\
+    F1-Macro (Test) & $\ge 0{,}8500$ & Đánh giá công bằng chất lượng phân loại trên cả lớp Từ chối (0) và lớp Duyệt (1). \\
+    Gap Train--Val AUC & $< 0{,}0100$ & Kiểm soát khoảng cách giữa Train và Validation để khẳng định mô hình không quá khớp. \\
+    Độ trễ suy luận & $< 0{,}1\text{ ms/mẫu}$ & Đáp ứng yêu cầu chấm điểm tín dụng trực tuyến thời gian thực cho từng hồ sơ đơn lẻ. \\
+    \bottomrule
+  \end{tabularx}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Bảng~\ref{tab:muctieu} đặt trọng tâm ngang bằng giữa năng lực phân loại (ROC-AUC, F1-Macro), độ ổn định tổng quát hóa (Gap Train--Val) và tốc độ phản hồi thời gian thực.
+
+\section{Lựa chọn thuật toán và mô hình cơ sở}
+
+Tuân thủ chặt chẽ phạm vi kiến thức Tuần 1--6, nhóm lựa chọn bộ 5 cấu hình thuộc họ tuyến tính và baseline để đối chiếu toàn diện:
+\begin{enumerate}
+  \item DummyClassifier (\texttt{strategy="most\_frequent"}): mốc chuẩn tối thiểu dự đoán nhãn đa số ($1$).
+  \item Perceptron (PLA): \texttt{max\_iter=1000}, \texttt{tol=1e-3}, đại diện thuật toán phân tách cứng cổ điển.
+  \item SGDClassifier (Log-loss + GD): \texttt{loss="log\_loss"}, \texttt{penalty="l2"}, \texttt{alpha=1e-4}, \texttt{max\_iter=1000}, \texttt{tol=1e-4}, đại diện tối ưu Gradient Descent trực tiếp trên hàm mất mát xác suất.
+  \item Logistic Regression (Mặc định): bộ giải mặc định với $C=1{,}0$, \texttt{max\_iter=1000}, chuẩn hóa $L_2$.
+  \item Logistic Regression (Balanced): cấu hình \texttt{class\_weight="balanced"}, $C=1{,}0$, khảo sát tác động của trọng số nghịch tần suất lớp.
+\end{enumerate}
+
+\section{Quy trình huấn luyện và chống rò rỉ dữ liệu}
+
+Nhóm áp dụng nguyên tắc phân chia 3 phần độc lập theo phân tầng (\texttt{stratify=y}, \texttt{random\_state=42}) như minh họa ở Hình~\ref{fig:quytrinhhuanluyen}:
+\begin{itemize}
+  \item Tập Huấn luyện (Train -- 70\%, 35.000 mẫu): dùng để ước lượng siêu phẳng và chạy kiểm định chéo 5-Fold CV.
+  \item Tập Kiểm định (Validation -- 15\%, 7.500 mẫu): dùng để kiểm chứng chéo độc lập, phân tích ngưỡng cắt $\tau$ và lựa chọn siêu tham số ($C, \alpha$).
+  \item Tập Kiểm tra (Test -- 15\%, 7.500 mẫu): niêm phong hoàn toàn trong quá trình điều chỉnh và chỉ đánh giá một lần duy nhất ở bước cuối.
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \resizebox{0.96\textwidth}{!}{%
+  \begin{tikzpicture}[
+    node distance=0.7cm and 0.9cm,
+    blk/.style={draw,rounded corners=3pt,minimum width=2.8cm,minimum height=1.0cm,
+                align=center,fill=black!4,font=\small\bfseries},
+    sub/.style={draw,rounded corners=3pt,minimum width=2.6cm,minimum height=0.95cm,
+                align=center,fill=black!8,font=\footnotesize},
+    arr/.style={-{Stealth[length=2.2mm]},thick}
+  ]
+    \node[blk] (raw) {Dữ liệu gốc (50.000)};
+    \node[sub,below left=0.8cm and 1.2cm of raw] (tr) {Train 70\% (35.000)\\5-Fold Stratified CV};
+    \node[sub,below=0.8cm of raw] (va) {Validation 15\% (7.500)\\Tinh chỉnh $C, \alpha, \tau$};
+    \node[sub,below right=0.8cm and 1.2cm of raw] (te) {Test 15\% (7.500)\\Niêm phong đánh giá cuối};
+    \node[blk,below=0.9cm of tr] (pp) {ColumnTransformer\\(fit trong từng fold)};
+    \node[blk,below=0.9cm of te] (fn) {Đo lường Test \&\\Phân tích FP/FN};
+    \draw[arr] (raw) -- (tr);
+    \draw[arr] (raw) -- (va);
+    \draw[arr] (raw) -- (te);
+    \draw[arr] (tr) -- (pp);
+    \draw[arr] (pp) -- (va);
+    \draw[arr] (va) -- (fn);
+    \draw[arr] (te) -- (fn);
+  \end{tikzpicture}%
+  }
+  \caption{Sơ đồ luồng phân chia dữ liệu 70/15/15 và Pipeline chống rò rỉ thông tin.}
+  \label{fig:quytrinhhuanluyen}
+\end{figure}
+
+\textit{Nhận xét:} Việc đóng gói \texttt{StandardScaler} (cho 15 đặc trưng số) và \texttt{OneHotEncoder(drop="first")} (cho 3 đặc trưng phân loại) trong \texttt{ColumnTransformer} đặt bên trong \texttt{Pipeline} (Hình~\ref{fig:quytrinhhuanluyen}) bảo đảm trung bình $\mu$ và độ lệch chuẩn $\sigma$ chỉ được tính trên 4/5 phần huấn luyện ở mỗi fold CV, loại bỏ hoàn toàn nguy cơ rò rỉ dữ liệu.
+
+Cách cài đặt chuẩn hóa của \texttt{ColumnTransformer} và \texttt{Pipeline} được thể hiện ở Đoạn mã~\ref{lst:pipeline}.
+
+\needspace{8\baselineskip}
+\begin{lstlisting}[caption={Thiết lập Pipeline tiền xử lý khép kín bằng ColumnTransformer.},label={lst:pipeline}]
+cat_cols = ["occupation_status", "product_type", "loan_intent"]
+num_cols = [c for c in X.columns if c not in cat_cols]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", StandardScaler(), num_cols),
+        ("cat", OneHotEncoder(drop="first", sparse_output=False,
+                              handle_unknown="ignore"), cat_cols),
+    ],
+    remainder="drop",
+)
+
+pipe = Pipeline([
+    ("preprocessor", preprocessor),
+    ("classifier", LogisticRegression(max_iter=1000, C=1.0,
+                                      random_state=42)),
+])
+\end{lstlisting}
+
+\textit{Nhận xét:} Tham số \texttt{drop="first"} trong \texttt{OneHotEncoder} giúp tránh hiện tượng đa cộng tuyến hoàn hảo (bẫy biến giả) đối với các mô hình tuyến tính, đồng thời giữ tổng số chiều sau mã hóa gọn nhẹ ở mức $24$ đặc trưng.
+
+\section{Phương pháp và chỉ số đánh giá}
+
+Trên tập Train 35.000 mẫu, nhóm dùng \texttt{StratifiedKFold} (\texttt{n\_splits=5}, \texttt{shuffle=True}, \texttt{random\_state=42}) để thu thập giá trị trung bình ($\text{mean}$) và độ lệch chuẩn ($\text{std}$) cho các chỉ số: Accuracy, ROC-AUC, F1-Macro, Precision và Recall, kết hợp với \texttt{cross\_val\_predict} để lấy xác suất Out-of-Fold (OOF) phục vụ quét ngưỡng cắt $\tau \in [0{,}35; 0{,}65]$. Sau khi chốt cấu hình trên tập Validation, mọi đánh giá cuối cùng và phân tích lỗi FP/FN được thực thi trên tập Test độc lập.
+
+\section{Kết luận chương 2}
+
+Chương 2 đã hoàn thiện khung thiết kế thực nghiệm theo ba nguyên tắc cốt lõi: phân tách dữ liệu tầng 70/15/15 nghiêm ngặt, đóng gói toàn bộ khâu biến đổi đặc trưng trong \texttt{Pipeline} để triệt tiêu rò rỉ dữ liệu, và chuẩn hóa bộ 4 KPI định lượng cho các mô hình tuyến tính. Các thiết kế này được hiện thực hóa và kiểm chứng bằng số liệu thực nghiệm trong Chương 3.
+
+% *********************************************************************
+%  CHƯƠNG 3
+% *********************************************************************
+\chapter{THỰC NGHIỆM VÀ ĐÁNH GIÁ}
+
+\section{Dữ liệu thực nghiệm}
+
+Tập dữ liệu \texttt{Loan\_approval\_data\_2025.csv} gồm đúng $50.000$ mẫu và $20$ cột gốc với $0$ giá trị khuyết thiếu. Sau khi loại bỏ cột định danh \texttt{customer\_id} và tách biến mục tiêu \texttt{loan\_status}, tập đầu vào $X$ có $18$ thuộc tính ($15$ biến số và $3$ biến phân loại: \texttt{occupation\_status} với 3 giá trị, \texttt{product\_type} với 3 giá trị, \texttt{loan\_intent} với 6 giá trị). Qua \texttt{OneHotEncoder(drop="first")}, không gian đặc trưng đầu vào của các mô hình có kích thước $d = 24$ chiều.
+
+Kết quả phân chia tầng (\texttt{stratify=y}, \texttt{random\_state=42}) được tổng hợp trong Bảng~\ref{tab:kichthuoc}.
+
+\begin{table}[H]
+  \caption{Kích thước và phân bố nhãn mục tiêu qua các tập dữ liệu.}
+  \label{tab:kichthuoc}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    \textbf{Tập dữ liệu} & \textbf{Số lượng mẫu} & \textbf{Tỷ trọng (\%)} & \textbf{Tỷ lệ nhãn Duyệt (1)} \\
+    \midrule
+    Toàn bộ tập dữ liệu gốc & 50.000 & 100{,}0\% & 55{,}05\% (27.523 / 50.000) \\
+    Tập Huấn luyện (Train) & 35.000 & 70{,}0\%  & 55{,}05\% \\
+    Tập Kiểm định (Validation) & 7.500 & 15{,}0\% & 55{,}05\% \\
+    Tập Kiểm tra (Test) & 7.500 & 15{,}0\%  & 55{,}04\% (4.128 Duyệt / 3.372 Từ chối) \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Số liệu tại Bảng~\ref{tab:kichthuoc} xác nhận tỷ lệ lớp dương được bảo toàn đồng đều ở mức xấp xỉ $55{,}05\%$ trên cả ba tập Train, Validation và Test, đảm bảo không xảy ra lệch phân phối (distribution shift) giữa quá trình huấn luyện và kiểm định.
+
+\section{Môi trường thực nghiệm}
+
+Toàn bộ thực nghiệm được thực thi bằng ngôn ngữ Python trên môi trường Anaconda với các thư viện chính: \texttt{scikit-learn}, \texttt{pandas}, \texttt{numpy}, \texttt{matplotlib}, \texttt{seaborn} và \texttt{joblib}. Dữ liệu được nạp trực tiếp qua đường dẫn tương đối \texttt{../data/}\allowbreak\texttt{Loan\_approval\_data\_2025.csv} bên trong bộ mã nguồn tại \texttt{Kiemtra2/code/}, gồm tập lệnh chuẩn hóa \texttt{run\_experiments.py} và 4 notebook tuần tự từ \texttt{01} đến \texttt{04}. Tất cả kết quả chỉ số, siêu tham số và ma trận nhầm lẫn được lưu tự động ra \texttt{Kiemtra2/models/}\allowbreak\texttt{experiment\_summary.json}.
+
+\section{Kết quả huấn luyện và đánh giá}
+
+\subsection{Kết quả kiểm định chéo 5-Fold trên tập Train}
+
+Năm cấu hình mô hình được huấn luyện và đánh giá bằng 5-Fold Stratified Cross-Validation trên $35.000$ mẫu tập Train. Kết quả tổng hợp về độ chính xác, diện tích ROC-AUC, F1-Macro, Precision, Recall và thời gian thực thi được trình bày ở Bảng~\ref{tab:sosanh} và trực quan hóa qua Hình~\ref{fig:sosanhcv}.
+
+\begin{table}[H]
+  \caption{Kết quả kiểm định chéo 5-Fold Cross-Validation trên tập Train ($N=35.000$).}
+  \label{tab:sosanh}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lcccccc@{}}
+    \toprule
+    \textbf{Mô hình} & \textbf{Train AUC} & \textbf{Val AUC (mean $\pm$ std)} & \textbf{Val F1-Macro} & \textbf{Val Acc} & \textbf{Val Prec / Rec} & \textbf{Thời gian (s)} \\
+    \midrule
+    Dummy (Baseline đa số) & 0{,}5000 & $0{,}5000 \pm 0{,}0000$ & $0{,}3550 \pm 0{,}0000$ & $0{,}5505$ & 0{,}5505 / 1{,}0000 & 6{,}83 \\
+    Perceptron (PLA) & 0{,}9138 & $0{,}9136 \pm 0{,}0115$ & $0{,}8229 \pm 0{,}0091$ & $0{,}8248$ & 0{,}8530 / 0{,}8281 & 9{,}36 \\
+    SGDClassifier (Log-loss + GD) & 0{,}9449 & $0{,}9448 \pm 0{,}0018$ & $0{,}8642 \pm 0{,}0015$ & $0{,}8659$ & 0{,}8715 / 0{,}8872 & 9{,}13 \\
+    Logistic Regression (Mặc định) & 0{,}9459 & $0{,}9457 \pm 0{,}0024$ & $0{,}8651 \pm 0{,}0028$ & 0{,}8667 & 0{,}8724 / 0{,}8878 & 1{,}27 \\
+    Logistic Regression (Balanced) & 0{,}9459 & $0{,}9457 \pm 0{,}0023$ & $0{,}8640 \pm 0{,}0034$ & $0{,}8651$ & 0{,}8846 / 0{,}8682 & 1{,}39 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{bieu_do_so_sanh_mo_hinh.png}
+  \caption{So sánh ROC-AUC và F1-Macro của 5 mô hình qua kiểm định chéo 5-Fold.}
+  \label{fig:sosanhcv}
+\end{figure}
+
+\textit{Nhận xét:} Quan sát Bảng~\ref{tab:sosanh} và Hình~\ref{fig:sosanhcv} cho thấy:
+\begin{itemize}
+  \item Tất cả mô hình học tuyến tính đều vượt xa mốc \texttt{Dummy} (ROC-AUC $= 0{,}5000$, F1-Macro $= 0{,}3550$).
+  \item Ba mô hình tối ưu hàm mất mát Log-loss đạt hiệu năng vượt trội so với \texttt{Perceptron (PLA)} (ROC-AUC $0{,}9448$--$0{,}9457$ so với $0{,}9136$; độ lệch chuẩn giữa các fold chỉ $0{,}0018$--$0{,}0024$ so với $0{,}0115$ của PLA). Điều này chứng minh tính ổn định của hàm mất mát trơn lồi so với cập nhật phân tách cứng khi dữ liệu không khả tách tuyến tính hoàn toàn.
+  \item \texttt{Logistic Regression (Mặc định)} dẫn đầu về tốc độ hội tụ ($1{,}27\text{ giây}$ cho toàn bộ 5 fold nhờ bộ giải L-BFGS) và đạt chỉ số F1-Macro ($0{,}8651$) lẫn ROC-AUC ($0{,}9457$) cao nhất.
+\end{itemize}
+
+\subsection{Phân tích ngưỡng quyết định \texorpdfstring{$\tau$}{tau} trên dự đoán Out-of-Fold (OOF)}
+
+Trong bài toán phê duyệt tín dụng, ngưỡng cắt mặc định $\tau = 0{,}50$ chưa chắc là phương án tối ưu về mặt kiểm soát rủi ro nợ xấu (FP). Nhóm thực hiện quét ngưỡng $\tau \in [0{,}35; 0{,}65]$ trên xác suất dự đoán OOF của tập Train ($35.000$ mẫu) và kiểm chứng tương ứng trên tập Validation ($7.500$ mẫu) đối với \texttt{Logistic Regression (Mặc định)} (Bảng~\ref{tab:nguongcat}).
+
+\begin{table}[H]
+  \caption{Khảo sát ảnh hưởng của ngưỡng xác suất $\tau$ của Logistic Regression (Mặc định).}
+  \label{tab:nguongcat}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}ccccccc@{}}
+    \toprule
+    \textbf{Ngưỡng $\tau$} & \textbf{OOF F1-Macro} & \textbf{OOF Precision} & \textbf{OOF Recall} & \textbf{OOF Spec (0)} & \textbf{Val FP} & \textbf{Val FN} \\
+    \midrule
+    0{,}35 & 0{,}8565 & 0{,}8304 & 0{,}9388 & 0{,}7653 & 764 & 250 \\
+    0{,}40 & 0{,}8620 & 0{,}8462 & 0{,}9227 & 0{,}7946 & 665 & 318 \\
+    0{,}45 & 0{,}8649 & 0{,}8602 & 0{,}9061 & 0{,}8196 & 575 & 393 \\
+    0{,}50 & 0{,}8651 & 0{,}8723 & 0{,}8878 & 0{,}8409 & 503 & 470 \\
+    0{,}55 & 0{,}8642 & 0{,}8848 & 0{,}8684 & 0{,}8616 & 450 & 559 \\
+    0{,}60 & 0{,}8602 & 0{,}8968 & 0{,}8444 & 0{,}8810 & 393 & 640 \\
+    0{,}65 & 0{,}8547 & 0{,}9084 & 0{,}8192 & 0{,}8988 & 340 & 739 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Bảng~\ref{tab:nguongcat} cho thấy sự đánh đổi trực tiếp giữa FP và FN: tại $\tau = 0{,}50$, OOF F1-Macro đạt đỉnh $0{,}8651$ (cân bằng 503 FP và 470 FN trên Validation). Khi nâng ngưỡng thắt chặt lên $\tau = 0{,}60$, độ chính xác Precision tăng từ $0{,}8723$ lên $0{,}8968$, Specificity tăng lên $0{,}8810$ và số ca duyệt nhầm (Val FP) giảm mạnh từ $503$ xuống $393$ ca (giảm $21{,}9\%$), đổi lại số ca từ chối nhầm (Val FN) tăng từ $470$ lên $640$ ca. Tương tự, \texttt{Logistic Regression (Balanced)} cho kết quả Val FP $= 452$, Val FN $= 559$, tương đương với việc dịch chuyển ngưỡng lên khoảng $\tau \approx 0{,}55$.
+
+\subsection{Ma trận nhầm lẫn và đường cong ROC / Precision--Recall}
+
+Trên tập Validation ($7.500$ mẫu) và tập Test ($7.500$ mẫu), nhóm đối chiếu ma trận nhầm lẫn của các mô hình tại Hình~\ref{fig:nhamlan} cùng đường cong ROC và Precision--Recall tại Hình~\ref{fig:rocpr}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{ma_tran_nham_lan_cac_mo_hinh.png}
+  \caption{Ma trận nhầm lẫn của các mô hình tuyến tính trên tập Test ($N=7.500$).}
+  \label{fig:nhamlan}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{duong_cong_roc_so_sanh.png}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{duong_cong_precision_recall.png}
+  \end{minipage}
+  \caption{Đường cong ROC (trái) và Precision--Recall (phải) so sánh các mô hình trên tập Test.}
+  \label{fig:rocpr}
+\end{figure}
+
+\textit{Nhận xét:} Hình~\ref{fig:nhamlan} cho thấy trên tập Test ($4.128$ Duyệt, $3.372$ Từ chối), \texttt{Logistic Regression (Mặc định)} phân loại chính xác $3.652$ ca Duyệt (TP) và $2.847$ ca Từ chối (TN), chỉ mắc $525$ lỗi FP và $476$ lỗi FN; trong khi \texttt{Logistic Regression (Balanced)} giảm FP xuống còn $465$ nhưng tăng FN lên $559$. Hình~\ref{fig:rocpr} khẳng định đường cong ROC và Precision--Recall của \texttt{Logistic Regression} và \texttt{SGDClassifier} bám sát góc trên cùng với ROC-AUC $\approx 0{,}9440$ và PR-AUC $\approx 0{,}9519$, tách biệt rõ rệt phía trên \texttt{Perceptron (PLA)} (ROC-AUC $= 0{,}8959$, PR-AUC $= 0{,}9006$) và \texttt{Dummy} (ROC-AUC $= 0{,}5000$, PR-AUC $= 0{,}5504$).
+
+\section{Phân tích kết quả dự đoán và chẩn đoán mô hình}
+
+\subsection{Chẩn đoán quá khớp và thiếu khớp qua Learning Curve}
+
+Để đánh giá mức độ quá khớp (Overfitting) hoặc thiếu khớp (Underfitting), nhóm đối chiếu hiệu năng giữa Train CV và tập Validation (Bảng~\ref{tab:chandoan}) kết hợp với đồ thị đường cong học tập khi tăng dần kích thước mẫu huấn luyện từ $10\%$ đến $100\%$ (Hình~\ref{fig:learningcurve}).
+
+\begin{table}[H]
+  \caption{Chẩn đoán độ lệch tổng quát hóa giữa Train (CV), Validation và Test.}
+  \label{tab:chandoan}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lcccccc@{}}
+    \toprule
+    \textbf{Mô hình} & \textbf{Train AUC} & \textbf{CV Val AUC} & \textbf{Gap (Train--CV)} & \textbf{Val AUC (7.5k)} & \textbf{Test AUC (7.5k)} & \textbf{Chẩn đoán} \\
+    \midrule
+    Dummy (Baseline đa số) & 0{,}5000 & 0{,}5000 & 0{,}0000 & 0{,}5000 & 0{,}5000 & Thiếu khớp nặng (Baseline) \\
+    Perceptron (PLA) & 0{,}9138 & 0{,}9136 & $+0{,}0002$ & 0{,}9060 & 0{,}8959 & Dao động nhẹ biên cứng \\
+    SGDClassifier (Log-loss) & 0{,}9449 & 0{,}9448 & $+0{,}0001$ & 0{,}9466 & 0{,}9434 & Hội tụ tốt, không quá khớp \\
+    LogReg (Mặc định) & 0{,}9459 & 0{,}9457 & $+0{,}0002$ & 0{,}9478 & 0{,}9440 & Cân bằng tối ưu (Tốt nhất) \\
+    LogReg (Balanced) & 0{,}9459 & 0{,}9457 & $+0{,}0002$ & 0{,}9478 & 0{,}9440 & Cân bằng tối ưu, giảm FP \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{duong_cong_hoc_tap_learning_curve.png}
+  \caption{Đường cong học tập (Learning Curve) theo kích thước tập huấn luyện của Logistic Regression và SGDClassifier.}
+  \label{fig:learningcurve}
+\end{figure}
+
+\textit{Nhận xét:} Căn cứ Bảng~\ref{tab:chandoan} và Hình~\ref{fig:learningcurve}, khoảng cách Train--CV AUC của \texttt{Logistic Regression (Mặc định)} chỉ là $+0{,}0002$ (nhỏ hơn rất nhiều ngưỡng KPI $< 0{,}0100$), chứng tỏ mô hình hoàn toàn không bị quá khớp. Đường học tập hội tụ rất sớm và ổn định ở mức ROC-AUC $\approx 0{,}946$ ngay từ khoảng $10.000$ mẫu huấn luyện trở lên. Điều này cũng gợi ý rằng nút thắt hiệu năng còn lại (~$13{,}3\%$ tỷ lệ lỗi tổng thể) xuất phát từ tính tuyến tính của siêu phẳng quyết định (underfitting nhẹ đối với các ranh giới tương tác phi tuyến), chứ không phải do thiếu dữ liệu hay quá khớp.
+
+\subsection{Phân tích hồ sơ lỗi Dương tính giả (FP) và Âm tính giả (FN)}
+
+Để hiểu rõ nguyên nhân mô hình tuyến tính mắc lỗi trên tập Test ($525$ ca FP và $476$ ca FN đối với \texttt{Logistic Regression (Mặc định)}), nhóm thống kê giá trị trung vị (median) của 5 chỉ số tài chính chủ chốt theo từng nhóm kết quả TP, TN, FP, FN như minh họa ở Hình~\ref{fig:erroranalysis} và Bảng~\ref{tab:trungviloi}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{phan_tich_loi_fp_fn.png}
+  \caption{Phân bố các chỉ số tài chính chủ chốt theo 4 nhóm kết quả TP, TN, FP, FN trên tập Test.}
+  \label{fig:erroranalysis}
+\end{figure}
+
+\begin{table}[H]
+  \caption{Trung vị các chỉ số đặc trưng của 4 nhóm TP, TN, FP, FN (Logistic Regression mặc định trên Test).}
+  \label{tab:trungviloi}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lccccc@{}}
+    \toprule
+    \textbf{Nhóm phân tích} & \textbf{Số ca} & \textbf{Credit Score} & \textbf{DTI} & \textbf{Lãi suất (\%)} & \textbf{Thu nhập năm / Số năm làm} \\
+    \midrule
+    TP (Duyệt đúng) & 3.652 & 676{,}0 & 0{,}220 & 15{,}25 & 47.072{,}5 / 7{,}10 năm \\
+    TN (Từ chối đúng) & 2.847 & 597{,}0 & 0{,}351 & 15{,}70 & 36.534{,}0 / 2{,}70 năm \\
+    FP (Duyệt nhầm -- Nguy hiểm) & 525 & 646{,}0 & 0{,}210 & 15{,}13 & 41.658{,}0 / 4{,}80 năm \\
+    FN (Từ chối nhầm -- Tiếc nuối) & 476 & 624{,}0 & 0{,}322 & 14{,}50 & 41.507{,}5 / 4{,}65 năm \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Số liệu từ Hình~\ref{fig:erroranalysis} và Bảng~\ref{tab:trungviloi} bóc tách rất rõ hai nguyên nhân gốc rễ gây sai số của bộ phân loại tuyến tính:
+\begin{itemize}
+  \item Hồ sơ FP (525 ca duyệt nhầm): có bề ngoài ``khá đẹp'' với \texttt{credit\_score} trung vị $646{,}0$ và tỷ lệ nợ trên thu nhập \texttt{DTI} rất thấp ($0{,}210$, thậm chí thấp hơn nhóm TP là $0{,}220$). Vì thế tổng điểm tuyến tính $\mathbf{w}^T\mathbf{x} + b$ đẩy xác suất vượt qua ngưỡng $0{,}50$, khiến mô hình không nhận ra các điểm nghẽn cục bộ ẩn sâu trong hồ sơ (như lịch sử vỡ nợ hay loại sản phẩm vay rủi ro cao).
+  \item Hồ sơ FN (476 ca từ chối nhầm): mang các yếu tố bất lợi riêng lẻ như \texttt{DTI} trung vị khá cao ($0{,}322$) và \texttt{credit\_score} ở mức trung bình thấp ($624{,}0$), nhưng lại có mức lãi suất hợp lý ($14{,}50\%$) và thâm niên làm việc ổn định ($4{,}65\text{ năm}$). Do chỉ cộng gộp tuyến tính, mô hình đánh tụt xác suất xuống dưới $0{,}50$ dù thực tế hồ sơ vẫn được duyệt.
+\end{itemize}
+
+\section{Tối ưu hóa và cải tiến mô hình}
+
+\subsection{Giải thích cơ chế ra quyết định qua trọng số \texorpdfstring{$\mathbf{w}$}{w}}
+
+Do toàn bộ $15$ biến số đã được chuẩn hóa Z-score ($\mu=0, \sigma=1$), độ lớn tuyệt đối $|w_j|$ của hệ số \texttt{coef\_} phản ánh trực tiếp tầm quan trọng của từng đặc trưng trong quyết định phê duyệt (Hình~\ref{fig:featureimportance} và Bảng~\ref{tab:trongso}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{do_quan_trong_dac_trung.png}
+  \caption{Top trọng số đặc trưng $\mathbf{w}$ (sau chuẩn hóa Z-score) của Logistic Regression và SGDClassifier.}
+  \label{fig:featureimportance}
+\end{figure}
+
+\begin{table}[H]
+  \caption{Các đặc trưng có trọng số tác động lớn nhất trong mô hình Logistic Regression và SGDClassifier.}
+  \label{tab:trongso}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    \textbf{Đặc trưng (đã chuẩn hóa / mã hóa OHE)} & \textbf{Trọng số LogReg ($w_j$)} & \textbf{Trọng số SGD ($w_j$)} \\
+    \midrule
+    \texttt{product\_type\_Line of Credit} & $-4{,}91$ & $-4{,}42$ \\
+    \texttt{product\_type\_Personal Loan} & $-3{,}70$ & $-3{,}35$ \\
+    \texttt{defaults\_on\_file} & $-3{,}54$ & $-2{,}39$ \\
+    \texttt{loan\_intent\_Education} & $+2{,}52$ & $+2{,}43$ \\
+    \texttt{interest\_rate} & $-1{,}94$ & $-1{,}70$ \\
+    \texttt{loan\_intent\_Personal} & $+1{,}76$ & $+1{,}72$ \\
+    \texttt{debt\_to\_income\_ratio} & $-1{,}34$ & $-1{,}28$ \\
+    \texttt{loan\_intent\_Medical} & $+0{,}90$ & $+0{,}89$ \\
+    \texttt{loan\_intent\_Home Improvement} & $+0{,}85$ & $+0{,}81$ \\
+    \texttt{loan\_intent\_Debt Consolidation} & $-0{,}83$ & $-0{,}90$ \\
+    \texttt{delinquencies\_last\_2yrs} & $-0{,}77$ & $-0{,}78$ \\
+    \texttt{credit\_history\_years} / \texttt{credit\_score} & $+0{,}75$ (history) & $+0{,}92$ (score) \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Hình~\ref{fig:featureimportance} và Bảng~\ref{tab:trongso} chứng minh tính hợp lý về mặt nghiệp vụ tín dụng của cả hai mô hình:
+\begin{itemize}
+  \item Nhóm yếu tố làm tăng xác suất duyệt ($w_j > 0$): mục đích vay giáo dục (\texttt{Education}: $+2{,}52$), vay cá nhân (\texttt{Personal}: $+1{,}76$), y tế ($+0{,}90$), sửa nhà ($+0{,}85$), cùng với thâm niên lịch sử tín dụng ($+0{,}75$) và điểm tín dụng (\texttt{credit\_score}: $+0{,}92$ ở SGD).
+  \item Nhóm yếu tố làm tăng rủi ro từ chối ($w_j < 0$): hạn mức tín dụng tuần hoàn (\texttt{Line of Credit}: $-4{,}91$) và vay tiêu dùng cá nhân (\texttt{Personal Loan}: $-3{,}70$) so với thẻ tín dụng gốc, hồ sơ từng vỡ nợ (\texttt{defaults\_on\_file}: $-3{,}54$), lãi suất cao ($-1{,}94$), tỷ lệ DTI ($-1{,}34$), vay hợp nhất nợ ($-0{,}83$) và số lần quá hạn trong 2 năm qua ($-0{,}77$).
+\end{itemize}
+
+\subsection{Tinh chỉnh siêu tham số điều chuẩn và tốc độ học}
+
+Nhóm tiến hành khảo sát độ nhạy của siêu tham số điều chuẩn $L_2$ ($C \in \{0{,}01; 0{,}1; 1{,}0; 10{,}0\}$) đối với \texttt{LogisticRegression} và hệ số phạt $\alpha$ cùng lịch trình tốc độ học (\texttt{optimal} so với \texttt{constant, eta0=0.01}) đối với \texttt{SGDClassifier} trên tập Validation ($7.500$ mẫu). Kết quả ghi nhận ở Bảng~\ref{tab:sieuthamso}.
+
+\begin{table}[H]
+  \caption{Kết quả khảo sát và tinh chỉnh siêu tham số trên tập Validation ($N=7.500$).}
+  \label{tab:sieuthamso}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lccccc@{}}
+    \toprule
+    \textbf{Cấu hình mô hình} & \textbf{Train AUC} & \textbf{Val AUC} & \textbf{Val F1-Macro} & \textbf{Gap (Train--Val)} & \textbf{Fit Time (s)} \\
+    \midrule
+    \texttt{LogisticRegression(C=0.01)} (Phạt $L_2$ mạnh) & 0{,}9420 & 0{,}9452 & 0{,}8662 & $-0{,}0032$ & 0{,}27 \\
+    \texttt{LogisticRegression(C=0.1)} & 0{,}9454 & 0{,}9477 & 0{,}8701 & $-0{,}0023$ & 0{,}38 \\
+    \texttt{LogisticRegression(C=1.0)} (Mặc định) & 0{,}9459 & 0{,}9478 & 0{,}8688 & $-0{,}0019$ & 0{,}45 \\
+    \texttt{LogisticRegression(C=10.0)} (Phạt $L_2$ nhẹ) & 0{,}9459 & 0{,}9477 & 0{,}8685 & $-0{,}0018$ & 0{,}37 \\
+    \midrule
+    \texttt{SGDClassifier(alpha=1e-2, lr="optimal")} & 0{,}9382 & 0{,}9418 & 0{,}8618 & $-0{,}0036$ & 0{,}12 \\
+    \texttt{SGDClassifier(alpha=1e-4, lr="optimal")} & 0{,}9451 & 0{,}9466 & 0{,}8659 & $-0{,}0014$ & 0{,}32 \\
+    \texttt{SGDClassifier(alpha=1e-4, lr="constant", eta0=0.01)} & 0{,}9447 & 0{,}9465 & 0{,}8678 & $-0{,}0017$ & 0{,}17 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Từ Bảng~\ref{tab:sieuthamso}, khi siết phạt $L_2$ quá mạnh ($C=0{,}01$ hoặc $\alpha=10^{-2}$), cả Train AUC ($0{,}9420$; $0{,}9382$) và Val AUC ($0{,}9452$; $0{,}9418$) đều sụt giảm do mô hình bị bó buộc trọng số. Ngược lại, trong vùng $C \in [0{,}1; 10{,}0]$, mô hình hội tụ ổn định quanh mức Val AUC $= 0{,}9477$--$0{,}9478$; tại $C=1{,}0$, Val AUC đạt cao nhất ($0{,}9478$) chỉ trong $0{,}45\text{ giây}$. Đáng chú ý, với \texttt{SGDClassifier}, chuyển lịch trình tốc độ học sang \texttt{constant} với $\eta_0 = 0{,}01$ giúp thời gian huấn luyện rút ngắn gần một nửa ($0{,}17\text{ giây}$ so với $0{,}32\text{ giây}$) mà vẫn cải thiện Val F1-Macro lên $0{,}8678$.
+
+\section{So sánh trước và sau cải tiến mô hình}
+
+Để định lượng rõ giá trị của từng bước phát triển kỹ thuật (từ mô hình đa số $\rightarrow$ phân tách cứng PLA $\rightarrow$ hàm mất mát xác suất Log-loss với GD/L-BFGS $\rightarrow$ cân chỉnh trọng số lớp hoặc điều chỉnh ngưỡng $\tau = 0{,}60$), nhóm lập bảng đối sánh lũy tiến (Ablation Study) ở Bảng~\ref{tab:ablation}.
+
+\begin{table}[H]
+  \caption{So sánh cải tiến lũy tiến qua các bước mô hình hóa và tinh chỉnh trên tập Validation ($N=7.500$).}
+  \label{tab:ablation}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}llccccc@{}}
+    \toprule
+    \textbf{Bước} & \textbf{Cấu hình} & \textbf{ROC-AUC} & \textbf{F1-Macro} & \textbf{Precision} & \textbf{Specificity (0)} & \textbf{Val FP / FN} \\
+    \midrule
+    0 & Dummy (Baseline đa số) & 0{,}5000 & 0{,}3551 & 0{,}5505 & 0{,}0000 & 3.371 / 0 \\
+    1 & Perceptron (PLA -- phân tách cứng) & 0{,}9060 & 0{,}8127 & 0{,}8805 & 0{,}8730 & 428 / 976 \\
+    2 & SGDClassifier (Log-loss + GD, $\alpha=10^{-4}$) & 0{,}9466 & 0{,}8659 & 0{,}8787 & 0{,}8511 & 502 / 493 \\
+    3 & Logistic Regression ($C=1{,}0$, mặc định $\tau=0{,}50$) & 0{,}9478 & 0{,}8688 & 0{,}8791 & 0{,}8508 & 503 / 470 \\
+    4a & Logistic Regression (\texttt{class\_weight="balanced"}) & 0{,}9478 & 0{,}8642 & 0{,}8876 & 0{,}8659 & 452 / 559 \\
+    4b & Logistic Regression ($C=1{,}0$, siết ngưỡng $\tau=0{,}60$) & 0{,}9478 & 0{,}8616 & 0{,}8988$^*$ & 0{,}8834$^*$ & 393 / 640 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+{\footnotesize $^*$Ghi chú: Precision ($3.489 / (3.489 + 393) = 0{,}8988$) và Specificity ($2.978 / 3.371 = 0{,}8834$) tại bước 4b trên tập Validation được tính tương ứng từ Val FP $= 393$ và Val FN $= 640$ trong \texttt{experiment\_summary.json}.}
+
+\textit{Nhận xét:} Bảng~\ref{tab:ablation} cho thấy bước chuyển từ hàm bước phân tách cứng \texttt{PLA} sang hàm mất mát xác suất \texttt{Log-loss} mang lại bước nhảy vọt lớn nhất ($+0{,}0418$ ROC-AUC và $+0{,}0561$ F1-Macro). Trong khi đó, bước điều chỉnh trọng số lớp (\texttt{balanced}) hoặc nâng ngưỡng $\tau = 0{,}60$ cho phép tổ chức tín dụng giảm trực tiếp $21{,}9\%$ số hồ sơ rủi ro bị duyệt nhầm (từ $503$ xuống $393$ ca trên Validation) mà không làm suy giảm năng lực xếp hạng gốc (ROC-AUC $= 0{,}9478$).
+
+\section{Khả năng tổng quát hóa và lựa chọn mô hình cuối cùng}
+
+Sau khi hoàn tất mọi bước tinh chỉnh trên tập Train và Validation, nhóm mở khóa tập Test độc lập ($N = 7.500$, chưa từng tham gia bất kỳ quyết định lựa chọn nào) để thực hiện đánh giá cuối cùng. Kết quả toàn diện của 5 mô hình trên tập Test được ghi nhận ở Bảng~\ref{tab:danhgiatest}.
+
+\begin{table}[H]
+  \caption{Đánh giá tổng quát hóa cuối cùng của 5 mô hình trên tập Test độc lập ($N=7.500$).}
+  \label{tab:danhgiatest}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lccccccc@{}}
+    \toprule
+    \textbf{Mô hình} & \textbf{ROC-AUC} & \textbf{PR-AUC} & \textbf{F1-Macro} & \textbf{Accuracy} & \textbf{Prec / Rec} & \textbf{Spec (0)} & \textbf{Trễ ($\mu$s/mẫu)} \\
+    \midrule
+    Dummy (Baseline đa số) & 0{,}5000 & 0{,}5504 & 0{,}3550 & 0{,}5504 & 0{,}5504 / 1{,}0000 & 0{,}0000 & 3{,}00 \\
+    Perceptron (PLA) & 0{,}8959 & 0{,}9006 & 0{,}8007 & 0{,}8008 & 0{,}8691 / 0{,}7512 & 0{,}8615 & 2{,}55 \\
+    SGDClassifier (Log-loss + GD) & 0{,}9434 & 0{,}9515 & 0{,}8635 & 0{,}8649 & 0{,}8763 / 0{,}8786 & 0{,}8482 & 2{,}55 \\
+    Logistic Regression (Mặc định) & 0{,}9440 & 0{,}9519 & 0{,}8650 & 0{,}8665 & 0{,}8743 / 0{,}8847 & 0{,}8443 & 2{,}85 \\
+    Logistic Regression (Balanced) & 0{,}9440 & 0{,}9519 & 0{,}8624 & 0{,}8635 & 0{,}8847 / 0{,}8646 & 0{,}8621 & 3{,}13 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Căn cứ Bảng~\ref{tab:danhgiatest}, mô hình \texttt{Logistic Regression (Mặc định)} (lưu tại \texttt{Kiemtra2/models/best\_logistic\_pipeline.joblib}) đáp ứng xuất sắc toàn bộ 4 KPI đã đặt ra ở Chương 2:
+\begin{itemize}
+  \item ROC-AUC (Test) $= 0{,}9440$ (vượt KPI $\ge 0{,}9000$) và PR-AUC $= 0{,}9519$.
+  \item F1-Macro (Test) $= 0{,}8650$ (vượt KPI $\ge 0{,}8500$), Accuracy đạt $86{,}65\%$.
+  \item Gap Train--CV AUC $= +0{,}0002$ (đạt xa ngưỡng $< 0{,}0100$), độ ổn định từ Train ($0{,}9459$) sang Validation ($0{,}9478$) và Test ($0{,}9440$) cho thấy khả năng tổng quát hóa tin cậy trên dữ liệu mới.
+  \item Độ trễ suy luận $= 2{,}85\ \mu\text{s/mẫu}$ ($0{,}00285\text{ ms/mẫu}$, nhanh hơn khoảng 35 lần so với KPI $< 0{,}1\text{ ms/mẫu}$).
+\end{itemize}
+Đối với kịch bản ưu tiên chặn rủi ro nợ xấu chặt chẽ hơn, hệ thống có thể bật tùy chọn \texttt{Logistic Regression (Balanced)} (Specificity tăng từ $0{,}8443$ lên $0{,}8621$, giảm FP từ $525$ xuống $465$) hoặc tinh chỉnh ngưỡng quyết định $\tau = 0{,}60$ ngay trên xác suất đầu ra của mô hình chính mà không cần huấn luyện lại.
+
+\section{Kết luận chương 3}
+
+Chương 3 đã báo cáo đầy đủ kết quả thực nghiệm trên tập dữ liệu 50.000 mẫu theo quy chuẩn 70/15/15 và 5-Fold CV. Mô hình \texttt{Logistic Regression (Mặc định)} chứng minh ưu thế toàn diện về độ chính xác, tính ổn định xác suất, tốc độ thực thi và khả năng giải thích tường minh qua vector trọng số $\mathbf{w}$, đồng thời làm rõ giới hạn tuyến tính thông qua phân tích các hồ sơ FP và FN.
+
+% =====================================================================
+%  KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+% =====================================================================
+\unnumberedchapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+
+Kết luận. Qua Bài kiểm tra 2 (Tuần 6), nhóm đã hoàn thiện quy trình xây dựng và đánh giá hệ thống dự đoán phê duyệt khoản vay bằng các thuật toán phân loại tuyến tính thuần túy trong phạm vi Tuần 1--6:
+\begin{enumerate}
+  \item Đóng gói thành công kiến trúc tiền xử lý \texttt{ColumnTransformer} + \texttt{Pipeline} khép kín trên tập chia tầng cố định $35.000 / 7.500 / 7.500$, triệt tiêu hoàn toàn nguy cơ rò rỉ dữ liệu.
+  \item So sánh đối chiếu 5 mô hình cơ sở và tuyến tính qua 5-Fold CV, chọn ra \texttt{Logistic Regression (Mặc định)} đạt ROC-AUC $= 0{,}9440$, PR-AUC $= 0{,}9519$, F1-Macro $= 0{,}8650$, Accuracy $= 86{,}65\%$ và tốc độ $2{,}85\ \mu\text{s/mẫu}$ trên tập Test độc lập.
+  \item Tổ chức hoàn chỉnh bộ mã nguồn tái lập gồm 4 notebook tuần tự từ \texttt{01} đến \texttt{04} (\texttt{01\_pipeline\_va\_baseline.ipynb}, \allowbreak\texttt{02\_huan\_luyen\_kiem\_dinh\_cheo\_5fold.ipynb}, \allowbreak\texttt{03\_danh\_gia\_tap\_test\_va\_truc\_quan.ipynb}, \allowbreak\texttt{04\_phan\_tich\_loi\_va\_thuc\_hanh\_tai\_cho.ipynb}) cùng kịch bản \texttt{run\_experiments.py}.
+\end{enumerate}
+
+Hạn chế và hướng phát triển. Qua chẩn đoán Learning Curve và phân tích trung vị FP/FN, giới hạn lớn nhất của lớp mô hình tuyến tính là chưa biểu diễn được các tương tác phi tuyến phức tạp giữa các biến (chẳng hạn sự kết hợp giữa \texttt{DTI} thấp nhưng \texttt{defaults\_on\_file} dương tính hoặc các phân khúc mục đích vay đặc thù). Trong các giai đoạn tiếp theo của học phần, nhóm sẽ mở rộng nghiên cứu theo hai hướng:
+\begin{itemize}
+  \item Khảo sát các mô hình phi tuyến ở các bài học tiếp theo nhằm nắm bắt các ranh giới quyết định phi tuyến và kiểm chứng mức giảm thiểu đồng thời cả hai loại lỗi FP và FN.
+  \item Áp dụng các phương pháp giải thích hậu kiểm (XAI) để lượng hóa đóng góp riêng lẻ cho từng hồ sơ khách hàng đơn lẻ bên cạnh trọng số tuyến tính toàn cục hiện tại.
+\end{itemize}
+
+% =====================================================================
+%  TÀI LIỆU THAM KHẢO (xếp theo ABC)
+% =====================================================================
+\begin{thebibliography}{9}
+  \bibitem{bottou2010}
+  L.~Bottou, ``Large-scale machine learning with stochastic gradient descent,'' in \textit{Proceedings of COMPSTAT'2010}, Y.~Lechevallier and G.~Saporta, Eds. Heidelberg: Physica-Verlag HD, 2010, pp.~177--186.
+
+  \bibitem{cox1958}
+  D.~R.~Cox, ``The regression analysis of binary sequences,'' \textit{Journal of the Royal Statistical Society: Series B (Methodological)}, vol.~20, no.~2, pp.~215--242, 1958.
+
+  \bibitem{pedregosa2011}
+  F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel, M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos, D.~Cournapeau, M.~Brucher, M.~Perrot, and \'E.~Duchesnay, ``Scikit-learn: Machine learning in Python,'' \textit{Journal of Machine Learning Research}, vol.~12, pp.~2825--2830, 2011.
+
+  \bibitem{rosenblatt1958}
+  F.~Rosenblatt, ``The perceptron: A probabilistic model for information storage and organization in the brain,'' \textit{Psychological Review}, vol.~65, no.~6, pp.~386--408, 1958.
+\end{thebibliography}
+
+% =====================================================================
+%  PHỤ LỤC
+% =====================================================================
+\appendix
+\renewcommand{\bmchapname}{Phụ lục}
+\renewcommand{\tocchapname}{Phụ lục}
+
+\chapter{HƯỚNG DẪN CÀI ĐẶT VÀ CHẠY CHƯƠNG TRÌNH}
+
+Cấu trúc thư mục dự án \texttt{Kiemtra2/}. Toàn bộ mã nguồn, dữ liệu, hình ảnh và mô hình sau huấn luyện được tổ chức khép kín theo đường dẫn tương đối như sau:
+\begin{itemize}
+  \item \texttt{Kiemtra2/data/}\allowbreak\texttt{Loan\_approval\_data\_2025.csv}: tập dữ liệu gốc gồm $50.000$ hồ sơ vay vốn.
+  \item \texttt{Kiemtra2/code/}\allowbreak\texttt{run\_experiments.py}: tập lệnh chính chạy toàn bộ quy trình 70/15/15, 5-Fold CV, xuất 7 biểu đồ vào \texttt{images/} và lưu mô hình ra \texttt{models/}.
+  \item \texttt{Kiemtra2/code/}\allowbreak\texttt{01\_pipeline\_va\_baseline.ipynb}: nạp dữ liệu, chia tập 70/15/15, đóng gói \texttt{Pipeline} và kiểm tra mô hình gốc.
+  \item \texttt{Kiemtra2/code/}\allowbreak\texttt{02\_huan\_luyen\_kiem\_dinh\_cheo\_5fold.ipynb}: chạy kiểm định chéo 5-Fold CV trên 5 mô hình và quét ngưỡng OOF.
+  \item \texttt{Kiemtra2/code/}\allowbreak\texttt{03\_danh\_gia\_tap\_test\_va\_truc\_quan.ipynb}: đánh giá tập Test, vẽ ma trận nhầm lẫn, ROC, Precision--Recall và Learning Curve.
+  \item \texttt{Kiemtra2/code/}\allowbreak\texttt{04\_phan\_tich\_loi\_va\_thuc\_hanh\_tai\_cho.ipynb}: chẩn đoán Learning Curve, phân tích lỗi FP/FN và trích xuất trọng số đặc trưng $\mathbf{w}$.
+\end{itemize}
+
+Yêu cầu môi trường và lệnh chạy lại thực nghiệm. Hệ thống sử dụng Python $\ge 3{,}10$ cùng các thư viện \texttt{scikit-learn}, \texttt{pandas}, \texttt{numpy}, \texttt{matplotlib}, \texttt{seaborn} và \texttt{joblib}. Để chạy lại toàn bộ thực nghiệm và xuất lại biểu đồ, người dùng thực thi các lệnh trong Đoạn mã~\ref{lst:run}.
+
+\needspace{8\baselineskip}
+\begin{lstlisting}[language=bash,caption={Cài đặt phụ thuộc và chạy lại toàn bộ thực nghiệm Bài kiểm tra 2.},label={lst:run}]
+# 1. Di chuyen vao thu muc ma nguon cua Bai kiem tra 2
+cd Kiemtra2/code
+
+# 2. Cai dat thu vien (neu chua co moi truong Anaconda san)
+pip install pandas numpy scikit-learn matplotlib seaborn joblib
+
+# 3. Chay tap lenh tai lap toan bo bang so lieu, mo hinh va 7 bieu do
+python run_experiments.py
+
+# 4. Hoac mo Jupyter Notebook de xem tuan tu tu 01 den 04
+jupyter notebook
+\end{lstlisting}
+
+\textit{Nhận xét:} Việc tổ chức cả 4 notebook tuần tự (\texttt{01}--\texttt{04}) và tập lệnh \texttt{run\_experiments.py} với đường dẫn tương đối \texttt{../data/} giúp giảng viên và các thành viên dễ dàng kiểm chứng từng bước trung gian hoặc tái lập toàn bộ kết quả trên bất kỳ máy tính nào.
+
+\chapter{NHẬT KÝ ĐÓNG GÓP CỦA CÁC THÀNH VIÊN}
+\label{pl:nhatky}
+
+Nhật ký công việc của \nhom\ trong giai đoạn Bài kiểm tra 2 (Tuần 4 -- Tuần 6) được thống kê trong Bảng~\ref{tab:nhatky}.
+
+\begin{table}[H]
+  \caption{Nhật ký công việc thực tế của các thành viên (Tuần 4 -- Tuần 6).}
+  \label{tab:nhatky}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabularx}{\textwidth}{@{}p{1.8cm}p{3.2cm}X>{\raggedright\arraybackslash}p{3.4cm}@{}}
+    \toprule
+    \textbf{Thời gian} & \textbf{Thành viên} & \textbf{Công việc thực hiện} & \textbf{Sản phẩm} \\
+    \midrule
+    Tuần 4 & \svAten & Thiết lập bộ chia tầng 70/15/15 (\texttt{seed=42}), xây dựng \texttt{ColumnTransformer} chuẩn hóa Z-score và mã hóa One-Hot chống rò rỉ dữ liệu. & Notebook \texttt{01}, hàm \texttt{preprocessor} \\
+    Tuần 4 & \svBten & Khảo sát tính chất phân bố nhãn trên Train/Val/Test và xây dựng hàm đánh giá thống nhất các chỉ số Precision, Recall, Specificity, F1-Macro. & Hàm \texttt{evaluate()}, Bảng~\ref{tab:kichthuoc} \\
+    Tuần 5 & \svAten & Chạy 5-Fold Stratified CV cho 5 mô hình (\texttt{Dummy}, \texttt{PLA}, \texttt{SGDClassifier}, \texttt{LogReg} mặc định và \texttt{balanced}), quét ngưỡng cắt $\tau$ trên xác suất OOF. & Notebook \texttt{02}, Bảng~\ref{tab:sosanh}, \ref{tab:nguongcat} \\
+    Tuần 5 & \svBten & Đánh giá đối chiếu trên tập Validation và tập Test độc lập; sinh biểu đồ so sánh CV, ma trận nhầm lẫn, ROC, PR và Learning Curve. & Notebook \texttt{03}, Hình~\ref{fig:sosanhcv}--\allowbreak\ref{fig:learningcurve} \\
+    Tuần 6 & \svBten & Phân tích hồ sơ sai số FP/FN, trích xuất trọng số đặc trưng $\mathbf{w}$, tinh chỉnh $C, \alpha$ và hoàn thiện tập lệnh \texttt{run\_experiments.py}. & Notebook \texttt{04}, Hình~\ref{fig:erroranalysis}--\allowbreak\ref{fig:featureimportance} \\
+    Tuần 6 & \svAten, \svBten & Chuẩn hóa báo cáo LaTeX theo quy chuẩn của bộ môn, kiểm tra chéo toàn bộ số liệu giữa bảng biểu, hình ảnh và tệp JSON kết quả. & \texttt{Nhom13\_}\allowbreak\texttt{bao\_caot.tex} \\
+    \bottomrule
+  \end{tabularx}%
+  }
+\end{table}
+
+\textit{Nhận xét:} Hai thành viên đã phối hợp chặt chẽ và hoàn thành đúng tiến độ từ khâu thiết kế Pipeline chống rò rỉ dữ liệu, huấn luyện và phân tích mô hình tuyến tính đến hoàn thiện báo cáo kỹ thuật.
+
+\end{document}

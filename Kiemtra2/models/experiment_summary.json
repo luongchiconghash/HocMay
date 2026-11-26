@@ -1,0 +1,555 @@
+{
+  "split": {
+    "train": 35000,
+    "val": 7500,
+    "test": 7500
+  },
+  "cv_results": [
+    {
+      "Mô hình": "Dummy (Baseline đa số)",
+      "Thời gian (s)": 6.829777240753174,
+      "Train Acc": 0.550457142857143,
+      "Val Acc (mean)": 0.5504571428571428,
+      "Val Acc (std)": 5.7142857142888916e-05,
+      "Train AUC": 0.5,
+      "Val AUC (mean)": 0.5,
+      "Val AUC (std)": 0.0,
+      "Train F1-Macro": 0.3550289315045999,
+      "Val F1-Macro (mean)": 0.35502893068332253,
+      "Val F1-Macro (std)": 2.3769410503837742e-05,
+      "Val Precision (mean)": 0.5504571428571428,
+      "Val Precision (std)": 5.7142857142888916e-05,
+      "Val Recall (mean)": 1.0,
+      "Val Recall (std)": 0.0
+    },
+    {
+      "Mô hình": "Perceptron (PLA)",
+      "Thời gian (s)": 9.357464790344238,
+      "Train Acc": 0.8248928571428571,
+      "Val Acc (mean)": 0.8247714285714285,
+      "Val Acc (std)": 0.008638121488908525,
+      "Train AUC": 0.9137642927122984,
+      "Val AUC (mean)": 0.9136278986088066,
+      "Val AUC (std)": 0.01145994224917343,
+      "Train F1-Macro": 0.8229702709604343,
+      "Val F1-Macro (mean)": 0.8229085753003769,
+      "Val F1-Macro (std)": 0.009103036644020663,
+      "Val Precision (mean)": 0.852989191972488,
+      "Val Precision (std)": 0.033594866819712105,
+      "Val Recall (mean)": 0.8280948090914,
+      "Val Recall (std)": 0.0492224603321434
+    },
+    {
+      "Mô hình": "SGDClassifier (Log-loss + GD)",
+      "Thời gian (s)": 9.133101224899292,
+      "Train Acc": 0.866157142857143,
+      "Val Acc (mean)": 0.8658857142857144,
+      "Val Acc (std)": 0.0016373198607879172,
+      "Train AUC": 0.9449017858526314,
+      "Val AUC (mean)": 0.9448412747750978,
+      "Val AUC (std)": 0.0018309993785565136,
+      "Train F1-Macro": 0.8644690430602496,
+      "Val F1-Macro (mean)": 0.8642121046205411,
+      "Val F1-Macro (std)": 0.0014829972156267907,
+      "Val Precision (mean)": 0.8715113537039013,
+      "Val Precision (std)": 0.0034694066487161285,
+      "Val Recall (mean)": 0.8872100820891692,
+      "Val Recall (std)": 0.0075947668759741675
+    },
+    {
+      "Mô hình": "Logistic Regression (Mặc định)",
+      "Thời gian (s)": 1.270373821258545,
+      "Train Acc": 0.8671,
+      "Val Acc (mean)": 0.8667428571428571,
+      "Val Acc (std)": 0.002795623401690885,
+      "Train AUC": 0.9459278526332323,
+      "Val AUC (mean)": 0.945669863897194,
+      "Val AUC (std)": 0.0023783418004525193,
+      "Train F1-Macro": 0.8654514083567548,
+      "Val F1-Macro (mean)": 0.8650890467735571,
+      "Val F1-Macro (std)": 0.0028283496835579715,
+      "Val Precision (mean)": 0.8723560724211017,
+      "Val Precision (std)": 0.0030204131694939415,
+      "Val Recall (mean)": 0.8878332157757635,
+      "Val Recall (std)": 0.0035682994992946413
+    },
+    {
+      "Mô hình": "Logistic Regression (Balanced)",
+      "Thời gian (s)": 1.3921005725860596,
+      "Train Acc": 0.8656499999999999,
+      "Val Acc (mean)": 0.8650857142857143,
+      "Val Acc (std)": 0.0033302570839047743,
+      "Train AUC": 0.9459235702274915,
+      "Val AUC (mean)": 0.9456520169730845,
+      "Val AUC (std)": 0.002349604900998415,
+      "Train F1-Macro": 0.8645445495105376,
+      "Val F1-Macro (mean)": 0.8639653750841821,
+      "Val F1-Macro (std)": 0.0033533984640552066,
+      "Val Precision (mean)": 0.8845603468442894,
+      "Val Precision (std)": 0.0031542003590777383,
+      "Val Recall (mean)": 0.8682133399849773,
+      "Val Recall (std)": 0.0034403846647738344
+    }
+  ],
+  "val_results": [
+    {
+      "TN": 0,
+      "FP": 3371,
+      "FN": 0,
+      "TP": 4129,
+      "Accuracy": 0.5505333333333333,
+      "Precision": 0.5505333333333333,
+      "Recall": 1.0,
+      "Specificity (Rec 0)": 0.0,
+      "F1-Macro": 0.3550606243013157,
+      "ROC-AUC": 0.5,
+      "Mô hình": "Dummy (Baseline đa số)"
+    },
+    {
+      "TN": 2943,
+      "FP": 428,
+      "FN": 976,
+      "TP": 3153,
+      "Accuracy": 0.8128,
+      "Precision": 0.8804803127617984,
+      "Recall": 0.7636231533058851,
+      "Specificity (Rec 0)": 0.8730347078018392,
+      "F1-Macro": 0.8126531200461162,
+      "ROC-AUC": 0.9059637718867617,
+      "Mô hình": "Perceptron (PLA)"
+    },
+    {
+      "TN": 2869,
+      "FP": 502,
+      "FN": 493,
+      "TP": 3636,
+      "Accuracy": 0.8673333333333333,
+      "Precision": 0.8786853552440793,
+      "Recall": 0.8806006296924195,
+      "Specificity (Rec 0)": 0.851082764758232,
+      "F1-Macro": 0.8659311784361066,
+      "ROC-AUC": 0.9465708360146474,
+      "Mô hình": "SGDClassifier (Log-loss + GD)"
+    },
+    {
+      "TN": 2868,
+      "FP": 503,
+      "FN": 470,
+      "TP": 3659,
+      "Accuracy": 0.8702666666666666,
+      "Precision": 0.879144641999039,
+      "Recall": 0.8861709857108259,
+      "Specificity (Rec 0)": 0.8507861168792643,
+      "F1-Macro": 0.8688073826126302,
+      "ROC-AUC": 0.9477635343529236,
+      "Mô hình": "Logistic Regression (Mặc định)"
+    },
+    {
+      "TN": 2919,
+      "FP": 452,
+      "FN": 559,
+      "TP": 3570,
+      "Accuracy": 0.8652,
+      "Precision": 0.8876181004475385,
+      "Recall": 0.8646161298135142,
+      "Specificity (Rec 0)": 0.8659151587066153,
+      "F1-Macro": 0.8641766744678425,
+      "ROC-AUC": 0.9477646120274659,
+      "Mô hình": "Logistic Regression (Balanced)"
+    }
+  ],
+  "test_results": [
+    {
+      "TN": 0,
+      "FP": 3372,
+      "FN": 0,
+      "TP": 4128,
+      "Accuracy": 0.5504,
+      "Precision": 0.5504,
+      "Recall": 1.0,
+      "Specificity (Rec 0)": 0.0,
+      "F1-Macro": 0.35500515995872034,
+      "ROC-AUC": 0.5,
+      "Mô hình": "Dummy (Baseline đa số)"
+    },
+    {
+      "TN": 2905,
+      "FP": 467,
+      "FN": 1027,
+      "TP": 3101,
+      "Accuracy": 0.8008,
+      "Precision": 0.8691143497757847,
+      "Recall": 0.7512112403100775,
+      "Specificity (Rec 0)": 0.8615065243179122,
+      "F1-Macro": 0.8006638631638632,
+      "ROC-AUC": 0.8958612076654988,
+      "Mô hình": "Perceptron (PLA)"
+    },
+    {
+      "TN": 2860,
+      "FP": 512,
+      "FN": 501,
+      "TP": 3627,
+      "Accuracy": 0.8649333333333333,
+      "Precision": 0.8762986228557622,
+      "Recall": 0.8786337209302325,
+      "Specificity (Rec 0)": 0.8481613285883749,
+      "F1-Macro": 0.8635058128198754,
+      "ROC-AUC": 0.9434133815185706,
+      "Mô hình": "SGDClassifier (Log-loss + GD)"
+    },
+    {
+      "TN": 2847,
+      "FP": 525,
+      "FN": 476,
+      "TP": 3652,
+      "Accuracy": 0.8665333333333334,
+      "Precision": 0.8743117069667226,
+      "Recall": 0.8846899224806202,
+      "Specificity (Rec 0)": 0.844306049822064,
+      "F1-Macro": 0.8649778177843503,
+      "ROC-AUC": 0.9440434994758476,
+      "Mô hình": "Logistic Regression (Mặc định)"
+    },
+    {
+      "TN": 2907,
+      "FP": 465,
+      "FN": 559,
+      "TP": 3569,
+      "Accuracy": 0.8634666666666667,
+      "Precision": 0.8847297967278136,
+      "Recall": 0.8645833333333334,
+      "Specificity (Rec 0)": 0.8620996441281139,
+      "F1-Macro": 0.8623945822453607,
+      "ROC-AUC": 0.9440175648523639,
+      "Mô hình": "Logistic Regression (Balanced)"
+    }
+  ],
+  "threshold_analysis": {
+    "Logistic Regression (Mặc định)": [
+      {
+        "Ngưỡng (tau)": 0.35,
+        "OOF F1-Macro": 0.8564905082150676,
+        "OOF Precision": 0.8304329859038523,
+        "OOF Recall": 0.9387522059586837,
+        "OOF Spec(0)": 0.7652853692640142,
+        "OOF FP": 3693,
+        "OOF FN": 1180,
+        "Val F1-Macro": 0.8607959113205708,
+        "Val FP": 764,
+        "Val FN": 250
+      },
+      {
+        "Ngưỡng (tau)": 0.4,
+        "OOF F1-Macro": 0.8619816028355156,
+        "OOF Precision": 0.8461941257676012,
+        "OOF Recall": 0.922661683795287,
+        "OOF Spec(0)": 0.7946485318418711,
+        "OOF FP": 3231,
+        "OOF FN": 1490,
+        "Val F1-Macro": 0.8660251258541523,
+        "Val FP": 665,
+        "Val FN": 318
+      },
+      {
+        "Ngưỡng (tau)": 0.45,
+        "OOF F1-Macro": 0.8649349215146334,
+        "OOF Precision": 0.8601626016260162,
+        "OOF Recall": 0.9061040174400499,
+        "OOF Spec(0)": 0.8196262870217363,
+        "OOF FP": 2838,
+        "OOF FN": 1809,
+        "Val F1-Macro": 0.868873540631141,
+        "Val FP": 575,
+        "Val FN": 393
+      },
+      {
+        "Ngưỡng (tau)": 0.5,
+        "OOF F1-Macro": 0.865090030949656,
+        "OOF Precision": 0.8723480212158303,
+        "OOF Recall": 0.8878334890480639,
+        "OOF Spec(0)": 0.8409177577221304,
+        "OOF FP": 2503,
+        "OOF FN": 2161,
+        "Val F1-Macro": 0.8688073826126302,
+        "Val FP": 503,
+        "Val FN": 470
+      },
+      {
+        "Ngưỡng (tau)": 0.55,
+        "OOF F1-Macro": 0.8642255581774716,
+        "OOF Precision": 0.8848167539267016,
+        "OOF Recall": 0.868421052631579,
+        "OOF Spec(0)": 0.8615736621329605,
+        "OOF FP": 2178,
+        "OOF FN": 2535,
+        "Val F1-Macro": 0.864451678424965,
+        "Val FP": 450,
+        "Val FN": 559
+      },
+      {
+        "Ngưỡng (tau)": 0.6,
+        "OOF F1-Macro": 0.8601953861055502,
+        "OOF Precision": 0.8967589019953699,
+        "OOF Recall": 0.8444409841170974,
+        "OOF Spec(0)": 0.8809584339646626,
+        "OOF FP": 1873,
+        "OOF FN": 2997,
+        "Val F1-Macro": 0.8616243057840112,
+        "Val FP": 393,
+        "Val FN": 640
+      },
+      {
+        "Ngưỡng (tau)": 0.65,
+        "OOF F1-Macro": 0.8546805485798696,
+        "OOF Precision": 0.9083741007194245,
+        "OOF Recall": 0.8192151977577079,
+        "OOF Spec(0)": 0.898817846701411,
+        "OOF FP": 1592,
+        "OOF FN": 3483,
+        "Val F1-Macro": 0.855802946480807,
+        "Val FP": 340,
+        "Val FN": 739
+      }
+    ],
+    "SGDClassifier (Log-loss + GD)": [
+      {
+        "Ngưỡng (tau)": 0.35,
+        "OOF F1-Macro": 0.8558337902932023,
+        "OOF Precision": 0.829278350515464,
+        "OOF Recall": 0.9394269697913422,
+        "OOF Spec(0)": 0.763188000508453,
+        "OOF FP": 3726,
+        "OOF FN": 1167,
+        "Val F1-Macro": 0.8608822457803278,
+        "Val FP": 747,
+        "Val FN": 268
+      },
+      {
+        "Ngưỡng (tau)": 0.4,
+        "OOF F1-Macro": 0.8610092478491824,
+        "OOF Precision": 0.84493986785188,
+        "OOF Recall": 0.9226097788850826,
+        "OOF Spec(0)": 0.7926782763442227,
+        "OOF FP": 3262,
+        "OOF FN": 1491,
+        "Val F1-Macro": 0.8662773058431277,
+        "Val FP": 641,
+        "Val FN": 342
+      },
+      {
+        "Ngưỡng (tau)": 0.45,
+        "OOF F1-Macro": 0.8638761911216347,
+        "OOF Precision": 0.859063377160585,
+        "OOF Recall": 0.9054811585175958,
+        "OOF Spec(0)": 0.8181009279267828,
+        "OOF FP": 2862,
+        "OOF FN": 1821,
+        "Val F1-Macro": 0.8671015558483111,
+        "Val FP": 568,
+        "Val FN": 414
+      },
+      {
+        "Ngưỡng (tau)": 0.5,
+        "OOF F1-Macro": 0.8642170358733483,
+        "OOF Precision": 0.8714693586213929,
+        "OOF Recall": 0.8872106301256099,
+        "OOF Spec(0)": 0.8397737384009152,
+        "OOF FP": 2521,
+        "OOF FN": 2173,
+        "Val F1-Macro": 0.8659311784361066,
+        "Val FP": 502,
+        "Val FN": 493
+      },
+      {
+        "Ngưỡng (tau)": 0.55,
+        "OOF F1-Macro": 0.8627145639143126,
+        "OOF Precision": 0.883077085644846,
+        "OOF Recall": 0.8675386691581024,
+        "OOF Spec(0)": 0.8593491801194865,
+        "OOF FP": 2213,
+        "OOF FN": 2552,
+        "Val F1-Macro": 0.8628259114963162,
+        "Val FP": 437,
+        "Val FN": 585
+      },
+      {
+        "Ngưỡng (tau)": 0.6,
+        "OOF F1-Macro": 0.8600435310265848,
+        "OOF Precision": 0.8962934405463457,
+        "OOF Recall": 0.84470050866812,
+        "OOF Spec(0)": 0.8803228676750985,
+        "OOF FP": 1883,
+        "OOF FN": 2992,
+        "Val F1-Macro": 0.8574377573248481,
+        "Val FP": 389,
+        "Val FN": 676
+      },
+      {
+        "Ngưỡng (tau)": 0.65,
+        "OOF F1-Macro": 0.8536582978266036,
+        "OOF Precision": 0.9078545496455944,
+        "OOF Recall": 0.8177099553617773,
+        "OOF Spec(0)": 0.8983729502987161,
+        "OOF FP": 1599,
+        "OOF FN": 3512,
+        "Val F1-Macro": 0.8533363339276818,
+        "Val FP": 329,
+        "Val FN": 769
+      }
+    ]
+  },
+  "tuning_results": [
+    {
+      "Cấu hình": "LogisticRegression (C=0.01 - Phạt L2 mạnh)",
+      "Train AUC": 0.9419736356836907,
+      "Val AUC": 0.9451922747403362,
+      "Val F1-Macro": 0.8661596754957823,
+      "Gap AUC (Train-Val)": -0.0032186390566454337,
+      "Fit Time (s)": 0.2698535919189453
+    },
+    {
+      "Cấu hình": "LogisticRegression (C=0.1)",
+      "Train AUC": 0.9453815588867506,
+      "Val AUC": 0.9477185594020314,
+      "Val F1-Macro": 0.8700580475754325,
+      "Gap AUC (Train-Val)": -0.0023370005152808515,
+      "Fit Time (s)": 0.3832063674926758
+    },
+    {
+      "Cấu hình": "LogisticRegression (C=1.0 - Mặc định)",
+      "Train AUC": 0.9459102605734696,
+      "Val AUC": 0.9477635343529236,
+      "Val F1-Macro": 0.8688073826126302,
+      "Gap AUC (Train-Val)": -0.00185327377945399,
+      "Fit Time (s)": 0.44579625129699707
+    },
+    {
+      "Cấu hình": "LogisticRegression (C=10.0 - Phạt L2 nhẹ)",
+      "Train AUC": 0.9459217275537589,
+      "Val AUC": 0.9477005981596622,
+      "Val F1-Macro": 0.8685451842964158,
+      "Gap AUC (Train-Val)": -0.0017788706059033155,
+      "Fit Time (s)": 0.37226295471191406
+    },
+    {
+      "Cấu hình": "SGDClassifier (alpha=1e-2, lr='optimal')",
+      "Train AUC": 0.9381945465179433,
+      "Val AUC": 0.9418085922129107,
+      "Val F1-Macro": 0.861778166453927,
+      "Gap AUC (Train-Val)": -0.0036140456949673716,
+      "Fit Time (s)": 0.11949515342712402
+    },
+    {
+      "Cấu hình": "SGDClassifier (alpha=1e-4, lr='optimal')",
+      "Train AUC": 0.9451367969182352,
+      "Val AUC": 0.9465708360146474,
+      "Val F1-Macro": 0.8659311784361066,
+      "Gap AUC (Train-Val)": -0.0014340390964122651,
+      "Fit Time (s)": 0.31885266304016113
+    },
+    {
+      "Cấu hình": "SGDClassifier (alpha=1e-4, lr='constant', eta0=0.01)",
+      "Train AUC": 0.944719248405816,
+      "Val AUC": 0.9464571054279665,
+      "Val F1-Macro": 0.8678204282596522,
+      "Gap AUC (Train-Val)": -0.0017378570221504575,
+      "Fit Time (s)": 0.170149564743042
+    }
+  ],
+  "lr_coefficients": {
+    "product_type_Line of Credit": -4.9096926895780575,
+    "product_type_Personal Loan": -3.7020517197862755,
+    "defaults_on_file": -3.5434569467645898,
+    "loan_intent_Education": 2.515495393407229,
+    "interest_rate": -1.940980008865984,
+    "loan_intent_Personal": 1.762853141819766,
+    "debt_to_income_ratio": -1.3357606573073677,
+    "loan_intent_Medical": 0.904533400698657,
+    "loan_intent_Home Improvement": 0.8476146078715295,
+    "loan_intent_Debt Consolidation": -0.8324122760023207,
+    "delinquencies_last_2yrs": -0.7669350097613601,
+    "credit_history_years": 0.7545851997468687
+  },
+  "sgd_coefficients": {
+    "product_type_Line of Credit": -4.422183830504502,
+    "product_type_Personal Loan": -3.3482861305614007,
+    "loan_intent_Education": 2.433359270844539,
+    "defaults_on_file": -2.390080174114246,
+    "loan_intent_Personal": 1.7223347101599067,
+    "interest_rate": -1.7007648170235496,
+    "debt_to_income_ratio": -1.2773529018218321,
+    "credit_score": 0.9207864906170499,
+    "loan_intent_Debt Consolidation": -0.9015278177933977,
+    "loan_intent_Medical": 0.8859187965739476,
+    "loan_intent_Home Improvement": 0.8081714930687348,
+    "delinquencies_last_2yrs": -0.7831929558235484
+  },
+  "error_counts_lr_test": {
+    "TP (Duyệt đúng)": 3652,
+    "TN (Từ chối đúng)": 2847,
+    "FP (Duyệt nhầm nợ xấu - Nguy hiểm)": 525,
+    "FN (Từ chối nhầm khách tốt - Tiếc nuối)": 476
+  },
+  "error_medians_lr_test": {
+    "FN (Từ chối nhầm khách tốt - Tiếc nuối)": {
+      "debt_to_income_ratio": 0.322,
+      "credit_score": 624.0,
+      "interest_rate": 14.5,
+      "annual_income": 41507.5,
+      "years_employed": 4.65
+    },
+    "FP (Duyệt nhầm nợ xấu - Nguy hiểm)": {
+      "debt_to_income_ratio": 0.21,
+      "credit_score": 646.0,
+      "interest_rate": 15.13,
+      "annual_income": 41658.0,
+      "years_employed": 4.8
+    },
+    "TN (Từ chối đúng)": {
+      "debt_to_income_ratio": 0.351,
+      "credit_score": 597.0,
+      "interest_rate": 15.7,
+      "annual_income": 36534.0,
+      "years_employed": 2.7
+    },
+    "TP (Duyệt đúng)": {
+      "debt_to_income_ratio": 0.22,
+      "credit_score": 676.0,
+      "interest_rate": 15.25,
+      "annual_income": 47072.5,
+      "years_employed": 7.1
+    }
+  },
+  "infer_ms_per_sample": {
+    "Dummy (Baseline đa số)": 0.003004614512125651,
+    "Perceptron (PLA)": 0.0025548299153645834,
+    "SGDClassifier (Log-loss + GD)": 0.0025481224060058595,
+    "Logistic Regression (Mặc định)": 0.002850182851155599,
+    "Logistic Regression (Balanced)": 0.003132311503092448
+  },
+  "roc_ap_test": {
+    "Dummy (Baseline đa số)": {
+      "auc": 0.5,
+      "ap": 0.5504
+    },
+    "Perceptron (PLA)": {
+      "auc": 0.8958612076654988,
+      "ap": 0.9006371291937835
+    },
+    "SGDClassifier (Log-loss + GD)": {
+      "auc": 0.9434133815185706,
+      "ap": 0.9514563805080165
+    },
+    "Logistic Regression (Mặc định)": {
+      "auc": 0.9440434994758476,
+      "ap": 0.9518666902022938
+    },
+    "Logistic Regression (Balanced)": {
+      "auc": 0.9440175648523639,
+      "ap": 0.9518817494742674
+    }
+  },
+  "perceptron_n_iter": 9,
+  "sgd_n_iter": 51
+}

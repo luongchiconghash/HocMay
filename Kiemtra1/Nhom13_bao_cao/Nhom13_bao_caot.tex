@@ -1,0 +1,1274 @@
+% =====================================================================
+%  MẪU BÁO CÁO TIỂU LUẬN HỌC PHẦN HỌC MÁY - Nguyễn Tuấn Anh
+%  ---------------------------------------------------------------------
+%  Biên dịch bằng XeLaTeX (hoặc LuaLaTeX), chạy 2 lần để cập nhật mục lục.
+%  Trên Overleaf: Menu > Compiler > XeLaTeX.
+%  Trên máy:      latexmk -xelatex "Mau bao cao mon Hoc may.tex"
+%
+%  Cách dùng mẫu:
+%   1. Sửa THÔNG TIN BÁO CÁO ở mục (A) bên dưới.
+%   2. Viết nội dung vào các chương; xóa các đoạn \huongdan{...} khi hoàn thành.
+%   3. Đặt hình vào thư mục images/ và thay các khung \khunghinh{...}
+%      bằng \includegraphics[width=...]{ten_hinh.png}.
+% =====================================================================
+\documentclass[12pt,a4paper,oneside]{report}
+
+% Cỡ chữ thân bài 13pt (theo quy định trình bày của bộ môn)
+\makeatletter
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{13pt}{15.6pt}%
+  \abovedisplayskip 12pt plus3pt minus7pt
+  \belowdisplayskip \abovedisplayskip
+  \abovedisplayshortskip 0pt plus3pt
+  \belowdisplayshortskip 6.5pt plus3.5pt minus3pt}
+\normalsize
+\makeatother
+
+% =====================================================================
+%  (A) THÔNG TIN BÁO CÁO - SINH VIÊN SỬA TẠI ĐÂY
+% =====================================================================
+\newcommand{\truong}{TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG}
+\newcommand{\khoa}{KHOA CÔNG NGHỆ THÔNG TIN}
+\newcommand{\loaibaocao}{BÁO CÁO TIỂU LUẬN}
+\newcommand{\hocphan}{Học máy}
+\newcommand{\lophocphan}{CNTT K22H}
+\newcommand{\hocky}{Học kỳ 1, năm học 2026--2027}
+\newcommand{\tendetai}{DỰ ĐOÁN VÀ GIẢI THÍCH QUYẾT ĐỊNH PHÊ DUYỆT KHOẢN VAY}
+\newcommand{\tenbaitoan}{dự đoán và giải thích quyết định phê duyệt khoản vay}
+\newcommand{\giangvien}{Nguyễn Tuấn Anh}  % thêm học hàm/học vị nếu cần
+\newcommand{\nhom}{Nhóm 13}
+\newcommand{\svAten}{Kiều Việt Anh}
+\newcommand{\svAma}{DTC235200026}
+\newcommand{\svBten}{Lương Chí Công}
+\newcommand{\svBma}{DTC235200092}
+\newcommand{\diadiem}{Thái Nguyên}
+\newcommand{\thoigian}{tháng 12 năm 2026}
+
+% ---------------- Trang giấy & phông chữ ----------------
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm,
+            headheight=16pt,headsep=0.8cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Courier New}
+\usepackage[vietnamese]{babel}
+\usepackage{setspace}
+\setstretch{1.3}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{6pt}
+\usepackage{indentfirst}
+
+% ---------------- Gói hỗ trợ ----------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{float}
+\usepackage{array,booktabs,tabularx,multirow}
+\renewcommand{\arraystretch}{1.25}
+\usepackage[table]{xcolor}
+\usepackage{etoolbox}
+\AtBeginEnvironment{table}{\centering\small}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{4.5pt}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds}
+\usepackage{caption}
+\captionsetup{labelsep=period,labelfont=bf,font=normalsize,skip=6pt}
+\captionsetup[table]{position=top}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage[nottoc]{tocbibind}   % đưa danh mục hình, bảng, TLTK vào mục lục
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.6cm}
+\usepackage{listings}
+\usepackage{needspace}
+\usepackage{cite}                % gộp trích dẫn: [4-6], [2, 4-6]
+\usepackage{fancyhdr}
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  hidelinks,
+  pdftitle={\tendetai},
+  pdfauthor={\svAten, \svBten},
+  pdfsubject={\loaibaocao\ học phần \hocphan},
+  bookmarksnumbered=true,   % bookmark có số thứ tự chương, mục
+  bookmarksopen=true,
+  bookmarksopenlevel=0,
+}
+% Bookmark dạng "Chương 1. Tên chương", "1.1. Tên mục", "Phụ lục A. ..."
+\newcommand{\bmchapname}{Chương}
+\makeatletter
+\newcommand*{\bm@prefix}{}
+\let\bm@orig@writebookmark\Hy@writebookmark
+\renewcommand*{\Hy@writebookmark}[5]{%
+  \ifnum#4=0 \def\bm@prefix{\bmchapname\space}\else\def\bm@prefix{}\fi
+  \bm@orig@writebookmark{#1}{#2}{#3}{#4}{#5}}
+\renewcommand*{\Hy@numberline}[1]{\bm@prefix#1. }
+\makeatother
+
+% ---------------- Màu & định dạng mã nguồn ----------------
+\definecolor{codebg}{RGB}{247,247,247}
+\definecolor{codekw}{RGB}{0,51,153}
+\definecolor{codecm}{RGB}{0,128,0}
+\definecolor{codestr}{RGB}{163,21,21}
+\definecolor{guide}{RGB}{110,110,110}
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\small\setstretch{1.0},
+  backgroundcolor=\color{codebg},
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecm}\itshape,
+  stringstyle=\color{codestr},
+  numbers=left, numberstyle=\tiny\color{guide}, numbersep=8pt,
+  frame=single, rulecolor=\color{black!25},
+  breaklines=true, showstringspaces=false, tabsize=4,
+  xleftmargin=1.2em, framexleftmargin=1.2em,
+  aboveskip=8pt, belowskip=8pt, columns=fullflexible, keepspaces=true,
+}
+\lstset{style=python}
+\renewcommand{\lstlistingname}{Đoạn mã}
+\renewcommand{\lstlistlistingname}{DANH MỤC ĐOẠN MÃ}
+
+% ---------------- Tên gọi tiếng Việt ----------------
+\addto\captionsvietnamese{%
+  \renewcommand{\contentsname}{MỤC LỤC}%
+  \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}%
+  \renewcommand{\listtablename}{DANH MỤC BẢNG}%
+  \renewcommand{\bibname}{TÀI LIỆU THAM KHẢO}%
+  \renewcommand{\figurename}{Hình}%
+  \renewcommand{\tablename}{Bảng}%
+  \renewcommand{\chaptername}{Chương}%
+  \renewcommand{\appendixname}{Phụ lục}%
+}
+
+% ---------------- Đầu trang & chân trang ----------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Báo cáo tiểu luận học phần \hocphan}
+\fancyhead[R]{\small\itshape\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\thechapter. #1}{}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% ---------------- Định dạng tiêu đề ----------------
+% Chương: "CHƯƠNG 1" + tên chương in hoa - 14pt, đậm, căn giữa
+\titleformat{\chapter}[display]
+  {\filcenter\bfseries\fontsize{14}{18}\selectfont}
+  {\MakeUppercase{\chaptertitlename}~\thechapter}{4pt}{\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+% Mục cấp 2: "1.1. Giới thiệu" - 14pt, đậm
+\titleformat{\section}
+  {\bfseries\fontsize{14}{18}\selectfont}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+% Mục cấp 3: "1.1.1. Mục" - 13pt, đậm
+\titleformat{\subsection}
+  {\bfseries\fontsize{13}{17}\selectfont}{\thesubsection.}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{6pt}
+% Mục cấp 4: "1.1.1.1. Mục" - 13pt, đậm nghiêng
+\setcounter{secnumdepth}{3}
+\titleformat{\subsubsection}
+  {\bfseries\itshape\fontsize{13}{17}\selectfont}{\thesubsubsection.}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+
+% ---------------- Mục lục & danh mục ----------------
+\setcounter{tocdepth}{2}
+\newcommand{\tocchapname}{Chương}
+\titlecontents{chapter}[0pt]{\addvspace{6pt}\bfseries}
+  {\tocchapname~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{section}[1.5em]{}
+  {\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{subsection}[3em]{}
+  {\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{figure}[0pt]{}
+  {\figurename~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+\titlecontents{table}[0pt]{}
+  {\tablename~\thecontentslabel.\enspace}{}{\titlerule*[0.6pc]{.}\contentspage}
+
+% ---------------- Lệnh tiện ích ----------------
+% Chương không đánh số (Mở đầu, Kết luận...) vẫn có trong mục lục và đầu trang
+\newcommand{\unnumberedchapter}[1]{%
+  \chapter*{#1}\phantomsection\addcontentsline{toc}{chapter}{#1}\markboth{#1}{}}
+% Ghi chú hướng dẫn (xóa khi viết xong)
+\newcommand{\huongdan}[1]{{\color{guide}\itshape [Hướng dẫn: #1]}}
+% Khung giữ chỗ cho hình: \khunghinh{rộng}{cao}{nội dung}
+\newcommand{\khunghinh}[3]{%
+  \begin{tikzpicture}
+    \draw[dashed,thick,black!40,fill=black!3] (0,0) rectangle (#1,#2);
+    \node[text width=0.8*#1,align=center,font=\itshape\color{guide}]
+      at ($(0,0)!0.5!(#1,#2)$) {#3};
+  \end{tikzpicture}}
+% Dòng chấm để viết tay
+\newcommand{\dongcham}[1]{\par\noindent\foreach \i in {1,...,#1}{\makebox[\linewidth]{\dotfill}\\[4pt]}}
+
+% =====================================================================
+\begin{document}
+
+% =====================================================================
+%  TRANG BÌA
+% =====================================================================
+\begin{titlepage}
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=2.2pt]
+      ($(current page.north west)+(2.4cm,-1.6cm)$) rectangle
+      ($(current page.south east)+(-1.4cm,1.6cm)$);
+    \draw[line width=0.6pt]
+      ($(current page.north west)+(2.55cm,-1.75cm)$) rectangle
+      ($(current page.south east)+(-1.55cm,1.75cm)$);
+  \end{tikzpicture}\par\vspace*{-\baselineskip}
+  \centering\setstretch{1.2}
+  {\fontsize{13}{18}\selectfont\bfseries \truong\par}
+  {\fontsize{14}{18}\selectfont\bfseries \khoa\par}
+  \vspace{2pt}\rule{0.35\textwidth}{0.8pt}\par
+  \vspace{1.2cm}
+  \IfFileExists{images/logo.png}
+    {\includegraphics[width=3.2cm]{logo.png}}
+    {\khunghinh{3.2cm}{3.2cm}{Logo\\trường}}\par
+  \vspace{1.2cm}
+  {\fontsize{22}{28}\selectfont\bfseries \loaibaocao\par}
+  \vspace{4pt}
+  {\fontsize{16}{20}\selectfont\bfseries HỌC PHẦN: \MakeUppercase{\hocphan}\par}
+  \vspace{1.2cm}
+  {\fontsize{14}{18}\selectfont ĐỀ TÀI:\par}
+  \vspace{4pt}
+  {\fontsize{18}{26}\selectfont\bfseries \tendetai\par}
+  \vfill
+  \begin{tabular}{@{}l@{\hspace{0.6cm}}l@{}}
+    \textbf{Giảng viên hướng dẫn:} & \giangvien \\
+    \textbf{Lớp học phần:}         & \lophocphan \\
+    \textbf{Nhóm thực hiện:}       & \nhom \\
+                                   & \svAten\ -- \svAma \\
+                                   & \svBten\ -- \svBma \\
+  \end{tabular}\par
+  \vspace{1.8cm}
+  {\bfseries \diadiem, \thoigian\par}
+\end{titlepage}
+
+% =====================================================================
+%  PHẦN ĐẦU (đánh số trang La Mã)
+% =====================================================================
+\pagenumbering{roman}
+\pagestyle{plain}
+
+% ---------------- Nhận xét của giảng viên ----------------
+\chapter*{NHẬN XÉT CỦA GIẢNG VIÊN}
+\noindent\textbf{1. Về hình thức và bố cục báo cáo:}
+\dongcham{3}
+\noindent\textbf{2. Về nội dung và kết quả thực hiện:}
+\dongcham{5}
+\noindent\textbf{3. Về tinh thần, thái độ làm việc của nhóm:}
+\dongcham{3}
+\noindent\textbf{4. Điểm đánh giá:}
+\begin{center}
+  \begin{tabular}{|>{\centering\arraybackslash}p{1.2cm}|p{5.5cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+    \hline
+    \rowcolor{black!8}\textbf{STT} & \textbf{Họ và tên sinh viên} & \textbf{Điểm số} & \textbf{Điểm chữ} \\ \hline
+    1 & \svAten & & \\ \hline
+    2 & \svBten & & \\ \hline
+  \end{tabular}
+\end{center}
+\vspace{0.6cm}
+\hfill
+\begin{minipage}{0.45\textwidth}
+  \centering
+  \textit{\diadiem, ngày \dots\ tháng \dots\ năm \dots}\\
+  \textbf{Giảng viên}\\
+  \textit{(Ký và ghi rõ họ tên)}\\[1.8cm]
+  \giangvien
+\end{minipage}
+
+% ---------------- Lời cam đoan ----------------
+\unnumberedchapter{LỜI CAM ĐOAN}
+
+Chúng em xin cam đoan báo cáo tiểu luận ``\textit{\tendetai}'' là kết quả
+làm việc của nhóm dưới sự hướng dẫn của giảng viên \giangvien. Các số liệu,
+kết quả thực nghiệm trình bày trong báo cáo là trung thực, được tạo ra từ
+mã nguồn của nhóm và có thể chạy lại được. Mọi tài liệu, mã nguồn, dữ liệu
+tham khảo đều được trích dẫn đầy đủ trong danh mục tài liệu tham khảo.
+
+\textbf{Khai báo sử dụng công cụ AI tạo sinh.}
+\huongdan{Ghi rõ công cụ đã dùng (ví dụ: ChatGPT, Claude, Copilot\dots),
+phạm vi sử dụng (gợi ý ý tưởng, sửa lỗi mã, chỉnh sửa câu chữ\dots) và
+những phần của báo cáo/mã nguồn có sử dụng. Nếu không sử dụng, ghi
+``Nhóm không sử dụng công cụ AI tạo sinh''. Sinh viên phải giải thích được
+mọi đoạn mã và nội dung đã nộp.}
+
+Nếu phát hiện có bất kỳ sự gian lận nào, chúng em xin hoàn toàn chịu trách
+nhiệm trước giảng viên và nhà trường.
+
+\vspace{0.6cm}
+\hfill
+\begin{minipage}{0.5\textwidth}
+  \centering
+  \textit{\diadiem, ngày \dots\ tháng \dots\ năm \dots}\\
+  \textbf{Nhóm sinh viên thực hiện}\\
+  \textit{(Ký và ghi rõ họ tên)}\\[2cm]
+  \begin{tabular}{@{}c@{\hspace{1.5cm}}c@{}}
+    \svAten & \svBten
+  \end{tabular}
+\end{minipage}
+
+% ---------------- Lời cảm ơn ----------------
+\chapter*{Lời cảm ơn}
+\addcontentsline{toc}{chapter}{Lời cảm ơn}
+
+Lời đầu tiên, nhóm tác giả xin bày tỏ lòng biết ơn sâu sắc nhất tới {Thầy \giangvien}. Trong suốt thời gian thực hiện đề tài học phần \hocphan, Thầy đã luôn tận tình hướng dẫn, định hướng phương pháp tiếp cận khoa học, chia sẻ những kiến thức chuyên môn quý báu cũng như kịp thời giải đáp, tháo gỡ các vướng mắc kỹ thuật, giúp nhóm hoàn thành tốt các mục tiêu nghiên cứu đã đề ra.
+
+Nhóm cũng xin chân thành cảm ơn các Thầy, Cô giáo thuộc {\khoa\ -- \truong} đã truyền thụ nền tảng kiến thức vững chắc và tạo điều kiện thuận lợi nhất cho nhóm trong suốt quá trình học tập và nghiên cứu. Đồng thời, nhóm xin gửi lời cảm ơn đến cộng đồng nghiên cứu khoa học mở và các đơn vị cung cấp dữ liệu thực nghiệm đã hỗ trợ nguồn tài nguyên minh bạch, giúp nhóm có cơ sở dữ liệu thực tế để khảo sát và kiểm chứng mô hình.
+
+Mặc dù đã rất nỗ lực tìm tòi và áp dụng các kỹ thuật tiền xử lý, mô hình hóa cũng như các phương pháp giải thích mô hình, song do giới hạn về thời gian và kinh nghiệm thực tế, báo cáo tiểu luận khó tránh khỏi những thiếu sót nhất định. 
+
+Nhóm rất mong nhận được những nhận xét, góp ý quý báu từ Thầy cùng các Thầy, Cô trong hội đồng để đề tài được hoàn thiện và chuẩn xác hơn.
+
+\vspace{0.5cm}
+\begin{flushright}
+    \textbf{Nhóm sinh viên thực hiện}
+\end{flushright}
+\newpage
+
+% ---------------- Bảng phân công ----------------
+\unnumberedchapter{BẢNG PHÂN CÔNG NHIỆM VỤ}
+
+\huongdan{Liệt kê cụ thể phần việc của từng thành viên trong từng giai đoạn.
+Bảng phân công phải khớp với lịch sử commit Git/nhật ký công việc ở
+Phụ lục~\ref{pl:nhatky}.}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|p{3.4cm}|X|>{\centering\arraybackslash}p{2.5cm}|}
+  \hline
+  \rowcolor{black!8}\textbf{STT} & \textbf{Họ và tên} & \textbf{Nhiệm vụ phụ trách} & \textbf{Mức độ hoàn thành} \\ \hline
+  1 & \svAten\newline \svAma &
+    -- Khảo sát, tiền xử lý dữ liệu (Chương 3)\newline
+    -- Xây dựng mô hình \dots\ (Chương 2)\newline
+    -- Viết báo cáo các mục \dots & 100\% \\ \hline
+  2 & \svBten\newline \svBma &
+    -- Phân tích tương quan đặc trưng (Chương 3)\newline
+    -- Tối ưu siêu tham số (Chương 3)\newline
+    -- Xây dựng chương trình demo & 100\% \\ \hline
+\end{tabularx}
+\end{center}
+
+% ---------------- Mục lục, danh mục ----------------
+\begingroup\setstretch{1.1}\tableofcontents\endgroup
+\listoffigures
+\listoftables
+
+% ---------------- Danh mục từ viết tắt ----------------
+\unnumberedchapter{DANH MỤC TỪ VIẾT TẮT}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|p{2.6cm}|X|}
+  \hline
+  \rowcolor{black!8}\textbf{STT} & \textbf{Viết tắt} & \textbf{Ý nghĩa} \\ \hline
+  1 & AI / ML & Trí tuệ nhân tạo (Artificial Intelligence) / Học máy (Machine Learning) \\ \hline
+  2 & DTI & Tỷ lệ nợ trên thu nhập (Debt-to-Income Ratio) \\ \hline
+  3 & EDA & Phân tích dữ liệu khám phá (Exploratory Data Analysis) \\ \hline
+  4 & ICE & Kỳ vọng có điều kiện cá nhân (Individual Conditional Expectation) \\ \hline
+  5 & IQR & Khoảng tứ phân vị (Interquartile Range) \\ \hline
+  6 & LTI / PTI & Tỷ lệ khoản vay / khoản thanh toán trên thu nhập (Loan / Payment-to-Income) \\ \hline
+  7 & PDP & Biểu đồ phụ thuộc một phần (Partial Dependence Plot) \\ \hline
+  8 & ROC-AUC & Diện tích dưới đường cong đặc trưng (Area Under the ROC Curve) \\ \hline
+  9 & SHAP & Giải thích cộng tính Shapley (SHapley Additive exPlanations) \\ \hline
+  10 & XAI & Trí tuệ nhân tạo có thể giải thích (Explainable Artificial Intelligence) \\ \hline
+\end{tabularx}
+\end{center}
+
+% =====================================================================
+%  PHẦN NỘI DUNG (đánh số trang Ả Rập)
+% =====================================================================
+\clearpage
+\pagenumbering{arabic}
+\pagestyle{fancy}
+
+% =====================================================================
+%  MỞ ĐẦU
+% =====================================================================
+\unnumberedchapter{MỞ ĐẦU}
+\section*{1. Lý do chọn đề tài}
+Trong kỷ nguyên chuyển đổi số ngành tài chính -- ngân hàng (Fintech), hoạt động thẩm định và phê duyệt tín dụng đóng vai trò huyết mạch đối với sự an toàn vốn và khả năng sinh lời của các tổ chức tài chính. Quy trình thẩm định truyền thống dựa trên đánh giá thủ công của chuyên viên tín dụng thường tốn nhiều ngày xử lý, mang nặng tính chủ quan và khó đáp ứng quy mô hàng chục nghìn hồ sơ đăng ký mỗi ngày. Do đó, việc ứng dụng Trí tuệ nhân tạo (AI) và Học máy (Machine Learning) nhằm tự động hóa quy trình chấm điểm và phân loại rủi ro tín dụng đã trở thành xu thế tất yếu.
+
+Tuy nhiên, rào cản lớn nhất khi ứng dụng các thuật toán học máy tổ hợp hiện đại có độ chính xác cao như cây tăng cường Gradient Boosting là chúng vận hành như một ``hộp đen'' (black-box). Ngành tài chính chịu sự giám sát pháp lý vô cùng nghiêm ngặt; khách hàng và cơ quan thanh tra luôn đòi hỏi tính minh bạch và quyền được giải trình quyết định (\textit{Right to Explanation}). Một mô hình dự đoán dù có độ chính xác tối ưu nhưng không thể giải thích nguyên nhân từ chối khoản vay hoặc tiềm ẩn định kiến thiên vị đối với các nhóm thuộc tính nhạy cảm (như độ tuổi, giới tính) sẽ không thể đưa vào vận hành thực tế. 
+
+Xuất phát từ yêu cầu cấp thiết đó, đề tài {``\tendetai''} được thực hiện nhằm xây dựng giải pháp phân loại hồ sơ tín dụng đạt hiệu năng cao bằng thuật toán {Gradient Boosting}, đồng thời ứng dụng các phương pháp Trí tuệ nhân tạo có thể giải thích (Explainable AI -- XAI) gồm {PDP/ICE} và trọng tâm là phương pháp {SHAP} (SHapley Additive exPlanations) dựa trên Lý thuyết trò chơi hợp tác để minh bạch hóa toàn diện quyết định phê duyệt ở cả cấp độ toàn cục lẫn cục bộ.
+
+\section*{2. Mục tiêu và nhiệm vụ}
+{Mục tiêu tổng quát:} Xây dựng hệ thống học máy tự động hóa phân loại hồ sơ vay vốn cá nhân đạt độ tin cậy cao, đồng thời bóc tách và giải trình minh bạch cơ chế ra quyết định của mô hình, đảm bảo tính công bằng và an toàn tín dụng.
+
+{Mục tiêu cụ thể và các chỉ số đo lường:}
+\begin{itemize}
+    \item {Hiệu năng dự đoán:} Mô hình đạt chỉ số diện tích dưới đường cong ROC-AUC $\ge 0.90$ trên tập kiểm tra độc lập, điểm F1-Score (Macro) $\ge 0.85$, đảm bảo kiểm soát chặt chẽ tỷ lệ duyệt nhầm nợ xấu (False Positive).
+    \item {Minh bạch hóa mô hình (XAI):} Định lượng chính xác mức độ đóng góp (cộng/trừ xác suất) của 100\% các thuộc tính đầu vào đối với từng hồ sơ vay cụ thể bằng giá trị SHAP.
+    \item {Kiểm toán tính công bằng (Fairness):} Đánh giá định lượng chỉ số chênh lệch cơ hội (Disparate Impact, Equal Opportunity) đối với thuộc tính nhạy cảm (Độ tuổi) nhằm ngăn ngừa thiên vị thuật toán.
+\end{itemize}
+
+{Nhiệm vụ chính cần thực hiện:}
+\begin{enumerate}
+    \item Khảo sát, phân tích thống kê khám phá (EDA) và thiết kế Pipeline tiền xử lý dữ liệu chuẩn hóa, mã hóa biến phân loại chống rò rỉ thông tin (\textit{Data Leakage}).
+    \item Xây dựng và huấn luyện mô hình phân loại Gradient Boosting; tối ưu hóa siêu tham số bằng kiểm định chéo phân tầng.
+    \item Khảo sát tác động biên trung bình và phát hiện dị biệt cục bộ của các biến tài chính thông qua biểu đồ Partial Dependence Plot (PDP) và Individual Conditional Expectation (ICE).
+    \item Ứng dụng lý thuyết giá trị Shapley (SHAP) để xếp hạng độ quan trọng đặc trưng toàn cục (Beeswarm Plot) và giải trình chi tiết từng hồ sơ cá nhân (Waterfall Plot).
+    \item Đánh giá tính nhất quán giữa các phương pháp diễn giải và thảo luận bài toán công bằng thuật toán trong phê duyệt tín dụng.
+\end{enumerate}
+
+\section*{3. Đối tượng và phạm vi nghiên cứu}
+\begin{itemize}
+    \item {Đối tượng nghiên cứu:} 
+    \begin{itemize}
+        \item Dữ liệu hồ sơ tín dụng cá nhân gồm các thông tin nhân khẩu học, thu nhập, lịch sử nợ quá hạn và các chỉ số tỷ lệ đòn bẩy tài chính.
+        \item Thuật toán học máy tổ hợp Gradient Boosting (cây quyết định tăng cường).
+        \item Các kỹ thuật giải thích mô hình hậu kiểm: Biểu đồ phụ thuộc một phần (PDP), kỳ vọng có điều kiện cá nhân (ICE) và phương pháp SHAP.
+    \end{itemize}
+    \item {Phạm vi nghiên cứu:}
+    \begin{itemize}
+        \item \textit{Phạm vi dữ liệu:} Thực nghiệm trên bộ dữ liệu cấp tín dụng thực tế \texttt{Loan\_approval\_data\_2025.csv} gồm 50.000 hồ sơ khách hàng với 18 đặc trưng đầu vào và 1 nhãn mục tiêu nhị phân (\textit{Duyệt / Từ chối}).
+        \item \textit{Giới hạn nội dung:} Tập trung vào bài toán Phân loại nhị phân có giám sát (Binary Classification) và giải thích hậu kiểm (Post-hoc Interpretability) cho mô hình dạng bảng (Tabular Data); không mở rộng sang xử lý dữ liệu phi cấu trúc hay chấm điểm hành vi theo chuỗi thời gian thực.
+    \end{itemize}
+\end{itemize}
+
+\section*{4. Phương pháp thực hiện}
+Đề tài áp dụng quy trình nghiên cứu thực nghiệm chuẩn mực của khoa học dữ liệu:
+\begin{itemize}
+    \item {Thu thập và tiền xử lý dữ liệu:} Kiểm định định lượng dữ liệu khuyết, bản ghi trùng lặp và ngoại lai theo khoảng tứ phân vị ($1.5 \times IQR$). Phân chia tập dữ liệu phân tầng theo tỷ lệ 70\% Huấn luyện (Train), 15\% Kiểm định (Validation) và 15\% Kiểm tra (Test). Sử dụng \texttt{ColumnTransformer} trong Scikit-learn để nạp \texttt{StandardScaler} và \texttt{OneHotEncoder}, đảm bảo nguyên tắc chỉ khớp (\textit{fit}) trên tập Train nhằm chống rò rỉ dữ liệu.
+    \item {Thuật toán học máy chủ đạo (Gradient Boosting):} Sử dụng giải thuật cây quyết định tăng cường phi tuyến. Mô hình tối ưu hóa hàm mất mát nhị phân (Binary Cross-Entropy) bằng cách huấn luyện tuần tự các cây quyết định nông khớp vào phần dư giả (pseudo-residuals), giúp nắm bắt trọn vẹn các tương tác phi tuyến phức tạp giữa Lãi suất, Tỷ lệ nợ và Điểm tín dụng.
+    \item {Phương pháp giải thích và trực quan hóa (XAI):}
+    \begin{itemize}
+        \item \textit{PDP và ICE:} Sử dụng \texttt{PartialDependenceDisplay} để vẽ đồng thời đường biên trung bình (PDP) và đường phản ứng riêng lẻ của từng cá nhân (ICE), bộc lộ tính chất tác động phi tuyến của các chỉ số tài chính liên tục.
+        \item \textit{SHAP (SHapley Additive exPlanations):} Phương pháp giải thích cốt lõi dựa trên lý thuyết trò chơi hợp tác. Sử dụng thuật toán \texttt{TreeExplainer} để bóc tách xác suất dự đoán $f(x)$ thành tổng cộng tính của giá trị cơ sở $E[f(x)]$ và các giá trị đóng góp thành phần $\phi_j$. Thể hiện bức tranh toàn cục qua biểu đồ Beeswarm và giải trình quyết định cụ thể cho từng khách hàng vay qua biểu đồ thác nước Waterfall.
+    \end{itemize}
+    \item {Công cụ và môi trường triển khai:} Ngôn ngữ lập trình Python 3 trên nền tảng Jupyter Notebook (Anaconda), sử dụng các thư viện chuyên dụng: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, và SHAP.
+\end{itemize}
+
+\section*{5. Bố cục báo cáo}
+Ngoài phần Mở đầu, Kết luận, Tài liệu tham khảo và Phụ lục, báo cáo tiểu luận được kết cấu thành 3 chương chính:
+\begin{itemize}
+    \item \textbf{Chương 1. Tổng quan về học máy và bài toán phê duyệt khoản vay:} Trình bày bối cảnh bài toán, yêu cầu minh bạch hóa quyết định trong ngành tài chính, các nghiên cứu liên quan, cùng cơ sở lý thuyết toán học của thuật toán Gradient Boosting, cơ chế PDP/ICE và lý thuyết giá trị Shapley (SHAP).
+    \item \textbf{Chương 2. Mô hình hóa bài toán và phương pháp giải quyết:} Trình bày chi tiết quy trình phát biểu bài toán, tiêu chí thành công, thiết kế Pipeline tiền xử lý dữ liệu chống rò rỉ, quy trình huấn luyện, tối ưu siêu tham số và phương pháp kiểm toán công bằng thuật toán.
+    \item \textbf{Chương 3. Thực nghiệm, phân tích diễn giải và đánh giá:} Trình bày kết quả khảo sát thống kê EDA; kết quả huấn luyện và so sánh mô hình; phân tích chuyên sâu mức độ diễn giải toàn cục và cục bộ qua biểu đồ PDP/ICE và SHAP; thảo luận về tính nhất quán và tính công bằng của mô hình trên dữ liệu thực nghiệm.
+\end{itemize}
+
+% =====================================================================
+%  CHƯƠNG 1
+% =====================================================================
+\chapter{Xác định bài toán, khảo sát và tiền xử lý dữ liệu}
+
+\section{Phát biểu bài toán học máy}
+
+\subsection{Bối cảnh và phân loại bài toán}
+Trong hoạt động tín dụng bán lẻ, quyết định cấp khoản vay cá nhân đòi hỏi sự cân bằng chặt chẽ giữa việc mở rộng doanh số cho vay và kiểm soát tỷ lệ nợ xấu nhằm bảo toàn nguồn vốn của tổ chức tín dụng. Về mặt khoa học dữ liệu, bài toán thẩm định hồ sơ vay vốn được phát biểu dưới dạng bài toán Học có giám sát (Supervised Learning), cụ thể là bài toán Phân loại nhị phân (Binary Classification).
+
+Mục tiêu cốt lõi của bài toán là xây dựng một hàm ánh xạ $f: \mathcal{X} \rightarrow \mathcal{Y}$ từ không gian các đặc trưng tài chính, nhân khẩu học và hành vi tín dụng $\mathcal{X}$ sang không gian quyết định nhị phân $\mathcal{Y} = \{0, 1\}$.
+
+\subsection{Đơn vị mẫu và không gian dữ liệu}
+\begin{itemize}
+    \item Đơn vị mẫu (Sample/Instance): Mỗi quan sát trong tập dữ liệu tương ứng với một hồ sơ đăng ký vay vốn cá nhân độc lập của một khách hàng, được định danh duy nhất qua thuộc tính \texttt{customer\_id}. Tập dữ liệu nghiên cứu bao gồm tổng cộng $N = 50.000$ hồ sơ khách hàng.
+    
+    \item Đặc trưng đầu vào (Input Features - $\mathbf{x} \in \mathbb{R}^{d}$): Sau khi loại bỏ mã định danh kỹ thuật \texttt{customer\_id}, mỗi hồ sơ được biểu diễn bởi một vector đặc trưng $d = 18$ chiều thực tế, phân chia thành 3 nhóm thông tin quản trị rủi ro:
+    \begin{enumerate}
+        \item \textit{Nhóm nhân khẩu học và việc làm (3 đặc trưng):} Độ tuổi (\texttt{age}), Tình trạng nghề nghiệp (\texttt{occupation\_status}), Số năm kinh nghiệm làm việc (\texttt{years\_employed}).
+        \item \textit{Nhóm năng lực tài chính và lịch sử tín dụng (8 đặc trưng):} Thu nhập hàng năm (\texttt{annual\_income}), Điểm tín dụng (\texttt{credit\_score}), Thâm niên lịch sử tín dụng (\texttt{credit\_history\_years}), Giá trị tài sản tiết kiệm (\texttt{savings\_assets}), Dư nợ hiện tại (\texttt{current\_debt}), Tiền sử nợ xấu (\texttt{defaults\_on\_file}), Số lần trễ hạn thanh toán trong 2 năm gần nhất (\texttt{delinquencies\_last\_2yrs}), Dấu hiệu vi phạm tín dụng (\texttt{derogatory\_marks}).
+        \item \textit{Nhóm khoản vay đề nghị và chỉ số đòn bẩy (7 đặc trưng):} Loại sản phẩm vay (\texttt{product\_type}), Mục đích vay vốn (\texttt{loan\_intent}), Số tiền vay (\texttt{loan\_amount}), Lãi suất danh nghĩa (\texttt{interest\_rate}), Tỷ lệ nợ trên thu nhập (\texttt{debt\_to\_income\_ratio}), Tỷ lệ khoản vay trên thu nhập (\texttt{loan\_to\_income\_ratio}), Tỷ lệ nghĩa vụ thanh toán trên thu nhập (\texttt{payment\_to\_income\_ratio}).
+    \end{enumerate}
+
+    \item Đầu ra mục tiêu (Target/Label - $y \in \{0, 1\}$): Biến trạng thái phê duyệt khoản vay \texttt{loan\_status}:
+    \begin{equation}
+        y = \begin{cases} 
+        1, & \text{nếu hồ sơ được chấp thuận cấp tín dụng (\textit{Approved})} \\
+        0, & \text{nếu hồ sơ bị từ chối cấp tín dụng (\textit{Rejected})}
+        \end{cases}
+    \end{equation}
+\end{itemize}
+
+Mô hình học máy sẽ ước lượng xác suất hậu nghiệm có điều kiện $P(y = 1 \mid \mathbf{x})$. Quyết định phân loại cuối cùng được xác lập thông qua một ngưỡng phân định $\tau \in [0, 1]$:
+\begin{equation}
+    \hat{y} = \mathbb{I}\left(P(y = 1 \mid \mathbf{x}) \ge \tau\right)
+\end{equation}
+
+
+\section{Mục tiêu và tiêu chí thành công}
+
+\subsection{Chuyển đổi bài toán thực tế sang bài toán học máy}
+Trong nghiệp vụ ngân hàng truyền thống, thẩm định hồ sơ dựa trên chuyên viên thường kéo dài từ 2 đến 5 ngày làm việc, mang tính định tính cục bộ và khó đáp ứng quy mô tiếp nhận hàng chục nghìn hồ sơ mỗi ngày. Mục tiêu thực tế của tổ chức tín dụng là tự động hóa khâu phê duyệt sơ bộ, rút ngắn thời gian phản hồi khách hàng xuống dưới 5 giây, đồng thời kiểm soát nghiêm ngặt tổn thất tín dụng và cung cấp giải trình minh bạch cho khách hàng khi từ chối hồ sơ (\textit{Right to Explanation}).
+
+Để giải quyết bài toán trên, mục tiêu học máy được cụ thể hóa thành việc tối ưu hóa hàm phân loại nhằm:
+\begin{enumerate}
+    \item Tối thiểu hóa rủi ro dương tính giả (\textit{False Positive - FP}): Tránh việc mô hình phê duyệt nhầm khách hàng mất khả năng trả nợ (nợ xấu), vì tổn thất mất vốn luôn lớn hơn nhiều so với chi phí cơ hội.
+    \item Tối thiểu hóa rủi ro âm tính giả (\textit{False Negative - FN}): Tránh từ chối nhầm các khách hàng có năng lực tài chính lành mạnh, tối ưu hóa doanh thu lãi vay cho ngân hàng.
+    \item Nâng cao năng lực phân tách rủi ro toàn diện trên mọi phân vị xác suất thay vì chỉ phụ thuộc vào ngưỡng mặc định $\tau = 0.5$.
+\end{enumerate}
+
+\subsection{Hệ thống chỉ số đánh giá và mức cam kết thành công}
+Dựa trên đặc điểm phân bố của tập dữ liệu thực nghiệm $N = 50.000$ mẫu (gồm $55,05\%$ hồ sơ duyệt và $44,95\%$ hồ sơ từ chối), nhóm thiết lập hệ thống chỉ số đánh giá định lượng so sánh giữa mức tham chiếu cơ sở (\textit{Baseline -- Dummy/Logistic cơ bản}) và mức kết quả mong muốn (\textit{Target}) của mô hình đề xuất tại Bảng~\ref{tab:tieu_chi_thanh_cong}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Bảng mục tiêu và tiêu chí thành công của mô hình phân loại tín dụng}
+\label{tab:tieu_chi_thanh_cong}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|p{6.8cm}|}
+    \hline
+    \textbf{Thứ tự ưu tiên} & \textbf{Chỉ số đánh giá (Metric)} & \textbf{Mức tham chiếu (Baseline)} & \textbf{Mức mong muốn (Target)} & \textbf{Lý giải ý nghĩa nghiệp vụ trên tập dữ liệu} \\
+    \hline
+    \textbf{1 (Chính)} & \textbf{ROC-AUC} & $\approx 0.75$ & $\mathbf{\ge 0.90}$ & Đánh giá năng lực xếp hạng và phân tách giữa hồ sơ tốt ($y=1$) và hồ sơ rủi ro ($y=0$) trên mọi ngưỡng cắt xác suất. \\
+    \hline
+    \textbf{2 (Chính)} & \textbf{F1-Score (Macro)} & $\approx 0.70$ & $\mathbf{\ge 0.85}$ & Đảm bảo sự cân bằng giữa Precision và Recall trên cả 2 lớp (Duyệt chiếm $55,05\%$ và Từ chối chiếm $44,95\%$). \\
+    \hline
+    \textbf{3 (Phụ)} & \textbf{Precision (Lớp 1 -- Duyệt)} & $\approx 0.72$ & $\mathbf{\ge 0.85}$ & Khi mô hình phán quyết ``Duyệt vay'', xác suất hồ sơ đó thực sự đạt chuẩn an toàn phải từ $85\%$ trở lên để tránh thất thoát vốn. \\
+    \hline
+    \textbf{4 (Phụ)} & \textbf{Recall (Lớp 1 -- Duyệt)} & $\approx 0.75$ & $\mathbf{\ge 0.85}$ & Tối đa hóa tỷ lệ nhận diện đúng các khách hàng đủ điều kiện vay, giúp ngân hàng không mất khách hàng tiềm năng. \\
+    \hline
+\end{tabular}%
+}
+\end{table}
+
+\section{Nguồn và mô tả tập dữ liệu}
+
+\subsection{Nguồn gốc và điều kiện sử dụng}
+Nghiên cứu sử dụng bộ dữ liệu thực nghiệm mang tên \texttt{Loan\_approval\_data\_2025.csv} (phiên bản cập nhật năm 2025 trên nền tảng Kaggle). Dữ liệu phản ánh các quy chuẩn nghiệp vụ tài chính thực tế tại các ngân hàng thương mại hiện đại, bao gồm đầy đủ các nhóm chỉ số nhân khẩu học, năng lực thanh toán, lịch sử nợ và cấu trúc khoản vay.
+
+Tập dữ liệu được cung cấp dưới dạng dữ liệu mở phục vụ mục đích nghiên cứu học thuật và kiểm toán công bằng thuật toán. Toàn bộ các định danh cá nhân nhạy cảm đã được ẩn danh hóa kỹ thuật dưới dạng chuỗi ký tự \texttt{CUSTxxxxx}, đảm bảo không vi phạm các quy định bảo mật quyền riêng tư.
+
+\subsection{Quy mô và từ điển dữ liệu}
+Tập dữ liệu bao gồm tổng cộng 50.000 bản ghi tương ứng với 50.000 hồ sơ vay vốn độc lập. Cấu trúc dữ liệu ban đầu gồm 20 thuộc tính (1 cột định danh \texttt{customer\_id}, 18 biến đặc trưng đầu vào $X$ và 1 biến nhãn mục tiêu $y$). Xét về kiểu dữ liệu lưu trữ, tập dữ liệu gồm 3 biến phân loại dạng chuỗi ký tự (\texttt{object}), 8 biến số nguyên (\texttt{int64}) và 9 biến số thực (\texttt{float64}).
+
+Bảng~\ref{tab:data_dictionary} trình bày chi tiết từ điển dữ liệu, ý nghĩa nghiệp vụ và miền giá trị thực tế của từng đặc trưng trong tập dữ liệu.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\caption{Từ điển dữ liệu bộ hồ sơ cấp tín dụng Loan\_approval\_data\_2025}
+\label{tab:data_dictionary}
+\begin{tabular}{|c|l|c|c|l|p{5.5cm}|}
+    \hline
+    \textbf{STT} & \textbf{Tên đặc trưng} & \textbf{Kiểu} & \textbf{Vai trò} & \textbf{Miền giá trị thực tế} & \textbf{Ý nghĩa nghiệp vụ chi tiết} \\
+    \hline
+    1 & \texttt{customer\_id} & object & Định danh & CUST100000 -- CUST149999 & Mã định danh duy nhất của hồ sơ (loại bỏ khi mô hình hóa). \\
+    \hline
+    2 & \texttt{age} & int64 & Đầu vào & 18 -- 70 tuổi & Độ tuổi người vay (thuộc tính nhạy cảm dùng kiểm toán công bằng). \\
+    \hline
+    3 & \texttt{occupation\_status} & object & Đầu vào & Employed, Student... & Tình trạng nghề nghiệp hiện tại của khách hàng. \\
+    \hline
+    4 & \texttt{years\_employed} & float64 & Đầu vào & 0.0 -- 39.9 năm & Thâm niên làm việc trong nghề nghiệp hiện tại. \\
+    \hline
+    5 & \texttt{annual\_income} & int64 & Đầu vào & 15.000 -- 250.000 USD & Tổng thu nhập hàng năm của người đứng tên khoản vay. \\
+    \hline
+    6 & \texttt{credit\_score} & int64 & Đầu vào & 348 -- 850 điểm & Điểm xếp hạng tín dụng FICO đo lường mức độ uy tín trả nợ. \\
+    \hline
+    7 & \texttt{credit\_history\_years} & float64 & Đầu vào & 0.0 -- 30.0 năm & Thời gian khách hàng bắt đầu phát sinh giao dịch tín dụng. \\
+    \hline
+    8 & \texttt{savings\_assets} & int64 & Đầu vào & 0 -- 300.000 USD & Tổng giá trị tài sản thanh khoản và tiền gửi tiết kiệm. \\
+    \hline
+    9 & \texttt{current\_debt} & int64 & Đầu vào & 60 -- 163.344 USD & Tổng dư nợ hiện tại khách hàng đang chịu nghĩa vụ thanh toán. \\
+    \hline
+    10 & \texttt{defaults\_on\_file} & int64 & Đầu vào & 0 (Không), 1 (Có) & Tiền sử từng vi phạm nghĩa vụ trả nợ hoặc vỡ nợ quá khứ. \\
+    \hline
+    11 & \texttt{delinquencies\_last\_2yrs} & int64 & Đầu vào & 0 -- 9 lần & Số đợt thanh toán nợ trễ hạn trong vòng 2 năm gần nhất. \\
+    \hline
+    12 & \texttt{derogatory\_marks} & int64 & Đầu vào & 0 -- 4 lần & Số ghi chú tiêu cực nghiêm trọng (bị khởi kiện, thu hồi nợ). \\
+    \hline
+    13 & \texttt{product\_type} & object & Đầu vào & Credit Card, Personal... & Gói sản phẩm tài chính khách hàng đăng ký vay vốn. \\
+    \hline
+    14 & \texttt{loan\_intent} & object & Đầu vào & Business, Education... & Mục đích xin cấp hạn mức tín dụng của người vay. \\
+    \hline
+    15 & \texttt{loan\_amount} & int64 & Đầu vào & 500 -- 100.000 USD & Số tiền gốc đề nghị vay vốn. \\
+    \hline
+    16 & \texttt{interest\_rate} & float64 & Đầu vào & 6.0\% -- 23.0\% & Mức lãi suất danh nghĩa áp dụng cho hợp đồng vay vốn. \\
+    \hline
+    17 & \texttt{debt\_to\_income\_ratio} & float64 & Đầu vào & 0.002 -- 0.800 & Tỷ lệ tổng nghĩa vụ nợ trên thu nhập hàng tháng (DTI). \\
+    \hline
+    18 & \texttt{loan\_to\_income\_ratio} & float64 & Đầu vào & 0.008 -- 2.001 & Tỷ lệ số tiền xin vay trên tổng thu nhập năm (LTI). \\
+    \hline
+    19 & \texttt{payment\_to\_income\_ratio} & float64 & Đầu vào & 0.003 -- 0.667 & Tỷ lệ số tiền phải trả góp định kỳ trên thu nhập tháng (PTI). \\
+    \hline
+    20 & \texttt{loan\_status} & int64 & Nhãn đích & 0 (Từ chối), 1 (Phê duyệt) & Trạng thái phê duyệt tín dụng cuối cùng của hệ thống. \\
+    \hline
+\end{tabular}
+\end{table}
+
+%1.4
+\section{Khảo sát thống kê và phân bố dữ liệu}
+
+\subsection{Thống kê mô tả các đặc trưng tài chính}
+Qua khảo sát thống kê định lượng trên toàn bộ 50.000 hồ sơ vay vốn, các đặc trưng tài chính liên tục thể hiện những đặc thù phân bố cụ thể như sau:
+\begin{itemize}
+    \item Độ tuổi (\texttt{age}) của khách hàng dao động từ 18 đến 70 tuổi, với giá trị trung bình là 34.96 tuổi và độ lệch chuẩn 11.12 tuổi. Khách hàng trẻ tuổi dưới 25 tuổi chiếm tỷ trọng đáng kể, là cơ sở để tiến hành kiểm toán tính công bằng thuật toán ở giai đoạn sau.
+    \item Thâm niên làm việc (\texttt{years\_employed}) có giá trị trung bình đạt 7.45 năm, trung vị là 4.90 năm và kéo dài tối đa đến 39.9 năm.
+    \item Thu nhập hàng năm (\texttt{annual\_income}) phân bố lệch phải rất mạnh, trải rộng từ 15.000 USD đến 250.000 USD với giá trị trung bình là 50.063 USD và trung vị đạt 41.608 USD.
+    \item Điểm tín dụng cá nhân (\texttt{credit\_score}) có phân bố tiệm cận phân bố chuẩn với giá trị trung bình đạt 643.61 điểm (độ lệch chuẩn 64.73 điểm), trải dài từ 348 điểm đến 850 điểm theo thang đo FICO.
+    \item Tỷ lệ nợ trên thu nhập (\texttt{debt\_to\_income\_ratio}) có giá trị trung bình là 0.286 và trung vị là 0.265. Đáng lưu ý là 25\% số hồ sơ có tỷ lệ DTI vượt ngưỡng 0.389 và đạt đỉnh tới 0.800, tiềm ẩn rủi ro thanh toán rất lớn.
+\end{itemize}
+
+\subsection{Trực quan hóa phân bố nhãn và các đặc trưng cốt lõi}
+Hình~\ref{fig:eda_4_charts} trình bày kết quả trực quan hóa phân bố của nhãn mục tiêu và các mối tương quan đặc trưng chi phối trực tiếp đến quyết định cấp tín dụng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/eda_4_charts.png}
+    \caption{Khảo sát phân bố nhãn mục tiêu và tương quan các đặc trưng tài chính}
+    \label{fig:eda_4_charts}
+\end{figure}
+
+Từ kết quả thực nghiệm tại Hình~\ref{fig:eda_4_charts}, các hiện tượng phân bố được rút ra bao gồm:
+\begin{enumerate}
+    \item Phân bố nhãn mục tiêu \texttt{loan\_status}: Tập dữ liệu ghi nhận 27.523 hồ sơ được phê duyệt (chiếm 55.05\%) và 22.477 hồ sơ bị từ chối (chiếm 44.95\%). Tỷ lệ giữa hai lớp xấp xỉ 1.22:1, phản ánh mức độ cân bằng tốt đối với bài toán rủi ro tín dụng. Mặc dù vậy, việc áp dụng chiến lược phân tầng (Stratified Sampling) vẫn là điều kiện bắt buộc khi phân tách dữ liệu để đảm bảo tỷ lệ này được giữ nguyên trên các tập con.
+    \item Phân bố điểm tín dụng theo nhãn: Phân bố của \texttt{credit\_score} thể hiện sự phân tách rất rõ giữa hai nhóm. Khách hàng được duyệt vay tập trung chủ yếu ở dải điểm cao từ 660 điểm trở lên. Ngược lại, nhóm hồ sơ bị từ chối chiếm mật độ áp đảo ở vùng điểm dưới 600 điểm.
+\end{enumerate}
+
+%1.5
+\section{Phân tích quan hệ giữa các đặc trưng và biến mục tiêu}
+
+Phân tích mối quan hệ giữa các thuộc tính đầu vào và trạng thái phê duyệt \texttt{loan\_status} giúp nhận diện sớm các tín hiệu phân loại quan trọng nhất làm cơ sở xây dựng mô hình. Dựa trên ma trận hệ số tương quan Pearson và bảng tần suất chéo thực nghiệm, nhóm rút ra 4 nhận xét cốt lõi:
+
+\subsection{Điểm tín dụng là nhân tố tương quan thuận mạnh nhất}
+Hệ số tương quan tuyến tính giữa \texttt{credit\_score} và \texttt{loan\_status} đạt mức $r = +0.496$. Đây là đặc trưng đơn lẻ có khả năng phân tách nhãn mạnh nhất trong toàn bộ 18 biến đầu vào. Những khách hàng đạt điểm FICO từ 660 điểm trở lên có xác suất được phê duyệt vượt trội, trong khi vùng dưới 580 điểm phần lớn nhận kết quả từ chối. Thuộc tính này dự kiến sẽ đóng vai trò nút phân nhánh gốc (root node) trong cấu trúc cây quyết định của Gradient Boosting.
+
+\subsection{Quy tắc phủ quyết tuyệt đối từ tiền sử nợ xấu}
+Khảo sát biến nhị phân \texttt{defaults\_on\_file} ghi nhận 2.674 hồ sơ khách hàng từng có tiền sử vỡ nợ hoặc vi phạm nghĩa vụ trả nợ trong quá khứ. Toàn bộ 100\% (2.674/2.674) các hồ sơ này đều nhận kết quả bị từ chối vay vốn ($y = 0$). Không ghi nhận bất kỳ trường hợp ngoại lệ nào được phê duyệt khi đã có nợ xấu trên hồ sơ. Đây là quy tắc phủ quyết cứng phản ánh tính kỷ luật cao trong quản trị rủi ro của hệ thống ngân hàng thực tế, đồng thời là cơ sở đối chuẩn để kiểm tra tính nhất quán khi giải trình bằng giá trị SHAP ở các chương sau.
+
+\subsection{Tương quan nghịch của tỷ lệ nợ và số lần trễ hạn thanh toán}
+Hai biến số \texttt{delinquencies\_last\_2yrs} ($r = -0.318$) và \texttt{debt\_to\_income\_ratio} ($r = -0.317$) thể hiện mối tương quan nghịch rõ rệt với xác suất phê duyệt. Khách hàng có từ 2 lần trễ hạn thanh toán trở lên trong 2 năm gần nhất hoặc có tỷ lệ nghĩa vụ nợ trên thu nhập (DTI) vượt ngưỡng 0.40 (40\%) sẽ khiến xác suất bị từ chối tăng vọt lên trên 90\%.
+
+\subsection{Tác động phân hóa theo mục đích vay vốn}
+Khảo sát biến phân loại \texttt{loan\_intent} cho thấy mục đích vay vốn tạo ra sự chênh lệch rõ ràng về tỷ lệ chấp thuận. Các khoản vay phục vụ mục đích Giáo dục (\texttt{Education}) đạt tỷ lệ phê duyệt cao nhất (67.51\%), trong khi các khoản vay phục vụ Đảo nợ (\texttt{Debt Consolidation}) có tỷ lệ phê duyệt thấp nhất (36.65\%). Sự phân hóa này cung cấp thêm tín hiệu phân loại có giá trị khi được mã hóa One-Hot đưa vào mô hình.
+
+%1.6
+\section{Phát hiện các vấn đề chất lượng dữ liệu}
+
+Kiểm định chất lượng dữ liệu là tiền đề quyết định độ tin cậy của mô hình học máy. Nhóm đã thực hiện rà soát toàn diện trên 50.000 bản ghi theo đầy đủ các khía cạnh: bản ghi trùng lặp, giá trị khuyết thiếu, điểm ngoại lai theo khoảng tứ phân vị ($1.5 \times IQR$), thuộc tính phi quy luật, định dạng biến phân loại, mức độ cân bằng lớp và nguy cơ rò rỉ dữ liệu. Kết quả định lượng thực tế được tổng hợp tại Bảng~\ref{tab:chat_luong_du_lieu}.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Bảng thống kê định lượng các vấn đề chất lượng dữ liệu (N = 50.000 hồ sơ)}
+\label{tab:chat_luong_du_lieu}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|p{2.8cm}|p{3.0cm}|p{4.2cm}|p{5.2cm}|}
+    \hline
+    \textbf{STT} & \textbf{Vấn đề chất lượng} & \textbf{Phạm vi ảnh hưởng} & \textbf{Định lượng thực tế trên tập dữ liệu} & \textbf{Nguy cơ / Tác động đến mô hình học máy} \\
+    \hline
+    1 & Bản ghi trùng lặp (\textit{Duplicates}) & Toàn bộ 20 cột & 0 bản ghi trùng ($0.00\%$) & Dữ liệu sạch về tính duy nhất của từng hồ sơ khách hàng. \\
+    \hline
+    2 & Giá trị thiếu (\textit{Missing Values}) & Toàn bộ 20 cột & 0 ô khuyết ($0.00\%$) & Toàn bộ 50.000 dòng dữ liệu đều đầy đủ thông tin, không cần điền khuyết (\textit{Imputation}). \\
+    \hline
+    3 & Điểm ngoại lai (\textit{Outliers} theo $1.5 \times IQR$) & \texttt{savings\_assets}\newline \texttt{derogatory\_marks}\newline \texttt{current\_debt}\newline \texttt{annual\_income}\newline \texttt{delinquencies\_last\_2yrs}\newline \texttt{years\_employed}\newline \texttt{credit\_score} & 6.508 mẫu ($13.02\%$) $> 5.482,5$\newline 6.393 mẫu ($12.79\%$) $> 0$\newline 2.932 mẫu ($5.86\%$) $> 37.751,6$\newline 2.355 mẫu ($4.71\%$) $> 115.887,4$\newline 1.761 mẫu ($3.52\%$) $> 2,5$\newline 1.373 mẫu ($2.75\%$) $> 26,55$\newline 349 mẫu ($0.70\%$) ngoài $[469,5; 817,5]$ & Các phân bố tài chính (tiết kiệm, thu nhập, dư nợ) bị lệch phải mạnh (\textit{Positive Skewness}). Mô hình nếu không chuẩn hóa sẽ bị kéo lệch trọng số theo các trường hợp cá biệt. \\
+    \hline
+    4 & Thuộc tính không mang quy luật & \texttt{customer\_id} & 50.000 mã định danh duy nhất & Mã số thứ tự khách hàng (\texttt{CUST100000} -- \texttt{CUST149999}) không mang giá trị dự đoán, nếu giữ lại sẽ gây nhiễu và quá khớp (\textit{Overfitting}). \\
+    \hline
+    5 & Định dạng dữ liệu phân loại & \texttt{occupation\_status}\newline \texttt{product\_type}\newline \texttt{loan\_intent} & 3 biến dạng chuỗi (\texttt{object}):\newline -- Nghề nghiệp: 3 giá trị\newline -- Sản phẩm: 3 giá trị\newline -- Mục đích vay: 6 giá trị & Các thuật toán học máy yêu cầu đầu vào dạng số thuần túy, cần mã hóa nhị phân One-Hot (\texttt{OneHotEncoder}). \\
+    \hline
+    6 & Mất cân bằng lớp (\textit{Class Imbalance}) & Nhãn mục tiêu \texttt{loan\_status} & -- Lớp 1 (Duyệt): 27.523 ($55.05\%$)\newline -- Lớp 0 (Từ chối): 22.477 ($44.95\%$) & Tỷ lệ xấp xỉ $1.22 : 1$. Mức độ cân bằng rất tốt, không cần can thiệp \textit{oversampling} (SMOTE) tránh làm méo mó phân bố thực tế. \\
+    \hline
+    7 & Nguy cơ rò rỉ dữ liệu (\textit{Data Leakage}) & Chuẩn hóa (\texttt{Scaling}) và Mã hóa (\texttt{Encoding}) & Toàn bộ quy trình tiền xử lý & Nếu chuẩn hóa hoặc khớp mã hóa trên toàn bộ 50.000 dòng trước khi chia tập sẽ làm rò rỉ phân bố tập Test vào tập Train, làm sai lệch kết quả đánh giá. \\
+    \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Định lượng dữ liệu khuyết thiếu và trùng lặp}
+Qua kiểm tra tự động trên toàn bộ 20 cột, tập dữ liệu không ghi nhận bất kỳ giá trị khuyết nào (0 ô khuyết, tỷ lệ $0.00\%$) và không có bản ghi trùng lặp (0 bản ghi trùng, tỷ lệ $0.00\%$). Điều này đảm bảo tính toàn vẹn và tính độc lập của 50.000 hồ sơ mẫu ban đầu.
+
+\subsection{Định lượng và bản chất của các điểm ngoại lai}
+Sử dụng phương pháp biên khoảng tứ phân vị ($IQR = Q_3 - Q_1$), các điểm dữ liệu nằm ngoài khoảng $[Q_1 - 1.5 \times IQR, Q_3 + 1.5 \times IQR]$ được xác định là ngoại lai. Kết quả thống kê chính xác từ mã nguồn cho thấy các biến tài chính có tỷ lệ ngoại lai tập trung ở đuôi bên phải: \texttt{savings\_assets} có 6.508 mẫu ($13.02\%$), \texttt{derogatory\_marks} có 6.393 mẫu ($12.79\%$), \texttt{current\_debt} có 2.932 mẫu ($5.86\%$), và \texttt{annual\_income} có 2.355 mẫu ($4.71\%$). Xét dưới góc độ nghiệp vụ ngân hàng, các giá trị thu nhập trên 115.887,4 USD hay tài sản tiết kiệm lớn trên 5.482,5 USD hoàn toàn hợp lý ngoài thực tế, đại diện cho phân khúc khách hàng có tiềm lực tài chính cao chứ không phải lỗi thu thập dữ liệu.
+
+%1.7
+\section{Phương pháp và kết quả xử lý dữ liệu}
+
+Dựa trên 7 vấn đề đã định lượng tại Mục 1.6, nhóm thực hiện chiến lược xử lý dữ liệu có căn cứ khoa học:
+
+\subsection{Loại bỏ đặc trưng định danh}
+Loại bỏ hoàn toàn cột \texttt{customer\_id} ra khỏi ma trận đặc trưng đầu vào $\mathbf{X}$ trước khi đưa vào Pipeline huấn luyện nhằm ngăn ngừa việc mô hình ghi nhớ máy móc mã hồ sơ.
+
+\subsection{Chiến lược xử lý ngoại lai và chênh lệch thang đo}
+Nhóm quyết định giữ nguyên $100\%$ các điểm ngoại lai hợp lệ để bảo toàn thông tin của nhóm khách hàng có tài sản lớn hoặc dư nợ lớn thực tế. Đồng thời, sử dụng bộ chuẩn hóa \texttt{StandardScaler} đóng gói trong Pipeline để đưa toàn bộ 15 đặc trưng định lượng về phân bố chuẩn $\mathcal{N}(0, 1)$:
+\begin{equation}
+    z = \frac{x - \mu}{\sigma}
+\end{equation}
+trong đó $\mu$ và $\sigma$ là trung bình và độ lệch chuẩn được tính duy nhất trên tập huấn luyện, giúp triệt tiêu tác động của sự chênh lệch biên độ số học.
+
+\subsection{Chiến lược mã hóa biến phân loại}
+Áp dụng \texttt{OneHotEncoder(drop='first', sparse\_output=False, handle\_unknown='ignore')} cho 3 biến phân loại (\texttt{occupation\_status}, \texttt{product\_type}, \texttt{loan\_intent}). Tham số \texttt{drop='first'} giúp loại bỏ 1 cột dư thừa ở mỗi biến phân loại (chuyển 3 biến với $3+3+6=12$ nhãn thành $2+2+5=9$ cột nhị phân), chống hiện tượng đa cộng tuyến hoàn hảo (\textit{Dummy Variable Trap}) và nâng tổng số chiều đặc trưng từ 18 cột gốc lên 24 đặc trưng số hoàn chỉnh.
+
+%1.8
+\section{Thiết kế quy trình tiền xử lý chống rò rỉ dữ liệu}
+
+\subsection{Chiến lược phân chia dữ liệu độc lập}
+Để đảm bảo tính khách quan tuyệt đối và ngăn ngừa rò rỉ thông tin từ tập kiểm tra sang tập huấn luyện (Data Leakage), tập dữ liệu 50.000 mẫu được phân chia thành 3 phần tách biệt theo tỷ lệ 70\% Huấn luyện (Train) -- 15\% Kiểm định (Validation) -- 15\% Kiểm tra (Test).
+
+Quá trình phân chia được thực hiện qua hai bước độc lập có tích hợp cơ chế phân tầng (\texttt{stratify = y}) theo nhãn \texttt{loan\_status}:
+\begin{enumerate}
+    \item Bước 1: Tách 15\% dữ liệu làm tập Test độc lập (7.500 mẫu), giữ lại 85\% (42.500 mẫu).
+    \item Bước 2: Từ 42.500 mẫu còn lại, tiếp tục tách theo tỷ lệ tương ứng để thu được tập Validation (7.500 mẫu, chiếm 15\% tổng thể) và tập Train (35.000 mẫu, chiếm 70\% tổng thể).
+\end{enumerate}
+
+Cơ chế phân tầng đảm bảo tỷ lệ nhãn duyệt (55.05\%) và từ chối (44.95\%) được bảo toàn chính xác trên cả 3 tập con, loại bỏ rủi ro lệch phân bố nhãn giữa các pha đánh giá.
+
+\subsection{Kiến trúc Pipeline xử lý và đóng gói biến đổi}
+Nhóm xây dựng một \texttt{ColumnTransformer} hợp nhất chứa hai nhánh xử lý chuyên biệt cho từng kiểu biến:
+\begin{itemize}
+    \item Nhánh biến định lượng (15 đặc trưng): Áp dụng \texttt{StandardScaler} để chuẩn hóa các thang đo số học về cùng đơn vị độ lệch chuẩn.
+    \item Nhánh biến phân loại (3 đặc trưng): Bao gồm \texttt{occupation\_status}, \texttt{product\_type} và \texttt{loan\_intent}. Áp dụng \texttt{OneHotEncoder(drop='first', sparse\_output=False)} để mã hóa nhị phân các mức danh mục, chuyển đổi 3 biến này thành 9 cột nhị phân chỉ báo.
+\end{itemize}
+
+\subsection{Nguyên tắc nghiêm ngặt chống rò rỉ dữ liệu}
+Nguyên tắc cốt lõi được áp dụng xuyên suốt là: Toàn bộ các tham số thống kê chỉ được học duy nhất trên tập Train:
+\begin{equation}
+    \mathbf{X}_{\text{train\_processed}} = \text{Pipeline}.\text{fit\_transform}(\mathbf{X}_{\text{train}})
+\end{equation}
+Tập Validation và tập Test hoàn toàn không được tham gia vào quá trình khớp (\texttt{fit}), mà chỉ áp dụng phép biến đổi dựa trên các tham số đã đóng băng từ tập Train:
+\begin{equation}
+    \mathbf{X}_{\text{val\_processed}} = \text{Pipeline}.\text{transform}(\mathbf{X}_{\text{val}}), \quad \mathbf{X}_{\text{test\_processed}} = \text{Pipeline}.\text{transform}(\mathbf{X}_{\text{test}})
+\end{equation}
+
+Sau quá trình xử lý, không gian đặc trưng đầu vào được chuyển đổi từ 18 biến ban đầu thành một ma trận thuần số thực có kích thước chuẩn $35.000 \times 24$ trên tập Train, $7.500 \times 24$ trên tập Validation và $7.500 \times 24$ trên tập Test. Toàn bộ quy trình này loại bỏ hoàn toàn nguy cơ rò rỉ dữ liệu, sẵn sàng phục vụ giai đoạn huấn luyện mô hình.
+
+%1.9
+\section{Lựa chọn và lý giải phương pháp, chỉ số đánh giá}
+
+\subsection{Lý giải chiến lược phân chia dữ liệu độc lập}
+Việc đánh giá mô hình học máy trên dữ liệu tài chính đòi hỏi sự cách ly nghiêm ngặt giữa khâu huấn luyện, khâu tinh chỉnh và khâu kiểm thử thực tế. Nhóm quyết định lựa chọn chiến lược phân chia dữ liệu theo tỷ lệ 70\% Huấn luyện (Train) -- 15\% Kiểm định (Validation) -- 15\% Kiểm tra (Test) kết hợp cơ chế lấy mẫu phân tầng (\texttt{Stratified Sampling}) thay vì phương pháp kiểm định chéo K-Fold đơn thuần hoặc chỉ chia 2 tập Train/Test truyền thống:
+\begin{itemize}
+    \item Quy mô tập dữ liệu đủ lớn: Với tổng số 50.000 hồ sơ vay vốn, tập Train chứa 35.000 mẫu cung cấp không gian dữ liệu dồi dào để các giải thuật cây tăng cường học được các ranh giới phi tuyến đa chiều mà không lo thiếu hụt dữ liệu học.
+    \item Bảo toàn tính khách quan cho khâu giải thích mô hình (XAI): Tập Validation gồm 7.500 mẫu đóng vai trò làm môi trường độc lập để theo dõi quá trình học, chọn ngưỡng xác suất cắt tối ưu và tinh chỉnh siêu tham số. Đặc biệt, việc có riêng tập Validation cho phép tính toán các giá trị giải thích SHAP và đồ thị PDP/ICE trên các mẫu dữ liệu mô hình chưa từng nhìn thấy trong pha huấn luyện mà không làm lộ tập Test.
+    \item Kiểm định năng lực tổng quát hóa tuyệt đối: Tập Test gồm 7.500 mẫu được niêm phong hoàn toàn cho đến bước đánh giá cuối cùng. Tập này đóng vai trò như dòng hồ sơ vay thực tế nộp vào hệ thống trong tương lai, giúp đo lường chính xác rủi ro quá khớp (Overfitting).
+    \item Cơ chế phân tầng: Đảm bảo tỷ lệ nhãn duyệt (55.05\%) và từ chối (44.95\%) được giữ nguyên trên cả 3 tập con, loại bỏ hiện tượng sai lệch phân bố giữa các pha đánh giá.
+\end{itemize}
+
+\subsection{Lý giải hệ thống chỉ số đánh giá nghiệp vụ}
+Trong nghiệp vụ thẩm định tín dụng, chi phí sai lầm mang tính bất đối xứng nghiêm trọng. Hậu quả tài chính khi phê duyệt nhầm một hồ sơ nợ xấu (False Positive -- mất toàn bộ vốn gốc) lớn hơn rất nhiều so với việc từ chối nhầm một khách hàng tiềm năng (False Negative -- mất doanh thu lãi vay). Do đó, việc sử dụng đơn độc chỉ số độ chính xác tổng quát (\texttt{Accuracy}) là không đủ tin cậy. Nhóm thiết lập hệ thống chỉ số đánh giá đa chiều:
+\begin{enumerate}
+    \item Chỉ số diện tích dưới đường cong ROC-AUC (Mục tiêu $\mathbf{\ge 0.90}$): Là chỉ số tối ưu hóa cốt lõi của đề tài. ROC-AUC đo lường năng lực xếp hạng rủi ro và khả năng phân tách giữa nhóm hồ sơ tốt ($y=1$) và xấu ($y=0$) trên toàn bộ dải ngưỡng xác suất cắt, hoàn toàn không phụ thuộc vào ngưỡng mặc định 0.5.
+    \item F1-Score Macro (Mục tiêu $\mathbf{\ge 0.85}$): Đo lường trung bình điều hòa giữa Precision và Recall trên cả hai lớp duyệt và từ chối, đảm bảo thuật toán không đánh đổi hiệu năng của lớp thiểu số để lấy độ chính xác hình thức của lớp đa số.
+    \item Precision lớp Duyệt (Mục tiêu $\mathbf{\ge 0.85}$): Bảo đảm khi hệ thống đưa ra phán quyết giải ngân thì xác suất khách hàng trả nợ an toàn đạt từ 85\% trở lên, hạn chế rủi ro thất thoát vốn tín dụng.
+    \item Recall lớp Duyệt (Mục tiêu $\mathbf{\ge 0.85}$): Đo lường mức độ bao phủ khách hàng tốt, bảo đảm ngân hàng không bỏ sót quá 15\% các cơ hội cho vay an toàn.
+\end{enumerate}
+
+%1.10
+\section{Cơ sở lý thuyết các phương pháp mô hình hóa và giải thích dự kiến}
+
+Để chuẩn bị cho giai đoạn xây dựng và mở hộp đen mô hình ở các chương sau, nhóm tổng hợp cơ sở lý thuyết toán học của bộ ba phương pháp cốt lõi: mô hình dự đoán Gradient Boosting cùng hai phương pháp giải thích hậu kiểm PDP/ICE và SHAP.
+
+\subsection{Thuật toán cây tăng cường Gradient Boosting}
+Gradient Boosting là giải thuật học máy tổ hợp dựa trên nguyên lý tăng cường (Boosting). Thay vì xây dựng các cây quyết định độc lập như Random Forest, thuật toán xây dựng tuần tự một chuỗi các cây quyết định nông (weak learners) nhằm tối thiểu hóa hàm mất mát nhị phân (Binary Cross-Entropy Loss):
+\begin{equation}
+    \mathcal{L}(y, F(\mathbf{x})) = -\left[ y \ln \sigma(F(\mathbf{x})) + (1 - y) \ln (1 - \sigma(F(\mathbf{x}))) \right]
+\end{equation}
+trong đó $\sigma(z) = \frac{1}{1 + e^{-z}}$ là hàm kích hoạt Sigmoid đưa đầu ra $F(\mathbf{x})$ về xác suất dự đoán $P(y = 1 \mid \mathbf{x})$.
+
+Tại mỗi bước lặp $m$ ($m = 1, \dots, M$), mô hình cập nhật hàm dự đoán bằng cách cộng thêm một cây quyết định mới $h_m(\mathbf{x})$:
+\begin{equation}
+    F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \cdot h_m(\mathbf{x})
+\end{equation}
+trong đó $\eta \in (0, 1]$ là tốc độ học (learning rate). Cây mới $h_m(\mathbf{x})$ được huấn luyện để khớp vào phần dư giả (pseudo-residuals) $r_{im}$, chính là đạo hàm bậc nhất của hàm mất mát theo dự đoán của mô hình ở bước $m-1$:
+\begin{equation}
+    r_{im} = -\left[ \frac{\partial \mathcal{L}(y_i, F(\mathbf{x}_i))}{\partial F(\mathbf{x}_i)} \right]_{F = F_{m-1}} = y_i - \sigma(F_{m-1}(\mathbf{x}_i))
+\end{equation}
+Cơ chế này cho phép Gradient Boosting liên tục sửa sai các hồ sơ bị dự đoán chệch ở bước trước, nắm bắt trọn vẹn các tương tác phi tuyến phức tạp giữa Lãi suất, Tỷ lệ nợ và Điểm tín dụng.
+
+\subsection{Phương pháp Partial Dependence Plot và Individual Conditional Expectation}
+PDP và ICE là các công cụ diễn giải hậu kiểm độc lập với mô hình (model-agnostic):
+\begin{itemize}
+    \item Partial Dependence Plot (PDP): Đo lường tác động biên trung bình của một tập đặc trưng con $X_S$ (ví dụ: tỷ lệ nợ DTI) lên xác suất dự đoán bằng cách lấy kỳ vọng trên toàn bộ phân bố của các đặc trưng còn lại $X_C$ qua $N$ mẫu quan sát:
+    \begin{equation}
+        \hat{f}_S(\mathbf{x}_S) = \frac{1}{N} \sum_{k=1}^N f(\mathbf{x}_S, \mathbf{x}_{C}^{(k)})
+    \end{equation}
+    Đường cong PDP thể hiện rõ chiều hướng tác động (tăng, giảm, phi tuyến hay dạng ngưỡng) của biến số đối với tỷ lệ phê duyệt toàn cục.
+    \item Individual Conditional Expectation (ICE): Khắc phục nhược điểm che lấp dị biệt của phép lấy trung bình trong PDP. ICE giữ nguyên hàm dự đoán cho từng cá nhân khách hàng thứ $k$:
+    \begin{equation}
+        \hat{f}_{S}^{(k)}(\mathbf{x}_S) = f(\mathbf{x}_S, \mathbf{x}_{C}^{(k)})
+    \end{equation}
+    Biểu đồ ICE vẽ ra $N$ đường phản ứng riêng biệt, giúp phát hiện các phân khúc khách hàng phản ứng ngược chiều với xu hướng chung do ảnh hưởng của các tương tác đặc trưng mạnh.
+\end{itemize}
+
+\subsection{Phương pháp SHAP dựa trên lý thuyết trò chơi hợp tác}
+SHAP (SHapley Additive exPlanations) là phương pháp giải thích cục bộ thống nhất dựa trên khái niệm giá trị Shapley trong Lý thuyết trò chơi hợp tác do nhà kinh tế học đoạt giải Nobel Lloyd Shapley đề xuất. Trong bài toán cấp tín dụng, mỗi quyết định phê duyệt được xem như một trò chơi hợp tác, trong đó các đặc trưng đầu vào đóng vai trò là các người chơi liên minh để tạo ra sự chênh lệch giữa dự đoán $f(\mathbf{x})$ và mức dự đoán trung bình toàn ngân hàng $\mathbb{E}[f(\mathbf{x})]$.
+
+Giá trị đóng góp $\phi_j$ của đặc trưng thứ $j$ được tính bằng kỳ vọng đóng góp biên trên tất cả các tập con đặc trưng $S$ không chứa $j$:
+\begin{equation}
+    \phi_j(f, \mathbf{x}) = \sum_{S \subseteq \mathcal{F} \setminus \{j\}} \frac{|S|!(|\mathcal{F}| - |S| - 1)!}{|\mathcal{F}|!} \left[ f_x(S \cup \{j\}) - f_x(S) \right]
+\end{equation}
+trong đó $\mathcal{F}$ là tập hợp toàn bộ các đặc trưng đầu vào.
+
+Phương pháp SHAP thỏa mãn thuộc tính cộng tính cục bộ (Local Accuracy):
+\begin{equation}
+    f(\mathbf{x}) = \phi_0 + \sum_{j=1}^{M} \phi_j(\mathbf{x})
+\end{equation}
+với $\phi_0 = \mathbb{E}[f(\mathbf{x})]$ là giá trị kỳ vọng cơ sở. Thuộc tính này cho phép phân rã chính xác xác suất phê duyệt của từng hồ sơ khách hàng thành tổng đại số của các điểm cộng và điểm trừ của từng biến tài chính, cung cấp minh chứng giải trình minh bạch cho từng cá nhân (Waterfall Plot) và tổng hợp thành bức tranh độ quan trọng toàn cục (Beeswarm Plot).
+% =====================================================================
+%  CHƯƠNG 2
+% =====================================================================
+\chapter{Mô hình hóa bài toán và phương pháp \tenbaitoan}
+\label{chap:phuongphap}
+
+\section{Phát biểu bài toán học máy}
+\huongdan{Xác định loại bài toán (hồi quy, phân loại, phân cụm\dots), đơn vị
+mẫu, đầu vào (đặc trưng) và đầu ra (nhãn/giá trị dự đoán) cụ thể với dữ liệu
+của nhóm.}
+
+\begin{itemize}
+  \item \textbf{Loại bài toán:} \dots
+  \item \textbf{Đơn vị mẫu:} \dots
+  \item \textbf{Đầu vào:} \dots
+  \item \textbf{Đầu ra:} \dots
+\end{itemize}
+
+\section{Mục tiêu và tiêu chí thành công}
+
+\begin{table}[H]
+  \centering
+  \caption{Mục tiêu và chỉ số đánh giá}
+  \label{tab:muctieu}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X
+                               >{\centering\arraybackslash}p{2.8cm} >{\centering\arraybackslash}p{2.8cm}}
+    \toprule
+    \textbf{Mục tiêu thực tế} & \textbf{Mục tiêu học máy} & \textbf{Chỉ số chính} & \textbf{Mức mong muốn} \\
+    \midrule
+    Phát hiện sớm sinh viên có nguy cơ học kém & Phân loại nhị phân & F1-score & $\geq 0{,}75$ \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Lựa chọn thuật toán và mô hình cơ sở}
+
+\subsection{Lựa chọn thuật toán}
+\huongdan{Chọn ít nhất 2 thuật toán phù hợp với loại bài toán và đặc điểm
+dữ liệu, nêu lý do lựa chọn.}
+
+\subsection{Mô hình cơ sở}
+\huongdan{Xây dựng mô hình cơ sở đơn giản (lớp đa số, giá trị trung bình,
+mô hình tuyến tính) để làm mốc so sánh.}
+
+\section{Quy trình huấn luyện}
+Quy trình huấn luyện và đánh giá mô hình được mô tả trong
+Hình~\ref{fig:quytrinhhuanluyen}. Dữ liệu được chia thành tập huấn luyện và
+tập kiểm tra ngay từ đầu; tiền xử lý và mô hình được tổ chức thành một quy
+trình thống nhất bằng \texttt{Pipeline} của Scikit-learn \cite{pedregosa2011}
+và chỉ được khớp trên tập huấn luyện nhằm tránh rò rỉ dữ liệu
+(Đoạn mã~\ref{lst:pipeline}). Tập kiểm tra chỉ được dùng một lần để đánh giá
+mô hình cuối cùng.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+      font=\small,
+      buoc/.style={draw,rounded corners=3pt,fill=black!5,align=center,
+                   minimum height=1cm,text width=3.4cm},
+      buocrong/.style={buoc,text width=5.2cm},
+      dulieu/.style={draw,fill=black!12,align=center,minimum height=0.9cm,
+                     text width=3.4cm},
+      mui/.style={-{Stealth[length=2.5mm]},thick},
+      muinet/.style={-{Stealth[length=2.5mm]},thick,dashed}]
+    % Dữ liệu và chia tập
+    \node[dulieu] (dl) at (0,0) {Dữ liệu đã làm sạch};
+    \node[buoc] (chia) at (0,-1.6) {Chia tập dữ liệu\\(phân tầng, cố định \texttt{random\_state})};
+    \node[dulieu] (train) at (0,-3.3) {Tập huấn luyện};
+    \node[dulieu,text width=2.6cm] (test) at (7.6,-3.3) {Tập kiểm tra\\(giữ lại)};
+    % Kiểm định chéo trên tập huấn luyện
+    \node[buoc] (p1) at (-4.4,-5.4) {Tiền xử lý\\(chuẩn hóa, mã hóa)};
+    \node[buoc] (p2) at (0,-5.4) {Huấn luyện\\mô hình};
+    \node[buoc] (p3) at (4.4,-5.4) {Đánh giá trên\\fold kiểm định};
+    \node[buocrong] (sth) at (0,-7.0) {Tìm siêu tham số\\(Grid/Random Search)};
+    \begin{scope}[on background layer]
+      \node[draw,dashed,rounded corners=4pt,fill=black!2,inner sep=8pt,
+            fit=(p1)(p3)(sth),label={[font=\small\itshape,anchor=south west]north west:%
+            Kiểm định chéo $K$-fold (Pipeline)}] (cv) {};
+    \end{scope}
+    % Huấn luyện lại và đánh giá cuối
+    \node[buocrong] (fit) at (0,-9.3) {Huấn luyện lại mô hình tốt nhất\\trên toàn bộ tập huấn luyện};
+    \node[buocrong] (eval) at (0,-10.9) {Đánh giá cuối trên tập kiểm tra};
+    \node[dulieu,text width=5.2cm] (final) at (0,-12.4) {Mô hình cuối cùng};
+    % Mũi tên
+    \draw[mui] (dl) -- (chia);
+    \draw[mui] (chia) -- (train);
+    \draw[mui] (chia.east) -| (test.north);
+    \draw[mui] (train) -- (cv.north -| train);
+    \draw[mui] (p1) -- (p2);
+    \draw[mui] (p2) -- (p3);
+    \draw[mui] (p3.south) |- (sth.east);
+    \draw[mui] (sth.west) -| (p1.south);
+    \draw[mui] (cv.south -| fit) -- (fit);
+    \draw[mui] (fit) -- (eval);
+    \draw[mui] (eval) -- (final);
+    \draw[muinet] (test.south) |- node[pos=0.25,right,font=\footnotesize\itshape,align=left]
+      {chỉ dùng\\một lần} (eval.east);
+  \end{tikzpicture}
+  \caption{Quy trình huấn luyện và đánh giá mô hình}
+  \label{fig:quytrinhhuanluyen}
+\end{figure}
+
+\huongdan{Điều chỉnh sơ đồ cho đúng quy trình của nhóm (cách chia tập, các
+bước tiền xử lý, phương pháp tìm siêu tham số).}
+
+\needspace{8\baselineskip}
+\begin{lstlisting}[caption={Xây dựng Pipeline và kiểm định chéo},label={lst:pipeline}]
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+SEED = 42
+tien_xu_ly = ColumnTransformer([
+    ("so", StandardScaler(), cot_so),
+    ("phan_loai", OneHotEncoder(handle_unknown="ignore"), cot_phan_loai),
+])
+mo_hinh = Pipeline([
+    ("tien_xu_ly", tien_xu_ly),
+    ("rf", RandomForestClassifier(n_estimators=300, random_state=SEED)),
+])
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)
+ket_qua = cross_validate(mo_hinh, X_train, y_train, cv=cv,
+                         scoring=["f1", "roc_auc"], return_train_score=True)
+\end{lstlisting}
+
+\section{Phương pháp và chỉ số đánh giá}
+\huongdan{Giải thích vì sao chọn chiến lược đánh giá (hold-out, K-Fold,
+TimeSeriesSplit\dots) và chỉ số (Accuracy, F1, ROC-AUC, RMSE\dots) phù hợp
+với bài toán và dữ liệu.}
+
+\section{Kết luận chương 2}
+\huongdan{Tóm tắt nội dung chương và dẫn dắt sang chương sau.}
+
+% =====================================================================
+%  CHƯƠNG 3
+% =====================================================================
+\chapter{Thực nghiệm và đánh giá}
+\label{chap:thucnghiem}
+
+\section{Dữ liệu thực nghiệm}
+\huongdan{Nêu nguồn, điều kiện sử dụng, số mẫu, số đặc trưng, kiểu dữ liệu,
+đường dẫn nguồn. Lập từ điển dữ liệu như Bảng~\ref{tab:tudien}.}
+
+\begin{table}[H]
+  \centering
+  \caption{Từ điển dữ liệu}
+  \label{tab:tudien}
+  \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1cm} p{3.4cm} p{2.4cm} X}
+    \toprule
+    \textbf{STT} & \textbf{Tên đặc trưng} & \textbf{Kiểu dữ liệu} & \textbf{Ý nghĩa} \\
+    \midrule
+    1 & \texttt{gioi\_tinh}  & Phân loại & Giới tính của sinh viên \\
+    2 & \texttt{diem\_tb\_hk1} & Số thực  & Điểm trung bình học kỳ 1 (thang 10) \\
+    3 & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Khảo sát và phân tích dữ liệu}
+
+\subsection{Thống kê và phân bố dữ liệu}
+\huongdan{Thống kê mô tả; biểu đồ phân bố các đặc trưng chính và phân bố nhãn.
+Mỗi biểu đồ phải có nhận xét cụ thể.}
+
+\begin{figure}[H]
+  \centering
+  \khunghinh{10cm}{5.5cm}{Biểu đồ phân bố nhãn\\(thay bằng \textbackslash includegraphics)}
+  % \includegraphics[width=0.75\textwidth]{phan_bo_nhan.png}
+  \caption{Phân bố nhãn trong tập dữ liệu}
+  \label{fig:phanbonhan}
+\end{figure}
+
+\textit{Nhận xét:} Hình~\ref{fig:phanbonhan} cho thấy\dots
+
+\subsection{Quan hệ giữa các đặc trưng}
+
+\begin{figure}[H]
+  \centering
+  \khunghinh{10cm}{6.5cm}{Ma trận tương quan giữa các đặc trưng}
+  \caption{Ma trận tương quan giữa các đặc trưng}
+  \label{fig:tuongquan}
+\end{figure}
+
+\textit{Nhận xét:} \huongdan{Rút ra ít nhất 3 nhận xét có ý nghĩa cho việc
+xây dựng mô hình.}
+
+\section{Phát hiện và xử lý vấn đề chất lượng dữ liệu}
+
+\begin{table}[H]
+  \centering
+  \caption{Thống kê các vấn đề chất lượng dữ liệu và cách xử lý}
+  \label{tab:chatluong}
+  \begin{tabularx}{\textwidth}{p{3.2cm} >{\centering\arraybackslash}p{2.6cm} X}
+    \toprule
+    \textbf{Vấn đề} & \textbf{Số lượng (tỷ lệ)} & \textbf{Cách xử lý và lý do} \\
+    \midrule
+    Giá trị thiếu       & \dots & \dots \\
+    Bản ghi trùng       & \dots & \dots \\
+    Giá trị ngoại lai   & \dots & \dots \\
+    Mất cân bằng lớp    & \dots & \dots \\
+    Nguy cơ rò rỉ dữ liệu & \dots & \dots \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Chuẩn bị dữ liệu cho mô hình}
+\huongdan{Mã hóa biến phân loại, chuẩn hóa đặc trưng; chia tập huấn
+luyện/kiểm tra phù hợp (phân tầng, theo thời gian\dots). Các phép biến đổi
+chỉ được khớp (fit) trên tập huấn luyện.}
+
+\begin{table}[H]
+  \centering
+  \caption{Kích thước các tập dữ liệu sau khi chia}
+  \label{tab:kichthuoc}
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Tập dữ liệu} & \textbf{Số mẫu} & \textbf{Số đặc trưng} & \textbf{Tỷ lệ lớp dương} \\
+    \midrule
+    Huấn luyện & \dots & \dots & \dots \\
+    Kiểm tra   & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Môi trường thực nghiệm}
+\huongdan{Cấu hình máy, phiên bản Python và các thư viện chính
+(NumPy, Pandas, Scikit-learn\dots), giá trị \texttt{random\_state} cố định, cách
+chạy lại thí nghiệm (xem Phụ lục~\ref{pl:huongdan}).}
+
+\section{Kết quả huấn luyện và đánh giá}
+\huongdan{Báo cáo giá trị trung bình $\pm$ độ lệch chuẩn qua các fold.
+Tập kiểm tra chỉ dùng cho đánh giá cuối cùng.}
+
+\begin{table}[H]
+  \centering
+  \caption{So sánh kết quả kiểm định chéo 5-fold của các mô hình}
+  \label{tab:sosanh}
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Mô hình} & \textbf{F1-score} & \textbf{ROC-AUC} & \textbf{Thời gian (s)} \\
+    \midrule
+    Cơ sở (lớp đa số)   & $0{,}000 \pm 0{,}000$ & $0{,}500 \pm 0{,}000$ & \dots \\
+    Hồi quy Logistic    & \dots & \dots & \dots \\
+    Rừng ngẫu nhiên     & \dots & \dots & \dots \\
+    XGBoost             & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \khunghinh{8cm}{6cm}{Ma trận nhầm lẫn / đường ROC / biểu đồ phần dư}
+  \caption{Ma trận nhầm lẫn của mô hình tốt nhất trên tập kiểm định}
+  \label{fig:nhamlan}
+\end{figure}
+
+\section{Phân tích kết quả dự đoán}
+\huongdan{Phân tích lỗi: nhóm mẫu dự đoán sai nhiều; so sánh kết quả trên tập
+huấn luyện và kiểm định để nhận diện quá khớp/chưa khớp; giải thích vì sao
+mô hình này tốt/kém hơn mô hình kia; các đặc trưng ảnh hưởng nhiều.}
+
+\section{Tối ưu hóa và cải tiến mô hình}
+
+\subsection{Phân tích hạn chế của mô hình ban đầu}
+\huongdan{Chỉ ra hạn chế dựa trên bằng chứng: chênh lệch huấn luyện -- kiểm
+định, đường cong học tập, lỗi tập trung ở nhóm dữ liệu cụ thể\dots}
+
+\begin{figure}[H]
+  \centering
+  \khunghinh{10cm}{6cm}{Đường cong học tập (learning curve)}
+  \caption{Đường cong học tập của mô hình ban đầu}
+  \label{fig:learningcurve}
+\end{figure}
+
+\subsection{Cải tiến dữ liệu và đặc trưng}
+\huongdan{Thiết kế đặc trưng mới, lựa chọn đặc trưng, giảm chiều, xử lý
+mất cân bằng\dots và đo tác động.}
+
+\subsection{Thử nghiệm thuật toán hoặc cấu hình khác}
+\huongdan{Thử thuật toán mới hoặc phương pháp tổ hợp (Bagging, Boosting,
+Voting/Stacking\dots).}
+
+\subsection{Tối ưu hóa siêu tham số}
+\huongdan{Tìm kiếm bằng Grid/Random Search hoặc Bayesian Optimization trên
+kiểm định chéo; không dùng tập kiểm tra để chọn siêu tham số.}
+
+\begin{table}[H]
+  \centering
+  \caption{Không gian tìm kiếm và giá trị siêu tham số tối ưu}
+  \label{tab:sieuthamso}
+  \begin{tabular}{llc}
+    \toprule
+    \textbf{Siêu tham số} & \textbf{Không gian tìm kiếm} & \textbf{Giá trị tối ưu} \\
+    \midrule
+    \texttt{n\_estimators} & $\{100, 300, 500\}$   & \dots \\
+    \texttt{max\_depth}    & $\{5, 10, 20, \text{None}\}$ & \dots \\
+    \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{So sánh trước và sau cải tiến}
+\huongdan{Bảng so sánh cùng dữ liệu, cùng cách chia, cùng chỉ số; thể hiện
+đóng góp của từng thay đổi (ablation).}
+
+\begin{table}[H]
+  \centering
+  \caption{Đóng góp của từng cải tiến (ablation)}
+  \label{tab:ablation}
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Cấu hình} & \textbf{F1-score (CV)} & \textbf{Thay đổi} \\
+    \midrule
+    Mô hình ban đầu                      & \dots & -- \\
+    + Đặc trưng mới                      & \dots & \dots \\
+    + Xử lý mất cân bằng                 & \dots & \dots \\
+    + Tối ưu siêu tham số                & \dots & \dots \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \khunghinh{10cm}{6cm}{Biểu đồ so sánh các mô hình\\(có nhãn trục, đơn vị)}
+  \caption{So sánh chỉ số đánh giá của các mô hình trước và sau cải tiến}
+  \label{fig:sosanhmohinh}
+\end{figure}
+
+\section{Khả năng tổng quát hóa và lựa chọn mô hình cuối}
+
+\subsection{Khả năng tổng quát hóa}
+\huongdan{Đánh giá mô hình cuối trên tập kiểm tra giữ lại; so sánh với kết
+quả kiểm định chéo; nhận xét độ ổn định qua các fold/lần chạy.}
+
+\subsection{Lựa chọn mô hình cuối cùng}
+\huongdan{Lựa chọn dựa trên đánh đổi giữa độ chính xác, độ ổn định, thời gian
+và khả năng diễn giải; giải thích vì sao cải tiến có/không hiệu quả.}
+
+\section{Kết luận chương 3}
+\huongdan{Tóm tắt kết quả chính của chương.}
+
+% =====================================================================
+%  KẾT LUẬN
+% =====================================================================
+\unnumberedchapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+
+\section*{1. Kết quả đạt được}
+\huongdan{Tóm tắt các kết quả chính so với mục tiêu đặt ra ở phần Mở đầu,
+kèm số liệu cụ thể của mô hình cuối.}
+
+\section*{2. Hạn chế}
+\huongdan{Các hạn chế còn tồn tại về dữ liệu, mô hình, phương pháp đánh giá.}
+
+\section*{3. Hướng phát triển}
+\huongdan{Các hướng phát triển khả thi trong tương lai.}
+
+% =====================================================================
+%  TÀI LIỆU THAM KHẢO
+%  Quy ước: tài liệu tiếng Việt trước, tiếng nước ngoài sau; xếp theo
+%  ABC của tên (tiếng Việt) hoặc họ (tiếng nước ngoài) tác giả.
+% =====================================================================
+\begin{thebibliography}{99}
+\setlength{\itemsep}{2pt}
+
+\bibitem{lananh}
+Nguyễn Thị Lan Anh, ``Cải thiện kết quả dự đoán điểm thi của sinh viên
+bằng Máy học với sự hỗ trợ của R''.
+
+\bibitem{tuananh2024}
+Nguyễn Tuấn Anh (2024), ``Ứng dụng mô hình học máy vào trong dự đoán kết
+quả học tập của sinh viên tại ICTU'', \textit{Tạp chí Khoa học và Công nghệ
+Đại học Thái Nguyên}.
+
+\bibitem{hai2017}
+Trương Thị Hải, Nguyễn Thái Nghe, Huỳnh Xuân Hiệp (2017), ``Giải pháp hỗ trợ
+sinh viên lập kế hoạch học tập dựa trên tiếp cận tập thô'',
+\textit{Kỷ yếu Hội thảo, NXB Khoa học Tự nhiên và Công nghệ}.
+
+\bibitem{thuan2022}
+Trần Bá Thuấn (2022), ``Ứng dụng machine learning dự báo sinh viên diện cảnh
+báo học tập tại Trường Đại học Kinh tế Huế'', \textit{Tạp chí Khoa học Quản
+lý và Kinh tế, Trường Đại học Kinh tế, Đại học Huế}, số 21.
+
+\bibitem{thuy2023}
+Nguyễn Văn Thủy (2023), ``Sử dụng các mô hình Machine Learning dự đoán tình
+trạng sinh viên tốt nghiệp đúng hạn'', \textit{Tạp chí Khoa học Đào tạo
+Ngân hàng}, số 225(8), tr.~52--64.
+
+\bibitem{alquraishi2021}
+M.~AlQuraishi (2021), ``Machine learning in protein structure prediction'',
+\textit{Current Opinion in Chemical Biology}, vol.~65, pp.~1--8.
+
+\bibitem{breiman2001}
+L.~Breiman (2001), ``Random forests'', \textit{Machine Learning}, vol.~45,
+no.~1, pp.~5--32.
+
+\bibitem{chen2016}
+T.~Chen, C.~Guestrin (2016), ``XGBoost: A scalable tree boosting system'',
+in \textit{Proceedings of the 22nd ACM SIGKDD International Conference on
+Knowledge Discovery and Data Mining}, pp.~785--794.
+
+\bibitem{pedregosa2011}
+F.~Pedregosa \textit{et al.} (2011), ``Scikit-learn: Machine learning in
+Python'', \textit{Journal of Machine Learning Research}, vol.~12,
+pp.~2825--2830.
+
+\end{thebibliography}
+
+% =====================================================================
+%  PHỤ LỤC
+% =====================================================================
+\appendix
+\renewcommand{\bmchapname}{Phụ lục}
+\addtocontents{toc}{\protect\renewcommand{\protect\tocchapname}{\appendixname}}
+
+\chapter{Hướng dẫn cài đặt và chạy chương trình}
+\label{pl:huongdan}
+
+\section{Yêu cầu môi trường}
+\begin{itemize}
+  \item Python $\geq$ 3.10; các thư viện liệt kê trong \texttt{requirements.txt}.
+  \item Mã nguồn: \url{https://github.com/...} \huongdan{đường dẫn kho mã của nhóm}.
+\end{itemize}
+
+\section{Các bước thực hiện}
+Bước 1: Nhấn tổ hợp phím \texttt{Windows + R} để mở hộp thoại Run
+(Hình~\ref{fig:run}), gõ \texttt{cmd} và nhấn Enter.
+
+\begin{figure}[H]
+  \centering
+  %\includegraphics[width=8.84cm]{image1.png}
+  \caption{Hộp thoại Run của Windows}
+  \label{fig:run}
+\end{figure}
+
+Bước 2: Trong cửa sổ dòng lệnh (Hình~\ref{fig:cmd}), cài đặt thư viện và
+chạy chương trình:
+
+\begin{lstlisting}[language=bash,numbers=none]
+pip install -r requirements.txt
+streamlit run app.py
+\end{lstlisting}
+
+\begin{figure}[H]
+  \centering
+  %\includegraphics[width=11.12cm]{image2.png}
+  \caption{Cửa sổ dòng lệnh CMD}
+  \label{fig:cmd}
+\end{figure}
+
+Bước 3: Chương trình demo hiển thị trên trình duyệt (Hình~\ref{fig:chrome}).
+
+\begin{figure}[H]
+  \centering
+  %\includegraphics[width=\textwidth]{image3.png}
+  \caption{Giao diện chương trình demo trên trình duyệt Chrome}
+  \label{fig:chrome}
+\end{figure}
+
+\chapter{Nhật ký đóng góp của các thành viên}
+\label{pl:nhatky}
+
+\begin{table}[H]
+  \centering
+  \caption{Nhật ký công việc theo tuần}
+  \label{tab:nhatky}
+  \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{2.4cm} p{3.2cm} X}
+    \toprule
+    \textbf{Tuần} & \textbf{Ngày} & \textbf{Thành viên} & \textbf{Công việc / commit} \\
+    \midrule
+    1 & \dots & \svAten & \dots \\
+    1 & \dots & \svBten & \dots \\
+    \dots & \dots & \dots & \dots \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\end{document}

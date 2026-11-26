@@ -1,0 +1,982 @@
+{
+  "environment": {
+    "python": "3.14.6",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "matplotlib": "3.11.0",
+    "joblib": "1.5.3"
+  },
+  "dataset": {
+    "source_file": "Loan_approval_data_2025.csv",
+    "total_samples": 50000,
+    "train_samples": 35000,
+    "val_samples": 7500,
+    "test_samples": 7500,
+    "features_raw": 18,
+    "cat_features": 3,
+    "features_engineered": 23
+  },
+  "selection": {
+    "model_id": "hgb_tuned",
+    "model_name": "HistGradientBoosting + FE, tối ưu",
+    "criterion": "Mean ROC-AUC, StratifiedKFold 5-fold trên Train",
+    "seed": 42,
+    "artifact": "best_hist_gradient_boosting_pipeline.joblib"
+  },
+  "cv_results": [
+    {
+      "id": "baseline",
+      "Mô hình": "Logistic Regression (KT2)",
+      "Train AUC": 0.9459278526332323,
+      "CV ROC-AUC": 0.945669863897194,
+      "CV ROC-AUC std": 0.0023783418004525193,
+      "CV Accuracy": 0.8667428571428571,
+      "CV Accuracy std": 0.002795623401690885,
+      "CV F1-Macro": 0.8650890467735571,
+      "CV F1-Macro std": 0.0028283496835579715,
+      "Fold ROC-AUC": [
+        0.9466525478107305,
+        0.9435090381827688,
+        0.9483739534667376,
+        0.9422449964706293,
+        0.9475687835551037
+      ]
+    },
+    {
+      "id": "logistic_fe",
+      "Mô hình": "Logistic Regression + FE",
+      "Train AUC": 0.9468820814748881,
+      "CV ROC-AUC": 0.9466116845768475,
+      "CV ROC-AUC std": 0.0022851501214092773,
+      "CV Accuracy": 0.8686857142857143,
+      "CV Accuracy std": 0.0025720634136975674,
+      "CV F1-Macro": 0.8670531247402098,
+      "CV F1-Macro std": 0.0026154401146215814,
+      "Fold ROC-AUC": [
+        0.9476708836288021,
+        0.9442375095368059,
+        0.9489649447180714,
+        0.9435162956806918,
+        0.948668789319866
+      ]
+    },
+    {
+      "id": "cart",
+      "Mô hình": "Decision Tree (CART)",
+      "Train AUC": 0.9532947929697627,
+      "CV ROC-AUC": 0.9406751378590634,
+      "CV ROC-AUC std": 0.002023497078457472,
+      "CV Accuracy": 0.8747142857142858,
+      "CV Accuracy std": 0.0024108597839690256,
+      "CV F1-Macro": 0.8728191136571937,
+      "CV F1-Macro std": 0.0025461231519543644,
+      "Fold ROC-AUC": [
+        0.9374152761424546,
+        0.940353016245002,
+        0.9431585752574907,
+        0.940005522296147,
+        0.942443299354223
+      ]
+    },
+    {
+      "id": "svm",
+      "Mô hình": "SVM tuyến tính (SGD hinge)",
+      "Train AUC": 0.9435748354965148,
+      "CV ROC-AUC": 0.9429339945331516,
+      "CV ROC-AUC std": 0.002930108291128722,
+      "CV Accuracy": 0.8631714285714285,
+      "CV Accuracy std": 0.0021292903867298906,
+      "CV F1-Macro": 0.8611416785017955,
+      "CV F1-Macro std": 0.001996983385419502,
+      "Fold ROC-AUC": [
+        0.9432171593090591,
+        0.9409581101343454,
+        0.9446950617922342,
+        0.938666637636675,
+        0.9471330037934447
+      ]
+    },
+    {
+      "id": "rf",
+      "Mô hình": "Random Forest",
+      "Train AUC": 0.9888026395581784,
+      "CV ROC-AUC": 0.9684628001149779,
+      "CV ROC-AUC std": 0.00142342273924425,
+      "CV Accuracy": 0.9004571428571427,
+      "CV Accuracy std": 0.002576819745345001,
+      "CV F1-Macro": 0.8989589278135437,
+      "CV F1-Macro std": 0.00265199664330291,
+      "Fold ROC-AUC": [
+        0.9697337266686703,
+        0.9696016400625761,
+        0.9687671927445474,
+        0.965793762856802,
+        0.9684176782422933
+      ]
+    },
+    {
+      "id": "hgb_raw",
+      "Mô hình": "HistGradientBoosting, đặc trưng gốc",
+      "Train AUC": 0.9915505590625111,
+      "CV ROC-AUC": 0.983597990844193,
+      "CV ROC-AUC std": 0.0012174563538498325,
+      "CV Accuracy": 0.9278000000000001,
+      "CV Accuracy std": 0.004953333241775842,
+      "CV F1-Macro": 0.9269121599844918,
+      "CV F1-Macro std": 0.0050033389352622725,
+      "Fold ROC-AUC": [
+        0.9846237642152158,
+        0.9832440042552031,
+        0.9853035667056015,
+        0.9819100266539859,
+        0.982908592390959
+      ]
+    },
+    {
+      "id": "hgb_fe",
+      "Mô hình": "HistGradientBoosting + FE",
+      "Train AUC": 0.9920339006989739,
+      "CV ROC-AUC": 0.9833727896630716,
+      "CV ROC-AUC std": 0.0011449668173315127,
+      "CV Accuracy": 0.9279714285714287,
+      "CV Accuracy std": 0.004101169569371002,
+      "CV F1-Macro": 0.9271087312849222,
+      "CV F1-Macro std": 0.004137826560077204,
+      "Fold ROC-AUC": [
+        0.9842533628092904,
+        0.983219427728145,
+        0.9849283210743472,
+        0.9816269842349826,
+        0.9828358524685926
+      ]
+    },
+    {
+      "id": "hgb_tuned",
+      "Mô hình": "HistGradientBoosting + FE, tối ưu",
+      "Train AUC": 0.9941879100429322,
+      "CV ROC-AUC": 0.9836571706317543,
+      "CV ROC-AUC std": 0.0011267572100387606,
+      "CV Accuracy": 0.9276285714285712,
+      "CV Accuracy std": 0.0034376071411874264,
+      "CV F1-Macro": 0.9267856774814056,
+      "CV F1-Macro std": 0.003476894948198434,
+      "Fold ROC-AUC": [
+        0.9844686261514115,
+        0.9835147584106771,
+        0.9852404759566102,
+        0.9819716329147652,
+        0.9830903597253072
+      ]
+    },
+    {
+      "id": "stacking",
+      "Mô hình": "Stacking (RF + HGB + Logistic)",
+      "Train AUC": 0.9934988444011832,
+      "CV ROC-AUC": 0.9826042925267375,
+      "CV ROC-AUC std": 0.0012280146034443224,
+      "CV Accuracy": 0.9276,
+      "CV Accuracy std": 0.003670511280628958,
+      "CV F1-Macro": 0.9267798666981596,
+      "CV F1-Macro std": 0.00372553659483779,
+      "Fold ROC-AUC": [
+        0.9833462876228363,
+        0.9821125768232959,
+        0.9842331682335028,
+        0.9805856157545764,
+        0.9827438141994761
+      ]
+    }
+  ],
+  "val_results": [
+    {
+      "id": "baseline",
+      "Mô hình": "Logistic Regression (KT2)",
+      "TN": 2868,
+      "FP": 503,
+      "FN": 470,
+      "TP": 3659,
+      "Accuracy": 0.8702666666666666,
+      "Precision": 0.879144641999039,
+      "Recall": 0.8861709857108259,
+      "Specificity": 0.8507861168792643,
+      "F1-Macro": 0.8688073826126302,
+      "ROC-AUC": 0.9477635343529236,
+      "PR-AUC": 0.9562135890949013
+    },
+    {
+      "id": "logistic_fe",
+      "Mô hình": "Logistic Regression + FE",
+      "TN": 2875,
+      "FP": 496,
+      "FN": 469,
+      "TP": 3660,
+      "Accuracy": 0.8713333333333333,
+      "Precision": 0.8806544754571703,
+      "Recall": 0.8864131751029305,
+      "Specificity": 0.8528626520320379,
+      "F1-Macro": 0.8699081628021827,
+      "ROC-AUC": 0.9491080411117032,
+      "PR-AUC": 0.9574208288549614
+    },
+    {
+      "id": "cart",
+      "Mô hình": "Decision Tree (CART)",
+      "TN": 2851,
+      "FP": 520,
+      "FN": 396,
+      "TP": 3733,
+      "Accuracy": 0.8778666666666667,
+      "Precision": 0.8777333646837526,
+      "Recall": 0.9040930007265682,
+      "Specificity": 0.845743102936814,
+      "F1-Macro": 0.8761539048944194,
+      "ROC-AUC": 0.9421574713846874,
+      "PR-AUC": 0.9361658543903572
+    },
+    {
+      "id": "svm",
+      "Mô hình": "SVM tuyến tính (SGD hinge)",
+      "TN": 2804,
+      "FP": 567,
+      "FN": 430,
+      "TP": 3699,
+      "Accuracy": 0.8670666666666667,
+      "Precision": 0.8670886075949367,
+      "Recall": 0.8958585613950109,
+      "Specificity": 0.8318006526253338,
+      "F1-Macro": 0.8651462898998583,
+      "ROC-AUC": 0.9440748699300712,
+      "PR-AUC": 0.9531191517542363
+    },
+    {
+      "id": "rf",
+      "Mô hình": "Random Forest",
+      "TN": 2936,
+      "FP": 435,
+      "FN": 273,
+      "TP": 3856,
+      "Accuracy": 0.9056,
+      "Precision": 0.8986250291307387,
+      "Recall": 0.9338822959554371,
+      "Specificity": 0.8709581726490656,
+      "F1-Macro": 0.9041578525583176,
+      "ROC-AUC": 0.9706973825943634,
+      "PR-AUC": 0.9756223759532137
+    },
+    {
+      "id": "hgb_raw",
+      "Mô hình": "HistGradientBoosting, đặc trưng gốc",
+      "TN": 3069,
+      "FP": 302,
+      "FN": 225,
+      "TP": 3904,
+      "Accuracy": 0.9297333333333333,
+      "Precision": 0.9281978126485972,
+      "Recall": 0.9455073867764592,
+      "Specificity": 0.910412340551765,
+      "F1-Macro": 0.9288514390145226,
+      "ROC-AUC": 0.9847903481168966,
+      "PR-AUC": 0.9877497014412637
+    },
+    {
+      "id": "hgb_fe",
+      "Mô hình": "HistGradientBoosting + FE",
+      "TN": 3076,
+      "FP": 295,
+      "FN": 236,
+      "TP": 3893,
+      "Accuracy": 0.9292,
+      "Precision": 0.9295606494746896,
+      "Recall": 0.9428433034633084,
+      "Specificity": 0.9124888757045387,
+      "F1-Macro": 0.9283497645509394,
+      "ROC-AUC": 0.9845244498848646,
+      "PR-AUC": 0.9875554700057692
+    },
+    {
+      "id": "hgb_tuned",
+      "Mô hình": "HistGradientBoosting + FE, tối ưu",
+      "TN": 3094,
+      "FP": 277,
+      "FN": 234,
+      "TP": 3895,
+      "Accuracy": 0.9318666666666666,
+      "Precision": 0.9336049856184084,
+      "Recall": 0.9433276822475175,
+      "Specificity": 0.9178285375259567,
+      "F1-Macro": 0.9310805549355952,
+      "ROC-AUC": 0.9848310842145898,
+      "PR-AUC": 0.9877159213589141
+    },
+    {
+      "id": "stacking",
+      "Mô hình": "Stacking (RF + HGB + Logistic)",
+      "TN": 3095,
+      "FP": 276,
+      "FN": 249,
+      "TP": 3880,
+      "Accuracy": 0.93,
+      "Precision": 0.933589990375361,
+      "Recall": 0.9396948413659482,
+      "Specificity": 0.9181251854049244,
+      "F1-Macro": 0.9292246481566279,
+      "ROC-AUC": 0.9839348900653422,
+      "PR-AUC": 0.9869540982329255
+    }
+  ],
+  "test_results": [
+    {
+      "id": "baseline",
+      "Mô hình": "Logistic Regression (KT2)",
+      "TN": 2847,
+      "FP": 525,
+      "FN": 476,
+      "TP": 3652,
+      "Accuracy": 0.8665333333333334,
+      "Precision": 0.8743117069667226,
+      "Recall": 0.8846899224806202,
+      "Specificity": 0.844306049822064,
+      "F1-Macro": 0.8649778177843503,
+      "ROC-AUC": 0.9440434994758476,
+      "PR-AUC": 0.9518666902022938
+    },
+    {
+      "id": "hgb_tuned",
+      "Mô hình": "HistGradientBoosting + FE, tối ưu",
+      "TN": 3086,
+      "FP": 286,
+      "FN": 249,
+      "TP": 3879,
+      "Accuracy": 0.9286666666666666,
+      "Precision": 0.9313325330132053,
+      "Recall": 0.9396802325581395,
+      "Specificity": 0.9151838671411625,
+      "F1-Macro": 0.9278601767877834,
+      "ROC-AUC": 0.9834344568126017,
+      "PR-AUC": 0.9866100440763155
+    }
+  ],
+  "ablation_study": [
+    {
+      "So sánh": "Thêm đặc trưng cho Logistic",
+      "Trước": "baseline",
+      "Sau": "logistic_fe",
+      "AUC trước": 0.945669863897194,
+      "AUC sau": 0.9466116845768475,
+      "Δ ROC-AUC": 0.0009418206796535378,
+      "Δ Accuracy (điểm %)": 0.1942857142857135,
+      "Δ F1-Macro": 0.0019640779666526553
+    },
+    {
+      "So sánh": "Thêm đặc trưng cho HGB",
+      "Trước": "hgb_raw",
+      "Sau": "hgb_fe",
+      "AUC trước": 0.983597990844193,
+      "AUC sau": 0.9833727896630716,
+      "Δ ROC-AUC": -0.00022520118112134835,
+      "Δ Accuracy (điểm %)": 0.017142857142860013,
+      "Δ F1-Macro": 0.0001965713004303815
+    },
+    {
+      "So sánh": "CART → Random Forest",
+      "Trước": "cart",
+      "Sau": "rf",
+      "AUC trước": 0.9406751378590634,
+      "AUC sau": 0.9684628001149779,
+      "Δ ROC-AUC": 0.027787662255914447,
+      "Δ Accuracy (điểm %)": 2.5742857142856956,
+      "Δ F1-Macro": 0.026139814156350027
+    },
+    {
+      "So sánh": "Random Forest → HGB",
+      "Trước": "rf",
+      "Sau": "hgb_fe",
+      "AUC trước": 0.9684628001149779,
+      "AUC sau": 0.9833727896630716,
+      "Δ ROC-AUC": 0.01490998954809375,
+      "Δ Accuracy (điểm %)": 2.7514285714285935,
+      "Δ F1-Macro": 0.02814980347137852
+    },
+    {
+      "So sánh": "Tối ưu siêu tham số HGB",
+      "Trước": "hgb_fe",
+      "Sau": "hgb_tuned",
+      "AUC trước": 0.9833727896630716,
+      "AUC sau": 0.9836571706317543,
+      "Δ ROC-AUC": 0.0002843809686826626,
+      "Δ Accuracy (điểm %)": -0.03428571428574223,
+      "Δ F1-Macro": -0.0003230538035166042
+    },
+    {
+      "So sánh": "HGB tối ưu → Stacking",
+      "Trước": "hgb_tuned",
+      "Sau": "stacking",
+      "AUC trước": 0.9836571706317543,
+      "AUC sau": 0.9826042925267375,
+      "Δ ROC-AUC": -0.0010528781050167524,
+      "Δ Accuracy (điểm %)": -0.002857142857126682,
+      "Δ F1-Macro": -5.8107832460185804e-06
+    }
+  ],
+  "grid_search_hgb": {
+    "space": {
+      "clf__learning_rate": [
+        0.05,
+        0.08,
+        0.12
+      ],
+      "clf__max_depth": [
+        6,
+        8
+      ],
+      "clf__max_iter": [
+        150,
+        200
+      ],
+      "clf__l2_regularization": [
+        0.0,
+        0.5
+      ]
+    },
+    "rows": [
+      {
+        "rank": 1,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9836571706317543,
+        "std_roc_auc": 0.0011267572100387606
+      },
+      {
+        "rank": 2,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.983631111402541,
+        "std_roc_auc": 0.0011085145045560136
+      },
+      {
+        "rank": 3,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9835725380102633,
+        "std_roc_auc": 0.00108840258875136
+      },
+      {
+        "rank": 4,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9835321608119149,
+        "std_roc_auc": 0.000988589092892802
+      },
+      {
+        "rank": 5,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9835308412668378,
+        "std_roc_auc": 0.0009907213766738824
+      },
+      {
+        "rank": 6,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9835076660033375,
+        "std_roc_auc": 0.001057386685646764
+      },
+      {
+        "rank": 7,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9834739691250507,
+        "std_roc_auc": 0.0010219604073523475
+      },
+      {
+        "rank": 8,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9834703402491319,
+        "std_roc_auc": 0.0010180225049021305
+      },
+      {
+        "rank": 9,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9834316595076797,
+        "std_roc_auc": 0.0011918144428046213
+      },
+      {
+        "rank": 10,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.983420145731491,
+        "std_roc_auc": 0.0009842713820407002
+      },
+      {
+        "rank": 11,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9834139933525698,
+        "std_roc_auc": 0.0009885977739430276
+      },
+      {
+        "rank": 12,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9833727896630716,
+        "std_roc_auc": 0.0011449668173315127
+      },
+      {
+        "rank": 13,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.983351099656258,
+        "std_roc_auc": 0.0010846831682469042
+      },
+      {
+        "rank": 14,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9833354294948566,
+        "std_roc_auc": 0.001145326522723992
+      },
+      {
+        "rank": 15,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.12,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9833337311412975,
+        "std_roc_auc": 0.0011380806903158757
+      },
+      {
+        "rank": 16,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9833279752270222,
+        "std_roc_auc": 0.0011656001622290717
+      },
+      {
+        "rank": 17,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.08,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9833152897034415,
+        "std_roc_auc": 0.0010700620931407522
+      },
+      {
+        "rank": 18,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 8,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9832904340118487,
+        "std_roc_auc": 0.0011007707028934794
+      },
+      {
+        "rank": 19,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9830435427008041,
+        "std_roc_auc": 0.0011858918962911658
+      },
+      {
+        "rank": 20,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 6,
+          "clf__max_iter": 200
+        },
+        "mean_roc_auc": 0.9829703726644106,
+        "std_roc_auc": 0.001074994063997033
+      },
+      {
+        "rank": 21,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9826544369728186,
+        "std_roc_auc": 0.001152441776846937
+      },
+      {
+        "rank": 22,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 8,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9825426466657093,
+        "std_roc_auc": 0.0010952311519671057
+      },
+      {
+        "rank": 23,
+        "params": {
+          "clf__l2_regularization": 0.0,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9820252428873554,
+        "std_roc_auc": 0.0011638997841680757
+      },
+      {
+        "rank": 24,
+        "params": {
+          "clf__l2_regularization": 0.5,
+          "clf__learning_rate": 0.05,
+          "clf__max_depth": 6,
+          "clf__max_iter": 150
+        },
+        "mean_roc_auc": 0.9819617743287079,
+        "std_roc_auc": 0.0010972059340401497
+      }
+    ],
+    "best_params": {
+      "clf__l2_regularization": 0.5,
+      "clf__learning_rate": 0.08,
+      "clf__max_depth": 8,
+      "clf__max_iter": 200
+    }
+  },
+  "latency_ms_per_1000_samples": {
+    "baseline": 2.0303749915910885,
+    "logistic_fe": 3.1690409959992394,
+    "cart": 3.123124988633208,
+    "svm": 3.123874994344078,
+    "rf": 13.154041997040622,
+    "hgb_raw": 6.780208001146093,
+    "hgb_fe": 7.911582986707799,
+    "hgb_tuned": 12.019000001600944,
+    "stacking": 29.07687499828171
+  },
+  "top_features": [
+    {
+      "feature": "credit_score",
+      "mean_auc_decrease": 0.1280223328650718,
+      "std": 0.0013763010371755481
+    },
+    {
+      "feature": "debt_to_income_ratio",
+      "mean_auc_decrease": 0.11032563804260112,
+      "std": 0.001363378541382435
+    },
+    {
+      "feature": "credit_risk_score",
+      "mean_auc_decrease": 0.03855551665549597,
+      "std": 0.0009358999145318071
+    },
+    {
+      "feature": "loan_intent",
+      "mean_auc_decrease": 0.03752064734616545,
+      "std": 0.0006525269517438407
+    },
+    {
+      "feature": "credit_history_years",
+      "mean_auc_decrease": 0.026477371456956434,
+      "std": 0.0007464606783488849
+    },
+    {
+      "feature": "years_employed",
+      "mean_auc_decrease": 0.007806990501161093,
+      "std": 0.0001649951694958992
+    },
+    {
+      "feature": "defaults_on_file",
+      "mean_auc_decrease": 0.006107066678382211,
+      "std": 0.0005812534473555575
+    },
+    {
+      "feature": "loan_to_income_ratio",
+      "mean_auc_decrease": 0.005102329149249995,
+      "std": 0.0002762213053494079
+    },
+    {
+      "feature": "loan_amount",
+      "mean_auc_decrease": 0.0048207256068907075,
+      "std": 0.0003576457734619296
+    },
+    {
+      "feature": "debt_service_ratio",
+      "mean_auc_decrease": 0.004576122223811674,
+      "std": 0.0003539047830882614
+    },
+    {
+      "feature": "interest_rate",
+      "mean_auc_decrease": 0.004452376448385631,
+      "std": 0.0004089018501682196
+    },
+    {
+      "feature": "payment_to_income_ratio",
+      "mean_auc_decrease": 0.0019776189987986913,
+      "std": 0.0001275431705268254
+    },
+    {
+      "feature": "product_type",
+      "mean_auc_decrease": 0.0008247371426063799,
+      "std": 8.596071629050754e-05
+    },
+    {
+      "feature": "employment_stability",
+      "mean_auc_decrease": 0.0005629771808163709,
+      "std": 0.00010074929478560342
+    },
+    {
+      "feature": "delinquencies_last_2yrs",
+      "mean_auc_decrease": 0.0004053062108036576,
+      "std": 9.360379522265063e-05
+    }
+  ],
+  "baseline_val_error_profile": [
+    {
+      "Nhóm": "FP",
+      "Số hồ sơ": 503,
+      "credit_score": 653.0,
+      "debt_to_income_ratio": 0.19,
+      "annual_income": 41110.0
+    },
+    {
+      "Nhóm": "FN",
+      "Số hồ sơ": 470,
+      "credit_score": 625.5,
+      "debt_to_income_ratio": 0.314,
+      "annual_income": 39922.5
+    },
+    {
+      "Nhóm": "Toàn bộ Validation",
+      "Số hồ sơ": 7500,
+      "credit_score": 644.0,
+      "debt_to_income_ratio": 0.265,
+      "annual_income": 41415.0
+    }
+  ],
+  "threshold_validation": [
+    {
+      "Ngưỡng": 0.4,
+      "FP": 372,
+      "FN": 165,
+      "Specificity": 0.8896469890240285,
+      "Recall": 0.9600387503027368
+    },
+    {
+      "Ngưỡng": 0.5,
+      "FP": 277,
+      "FN": 234,
+      "Specificity": 0.9178285375259567,
+      "Recall": 0.9433276822475175
+    },
+    {
+      "Ngưỡng": 0.6,
+      "FP": 208,
+      "FN": 326,
+      "Specificity": 0.9382972411747256,
+      "Recall": 0.921046258173892
+    },
+    {
+      "Ngưỡng": 0.7,
+      "FP": 139,
+      "FN": 446,
+      "Specificity": 0.9587659448234945,
+      "Recall": 0.8919835311213369
+    }
+  ],
+  "learning_curves": {
+    "baseline": {
+      "sizes": [
+        2800,
+        9100,
+        15400,
+        21700,
+        28000
+      ],
+      "Train ROC-AUC": [
+        0.948443388625909,
+        0.9471300484963242,
+        0.9460824373960914,
+        0.9459205174900335,
+        0.9459278526332323
+      ],
+      "CV ROC-AUC": [
+        0.943101570922239,
+        0.9451936968248573,
+        0.94549486982698,
+        0.9455720841691069,
+        0.945669863897194
+      ],
+      "CV std": [
+        0.0019184793040340905,
+        0.0022899680698963342,
+        0.0023190169180026033,
+        0.002327168432001456,
+        0.0023783418004525193
+      ]
+    },
+    "selected": {
+      "sizes": [
+        2800,
+        9100,
+        15400,
+        21700,
+        28000
+      ],
+      "Train ROC-AUC": [
+        1.0,
+        0.999882907874011,
+        0.9966674747775945,
+        0.9945614680073092,
+        0.9940824820193545
+      ],
+      "CV ROC-AUC": [
+        0.9708858269278065,
+        0.980001500178673,
+        0.9817588988923888,
+        0.9828105055877918,
+        0.9834301879532106
+      ],
+      "CV std": [
+        0.0015492721666970802,
+        0.0016979640145571727,
+        0.0013415031783722425,
+        0.0009844888587684677,
+        0.0009316348245660003
+      ]
+    }
+  },
+  "validation_curves": {
+    "clf__learning_rate": {
+      "values": [
+        0.03,
+        0.05,
+        0.08,
+        0.12,
+        0.16
+      ],
+      "picked": 0.08,
+      "Train ROC-AUC": [
+        0.9872359653341446,
+        0.9911474444399172,
+        0.9941879100429322,
+        0.994634366421925,
+        0.9947313410380619
+      ],
+      "CV ROC-AUC": [
+        0.9816037188062999,
+        0.9832904340118487,
+        0.9836571706317543,
+        0.9834703402491319,
+        0.9832397460853775
+      ],
+      "CV std": [
+        0.0011937215141037557,
+        0.0011007707028934794,
+        0.0011267572100387606,
+        0.0010180225049021305,
+        0.0010750255796526885
+      ]
+    },
+    "clf__max_depth": {
+      "values": [
+        3,
+        4,
+        6,
+        8,
+        10
+      ],
+      "picked": 8,
+      "Train ROC-AUC": [
+        0.9847551017079897,
+        0.9885633867999216,
+        0.9932947295176525,
+        0.9941879100429322,
+        0.9944490072663597
+      ],
+      "CV ROC-AUC": [
+        0.9820675456714106,
+        0.9836772135568905,
+        0.9835076660033375,
+        0.9836571706317543,
+        0.9834082377075977
+      ],
+      "CV std": [
+        0.0012459565531873558,
+        0.0012344641780957794,
+        0.001057386685646764,
+        0.0011267572100387606,
+        0.0011524570252885186
+      ]
+    }
+  }
+}
