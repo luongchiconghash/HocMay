@@ -20,12 +20,8 @@ Theo [báo cáo Kiểm tra 3](Kiemtra3/Nhom_13_bao_cao/Nhom13_bao_cao_kt3.pdf), 
 
 ## Diễn giải mô hình và tính công bằng
 
-| Phương pháp | Câu hỏi phân tích |
-| --- | --- |
-| Permutation Importance | Chất lượng dự đoán giảm bao nhiêu khi xáo trộn một đặc trưng? Trong Kiểm tra 3, `credit_score` đứng đầu theo mức giảm ROC-AUC trên tập validation. |
-| PDP và ICE | Khi thay đổi giá trị một đặc trưng, dự đoán thay đổi thế nào? PDP thể hiện xu hướng trung bình, còn ICE thể hiện đường dự đoán của từng hồ sơ. |
-| SHAP | Với một hồ sơ cụ thể, đặc trưng nào đẩy điểm dự đoán lên hoặc xuống so với mức tham chiếu? Có thể tổng hợp độ lớn các đóng góp để xem xu hướng toàn cục. |
+**Kết quả KT3.** Khi xáo trộn điểm tín dụng (`credit_score`) trên tập validation, ROC-AUC giảm trung bình **0,1280**, mức giảm lớn nhất trong các đặc trưng được khảo sát. Kết quả Permutation Importance cho thấy mô hình dựa nhiều vào điểm tín dụng để phân biệt hồ sơ được duyệt và bị từ chối. Phép đo này chưa cho biết điểm tín dụng cao hơn sẽ làm dự đoán thay đổi theo chiều nào.
 
-PDP, ICE và SHAP là các hướng diễn giải trong đề bài. Phần thực nghiệm trong repo có kết quả Permutation Importance. Khi đối chiếu các phương pháp, có thể kiểm tra xem đặc trưng được xếp hạng cao có xu hướng tác động rõ trên PDP, ICE và SHAP hay không, đồng thời lưu ý các đặc trưng tương quan có thể làm khác biệt kết quả.
+**Phần còn thiếu so với đề bài.** Repo chưa có biểu đồ PDP/ICE để xem dự đoán thay đổi ra sao theo từng đặc trưng, hoặc kết quả SHAP để giải thích từng hồ sơ. Vì vậy, chưa có kết quả để đối chiếu các phương pháp diễn giải với nhau.
 
-Về tính công bằng, có thể so sánh tỷ lệ dự đoán được duyệt và tỷ lệ dự đoán đúng trong số hồ sơ có nhãn được duyệt giữa các nhóm tuổi, tại cùng ngưỡng phân loại. Đây là hướng phân tích của đề tài. Các chỉ số hiệu năng trên tập test chưa đủ để kết luận mô hình công bằng.
+**Tính công bằng.** Báo cáo KT1 đề cập đến độ tuổi, nhưng repo chưa có kết quả so sánh tỷ lệ dự đoán được duyệt hoặc tỷ lệ dự đoán đúng trong số hồ sơ thực tế được duyệt giữa các nhóm tuổi. Các chỉ số hiệu năng chung chưa đủ để kết luận về tính công bằng giữa các nhóm.
