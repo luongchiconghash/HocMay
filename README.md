@@ -18,10 +18,3 @@
 
 Theo [báo cáo Kiểm tra 3](Kiemtra3/Nhom_13_bao_cao/Nhom13_bao_cao_kt3.pdf), trên 7.500 hồ sơ test, **HistGradientBoosting tối ưu** đạt ROC-AUC **0,98343**, Accuracy **92,87%** và F1-Macro **0,9279**. ROC-AUC của Logistic Regression đối chứng là **0,94404**.
 
-## Diễn giải mô hình và tính công bằng
-
-**Kết quả KT3.** Khi xáo trộn điểm tín dụng (`credit_score`) trên tập validation, ROC-AUC giảm trung bình **0,1280**, mức giảm lớn nhất trong các đặc trưng được khảo sát. Kết quả Permutation Importance cho thấy mô hình dựa nhiều vào điểm tín dụng để phân biệt hồ sơ được duyệt và bị từ chối. Phép đo này chưa cho biết điểm tín dụng cao hơn sẽ làm dự đoán thay đổi theo chiều nào.
-
-**Phần còn thiếu so với đề bài.** Repo chưa có biểu đồ PDP/ICE để xem dự đoán thay đổi ra sao theo từng đặc trưng, hoặc kết quả SHAP để giải thích từng hồ sơ. Vì vậy, chưa có kết quả để đối chiếu các phương pháp diễn giải với nhau.
-
-**Tính công bằng.** Báo cáo KT1 đề cập đến độ tuổi, nhưng repo chưa có kết quả so sánh tỷ lệ dự đoán được duyệt hoặc tỷ lệ dự đoán đúng trong số hồ sơ thực tế được duyệt giữa các nhóm tuổi. Các chỉ số hiệu năng chung chưa đủ để kết luận về tính công bằng giữa các nhóm.
